@@ -10,7 +10,7 @@
 <body title="<spring:message code="sys.teacher.title" />">
 <div class="row">
 	<div  class="col-sm-10 col-md-10">
-		<grid:grid id="teacherGridId" url="${adminPath}/sys/teacher/ajaxList" editable="true">
+		<grid:grid id="teacherGridId" url="${adminPath}/sys/teacher/ajaxList" >
 			<grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
 		    <grid:column label="sys.realName"  name="realName"  query="true"  condition="like" />
 		    <grid:column label="sys.phone"  name="phone"/>
@@ -25,26 +25,6 @@
 		</grid:grid>
 	</div>
 </div>
-
-<script>
-
-    $(function() {
-
-        $("#teacherGridIdGrid").on('click','tr',function(rowid, status){
-            alert('行单击事件触发')
-
-            alert(rowid);
-
-            var ids=$('#teacherGridIdGrid').jqGrid('getGridParam','selarrrow');
-            alert(ids);
-
-        });
-
-
-    });
-
-
-</script>
 
 </body>
 </html>

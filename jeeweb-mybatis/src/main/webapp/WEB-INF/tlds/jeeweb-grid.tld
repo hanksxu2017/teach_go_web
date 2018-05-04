@@ -177,6 +177,12 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<attribute>
+			<description>行单击追踪</description>
+			<name>trackTrClick</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 		<!-- 指定支持动态属性 -->
 		<dynamic-attributes>true</dynamic-attributes>
 	</tag>
@@ -573,6 +579,7 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+
 		<!-- 指定支持动态属性 -->
 		<dynamic-attributes>true</dynamic-attributes>
 	</tag>

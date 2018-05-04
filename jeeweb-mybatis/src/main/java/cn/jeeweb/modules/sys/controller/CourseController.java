@@ -59,7 +59,7 @@ public class CourseController extends BaseCRUDController<Course, String> {
 
     @RequestMapping(value = "bootstrapTreeData")
     public void bootstrapTreeData(HttpServletResponse response, PropertyPreFilterable propertyPreFilterable) throws IOException {
-
+        // TODO
         String content = "[{\"href\":\"weekinfo\",\"nodes\":[{\"href\":\"Tuesday\",\"tags\":[],\"text\":\"星期二\"}],\"tags\":[],\"text\":\"星期\"}]";
         StringUtils.printJson(response, content);
     }

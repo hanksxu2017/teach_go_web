@@ -61,6 +61,8 @@ public class DataGridTag extends AbstractGridHtmlTag {
 	private String gridSetting = "";// 扩展设置
 	private String gridSettingCallback = ""; // 配置方法,为js方法，返回配置
 	private Boolean shrinkToFit=Boolean.TRUE; //是否
+	// 允许行单击追踪事件
+	private Boolean trackTrClick = Boolean.TRUE;
 
 	public String getId() {
 		return id;
@@ -301,7 +303,15 @@ public class DataGridTag extends AbstractGridHtmlTag {
 		buttonList.add(button);
 	}
 
-	@Override
+	public Boolean getTrackTrClick() {
+		return trackTrClick;
+	}
+
+	public void setTrackTrClick(Boolean trackTrClick) {
+		this.trackTrClick = trackTrClick;
+	}
+
+    @Override
 	public int doStartTag() throws JspException {
 		// 清空资源
 		queryList.clear();

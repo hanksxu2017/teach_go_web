@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface TeacherMapper extends BaseMapper<Teacher> {
 
-
     /**
      *
      * @param page
@@ -18,5 +17,16 @@ public interface TeacherMapper extends BaseMapper<Teacher> {
      * @return
      */
     List<Teacher> selectTeacherList(Pagination page, @Param("ew") Wrapper<Teacher> wrapper);
+
+    /**
+     * 删除关联关系
+     * @param teacherId
+     * @param courseId
+     */
+    void deleteTeacherCourseRel(@Param("teacherId") String teacherId, @Param("courseId") String courseId);
+
+    void addTeacherCourseRel(@Param("id") String id, @Param("teacherId") String teacherId, @Param("courseId") String courseId);
+
+
 
 }

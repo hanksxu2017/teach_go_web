@@ -11,12 +11,7 @@ import java.util.List;
 
 public interface CourseMapper extends BaseMapper<Course> {
 
-    /**
-     *
-     * @param page
-     * @param wrapper
-     * @return
-     */
-    List<Course> selectCourseList(Pagination page, @Param("ew") Wrapper<Course> wrapper);
+    int blankTeacher(@Param("courseId") String courseId);
 
+    int relatedTeacher(@Param("courseId") String courseId, @Param("teacherId") String teacherId);
 }

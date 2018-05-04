@@ -21,7 +21,7 @@
 	</div>
 	<div  class="col-sm-9 col-md-10">
 		<grid:grid id="courseGridId" url="${adminPath}/sys/course/ajaxList" >
-			<grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
+			<grid:column label="sys.common.key" hidden="true" name="id" width="100"/>
 			<grid:column label="编号" name="code" />
             <grid:query name="weekInfoId" queryMode="hidden" />
 			<grid:column label="sys.course.weekInfo" name="weekInfo"   dict="weekinfo"  query="true" queryMode="select"  />

@@ -1,6 +1,10 @@
-ALTER TABLE tg_course ADD COLUMN CODE VARCHAR(16);
+ALTER TABLE tg_course ADD COLUMN teacher_id VARCHAR(32);
 
-ALTER TABLE tg_course ADD COLUMN start_time_hour VARCHAR(8);
-ALTER TABLE tg_course ADD COLUMN start_time_minute VARCHAR(8);
-ALTER TABLE tg_course ADD COLUMN end_time_hour VARCHAR(8);
-ALTER TABLE tg_course ADD COLUMN end_time_minute VARCHAR(8);
+CREATE TABLE `tg_teacher_course_rel` (
+  `id` varchar(32) NOT NULL,
+  `teacher_id` varchar(32) DEFAULT NULL,
+  `course_id` varchar(32) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+

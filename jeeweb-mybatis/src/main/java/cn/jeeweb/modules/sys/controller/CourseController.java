@@ -2,6 +2,7 @@ package cn.jeeweb.modules.sys.controller;
 
 
 import cn.jeeweb.core.common.controller.BaseCRUDController;
+import cn.jeeweb.core.query.data.Condition;
 import cn.jeeweb.core.query.data.PropertyPreFilterable;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
@@ -47,7 +48,8 @@ public class CourseController extends BaseCRUDController<Course, String> {
         String endTimeHour = entity.getEndTimeHour();
         String endTimeMinute = entity.getEndTimeMinute();
 
-        int duration = Integer.valueOf(endTimeHour + endTimeMinute) - Integer.valueOf(startTimeHour + startTimeMinute);
+        int duration = 60 * (Integer.valueOf(endTimeHour) - Integer.valueOf(startTimeHour)) +
+                (Integer.valueOf(endTimeMinute) - Integer.valueOf(startTimeMinute));
         if(duration <= 0) {
             throw new RuntimeException("错误的开始时间和结束时间");
         }
@@ -69,8 +71,19 @@ public class CourseController extends BaseCRUDController<Course, String> {
                             HttpServletResponse response) {
         // 子查询
         String weekInfo = request.getParameter("weekInfoId");
-        if (!StringUtils.isEmpty(weekInfo)) {
+        if (StringUtils.isNotBlank(weekInfo)) {
             entityWrapper.eq("week_info", weekInfo);
         }
+
+        String teacherId = request.getParameter("teacherId");
+        if(StringUtils.isNotBlank(teacherId)) {
+            queryable.addCondition("teacher_id", teacherId);
+        }
+
+        String blank = request.getParameter("blank");
+        if(StringUtils.isNotBlank(blank) && 1 == Integer.parseInt(blank)) {
+            queryable.addCondition("teacher_id is null", null);
+        }
     }
+
 }

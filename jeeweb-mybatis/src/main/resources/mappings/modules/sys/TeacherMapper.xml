@@ -29,4 +29,16 @@
 	   </if> 
   </select>
 
+    <delete id="deleteTeacherCourseRel" parameterType="map">
+        delete form tg_teacher_course_rel where teacher_id = #{teacherId} and course_id = #{courseId}
+    </delete>
+
+    <insert id="addTeacherCourseRel" parameterType="map">
+        insert into tg_teacher_course_rel(id, teacher_id, course_id, create_date) values (
+            #{id}, #{teacherId}, #{courseId}, now()
+        );
+
+    </insert>
+
+
 </mapper>

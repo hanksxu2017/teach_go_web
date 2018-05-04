@@ -49,7 +49,7 @@ public interface Queryable {
 	 * @param value
 	 * @return
 	 */
-	public Queryable addCondition(final String property, final Object value);
+	Queryable addCondition(final String property, final Object value);
 
 	/**
 	 * 移出条件，方便自定义条件

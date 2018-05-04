@@ -233,8 +233,10 @@
                     grid.jqGrid('saveRow',${(id)}LastSelection);
                     grid.jqGrid('editRow',id, {keys:true, focusField: 4});
                     ${(id)}LastSelection = id;
+                    <#if trackTrClick??&&trackTrClick>
+                    whenRowSelect(id);
+                    </#if>
                 }
-                whenRowSelect(id);
         }
         </#if>
         

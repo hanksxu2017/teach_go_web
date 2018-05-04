@@ -1,6 +1,8 @@
 package cn.jeeweb.modules.sys.entity;
 
 import cn.jeeweb.core.common.entity.DataEntity;
+import cn.jeeweb.core.common.entity.TreeEntity;
+import cn.jeeweb.core.common.entity.tree.TreeNode;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
@@ -14,18 +16,20 @@ public class Course extends DataEntity<String> {
 
     @TableId(value = "id", type = IdType.UUID)
     private String id;
+    // 课程编号
+    private String code;
 
     private String description;
 
     // 格式: HH:mm
     private String startTime;
-
+//
     private String startTimeHour;
     private String startTimeMinute;
 
     // 格式: HH:mm
     private String endTime;
-
+//
     private String endTimeHour;
     private String endTimeMinute;
 

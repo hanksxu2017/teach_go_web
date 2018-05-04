@@ -2,23 +2,23 @@ package cn.jeeweb.modules.sys.controller;
 
 
 import cn.jeeweb.core.common.controller.BaseCRUDController;
-import cn.jeeweb.core.model.AjaxJson;
+import cn.jeeweb.core.query.data.PropertyPreFilterable;
+import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.modules.sys.entity.Course;
-import cn.jeeweb.modules.sys.entity.Student;
+import cn.jeeweb.modules.sys.entity.User;
 import cn.jeeweb.modules.sys.service.ICourseService;
-import cn.jeeweb.modules.sys.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("${admin.url.prefix}/sys/course")
@@ -47,9 +47,30 @@ public class CourseController extends BaseCRUDController<Course, String> {
         String endTimeHour = entity.getEndTimeHour();
         String endTimeMinute = entity.getEndTimeMinute();
 
-        if(Integer.valueOf(startTimeHour + startTimeMinute.replace(":", "")) >=
-                Integer.valueOf(endTimeHour + endTimeMinute.replace(":", ""))) {
+        int duration = Integer.valueOf(endTimeHour + endTimeMinute) - Integer.valueOf(startTimeHour + startTimeMinute);
+        if(duration <= 0) {
             throw new RuntimeException("错误的开始时间和结束时间");
+        }
+
+        entity.setStartTime(startTimeHour + ":" + startTimeMinute);
+        entity.setEndTime(endTimeHour + ":" + endTimeMinute);
+        entity.setDuration(duration);
+    }
+
+    @RequestMapping(value = "bootstrapTreeData")
+    public void bootstrapTreeData(HttpServletResponse response, PropertyPreFilterable propertyPreFilterable) throws IOException {
+
+        String content = "[{\"href\":\"weekinfo\",\"nodes\":[{\"href\":\"Tuesday\",\"tags\":[],\"text\":\"星期二\"}],\"tags\":[],\"text\":\"星期\"}]";
+        StringUtils.printJson(response, content);
+    }
+
+    @Override
+    public void preAjaxList(Queryable queryable, EntityWrapper<Course> entityWrapper, HttpServletRequest request,
+                            HttpServletResponse response) {
+        // 子查询
+        String weekInfo = request.getParameter("weekInfoId");
+        if (!StringUtils.isEmpty(weekInfo)) {
+            entityWrapper.eq("week_info", weekInfo);
         }
     }
 }

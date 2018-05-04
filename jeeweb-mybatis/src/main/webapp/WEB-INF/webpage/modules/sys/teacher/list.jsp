@@ -10,7 +10,7 @@
 <body title="<spring:message code="sys.teacher.title" />">
 <div class="row">
 	<div  class="col-sm-10 col-md-10">
-		<grid:grid id="teacherGridId" url="${adminPath}/sys/teacher/ajaxList" editable="true">
+		<grid:grid id="teacherGridId" url="${adminPath}/sys/teacher/ajaxList" >
 			<grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
 		    <grid:column label="sys.realName"  name="realName"  query="true"  condition="like" />
 		    <grid:column label="sys.phone"  name="phone"/>
@@ -25,18 +25,6 @@
 		</grid:grid>
 	</div>
 </div>
-
-<script>
-
-    function whenRowSelect(rowid) {
-        alert(rowid);
-
-        var rowData = $("#teacherGridId").getRowData(rowid);
-        alert(rowData['realName']);
-    }
-
-
-</script>
 
 </body>
 </html>

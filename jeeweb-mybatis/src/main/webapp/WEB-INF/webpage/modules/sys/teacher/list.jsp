@@ -28,20 +28,12 @@
 
 <script>
 
-    $(function() {
+    function whenRowSelect(rowid) {
+        alert(rowid);
 
-        $("#teacherGridIdGrid").on('click','tr',function(rowid, status){
-            alert('行单击事件触发')
-
-            alert(rowid);
-
-            var ids=$('#teacherGridIdGrid').jqGrid('getGridParam','selarrrow');
-            alert(ids);
-
-        });
-
-
-    });
+        var rowData = $("#teacherGridId").getRowData(rowid);
+        alert(rowData['realName']);
+    }
 
 
 </script>

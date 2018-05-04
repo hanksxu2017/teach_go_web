@@ -234,6 +234,7 @@
                     grid.jqGrid('editRow',id, {keys:true, focusField: 4});
                     ${(id)}LastSelection = id;
                 }
+                whenRowSelect(id);
         }
         </#if>
         
@@ -365,7 +366,7 @@
 				           href +="onclick=\"${buttonItem.onclick}\"";
 				        <#else>
 				            <#if buttonItem.function?exists>
-				             	 <#if buttonItem.function=='delete'>
+				             	 <#if buttonItem.function=='delete'>batchDelete
 				               		  href +="onclick=\"deleteRowData('${buttonItem.title!}','${buttonItem.url!}','"+row.id+"','${(id)}Grid')\"";
 				                  <#elseif buttonItem.function=='rowConfirm'>
 				                 	  href +="onclick=\"${buttonItem.function!}('${buttonItem.title!}','${buttonItem.url!}','"+row.id+"','${(id)}Grid','${buttonItem.tipMsg!}')\"";

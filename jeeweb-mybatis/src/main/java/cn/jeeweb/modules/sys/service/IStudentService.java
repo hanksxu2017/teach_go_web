@@ -11,5 +11,5 @@ public interface IStudentService  extends ICommonService<Student> {
      * @param studentId
      * @param newStatus
      */
-    public void changeStatus(String studentId, String newStatus);
+    void changeStatus(String studentId, String newStatus);
 }

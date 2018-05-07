@@ -26,7 +26,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("${admin.url.prefix}/sys/teacher")
-@RequiresPathPermission("sys:teacher")
+@RequiresPathPermission("sys:user")
 public class TeacherController extends BaseCRUDController<Teacher, String> {
 
     @Autowired

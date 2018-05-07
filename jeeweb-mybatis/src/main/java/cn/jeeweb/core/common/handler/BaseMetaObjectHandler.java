@@ -15,7 +15,7 @@ import cn.jeeweb.modules.sys.utils.UserUtils;
  * @title: MyMetaObjectHandler.java
  * @package cn.jeeweb.core.common.handler
  * @description: 填充创建时间，创建人，更新时间，更新人
- * @author: 王存见
+ * @author: admin
  * @date: 2017年7月20日 上午10:55:42
  * @version V1.0
  * @copyright: 2017 www.jeeweb.cn Inc. All rights reserved.

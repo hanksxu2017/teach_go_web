@@ -40,7 +40,7 @@ import freemarker.template.TemplateException;
  * @title: TableService.java
  * @package cn.jeeweb.modules.codegen.service.impl
  * @description:
- * @author: 王存见
+ * @author: admin
  * @date: 2017年5月8日 上午11:17:41
  * @version V1.0
  * @copyright: 2017 www.jeeweb.cn Inc. All rights reserved.

@@ -19,7 +19,7 @@ import cn.jeeweb.modules.sys.service.IDataSourceService;
  * @description: 多数据源操作工具 List<Map<String, Object>> list =
  *               DynamicDBUtils.getDynamicDBDao("neiwangbaogong") .queryList(
  *               "SELECT * from t_s_type");
- * @author: 王存见
+ * @author: admin
  * @date: 2017年5月10日 下午1:18:12
  * @version V1.0
  * @copyright: 2017 www.jeeweb.cn Inc. All rights reserved.

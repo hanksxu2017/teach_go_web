@@ -82,7 +82,7 @@ public class CourseController extends BaseCRUDController<Course, String> {
 
         String blank = request.getParameter("blank");
         if(StringUtils.isNotBlank(blank) && 1 == Integer.parseInt(blank)) {
-            queryable.addCondition("teacher_id is null", null);
+            entityWrapper.isNull("teacher_id");
         }
     }
 

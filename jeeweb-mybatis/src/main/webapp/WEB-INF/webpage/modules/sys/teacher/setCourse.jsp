@@ -30,8 +30,8 @@
 	</div>
 	<div class="col-sm-2">
 		<div class="text-center" style="padding-top: 200px;">
-			<button class="btn btn-large btn-info" onclick="removeCourse()"><i class="fa fa-search"></i>移除</button><br/>
-			<button class="btn btn-large btn-info" onclick="receiveCourse()"><i class="fa fa-search"></i>加入</button>
+			<button class="btn btn-large btn-info" onclick="removeCourse()"><i class="fa fa-plu"></i>移除</button><br/>
+			<button class="btn btn-large btn-info" onclick="receiveCourse()"><i class="fa plus-sqare"></i>加入</button>
 		</div>
 	</div>
 	<div class="col-sm-5">
@@ -95,7 +95,7 @@
                 if(null != courseId && '' != courseId) {
                     $.ajax({
                         type : "post",
-                        url : "${adminPath}/sys/teacher/addCourse",
+                        url : "${adminPath}/sys/teacher/" + $("#selectedTeacherId").val() + "/" + courseId + "/addCourse",
                         dataType : "json",
                         data : {
                             "teacher_id" : $("#selectedTeacherId").val(),

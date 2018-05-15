@@ -7,11 +7,10 @@ import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.core.utils.StringUtils;
-import cn.jeeweb.modules.sys.entity.Course;
-import cn.jeeweb.modules.sys.entity.CourseRecord;
-import cn.jeeweb.modules.sys.entity.Teacher;
+import cn.jeeweb.modules.sys.entity.*;
 import cn.jeeweb.modules.sys.service.ICourseRecordService;
 import cn.jeeweb.modules.sys.service.ICourseService;
+import cn.jeeweb.modules.sys.service.ICourseStudentRecordService;
 import cn.jeeweb.modules.sys.service.IStudentCourseRelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +33,9 @@ public class CourseRecordController extends BaseCRUDController<CourseRecord, Str
     @Autowired
     private ICourseRecordService courseRecordService;
 
+    @Autowired
+    private ICourseStudentRecordService courseStudentRecordService;
+
     public CourseRecordController() {
         setCommonService(courseRecordService);
     }
@@ -51,15 +53,21 @@ public class CourseRecordController extends BaseCRUDController<CourseRecord, Str
 
     /**
      * 学生签到
-     * @param id
+     * @param courseRecId
      * @param model
      * @param request
      * @param response
      * @return
      */
     @RequestMapping(value = "{id}/signIn", method = RequestMethod.GET)
-    public String signIn(@PathVariable("id") String id, Model model, HttpServletRequest request,
+    public String signIn(@PathVariable("id") String courseRecId, Model model, HttpServletRequest request,
                          HttpServletResponse response) {
+
+        EntityWrapper<CourseStudentRecord> entityWrapper = new EntityWrapper();
+        entityWrapper.eq("course_rec_id", courseRecId);
+        List<CourseStudentRecord> courseStudentRecordList = courseStudentRecordService.selectList(entityWrapper);
+        model.addAttribute("courseStudentRecordList", courseStudentRecordList);
+        model.addAttribute("courseRecId", courseRecId);
 
         return display("signIn");
     }

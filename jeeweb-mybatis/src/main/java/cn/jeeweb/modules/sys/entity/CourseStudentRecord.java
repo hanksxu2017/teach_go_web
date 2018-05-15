@@ -24,6 +24,9 @@ public class CourseStudentRecord extends DataEntity<String> {
     @TableField(value = "student_id")
     private String studentId;
 
+    @TableField(value = "student_real_name")
+    private String studentRealName;
+
     @TableField(value = "status")
     private CourseStudentRecordStatus status;
 

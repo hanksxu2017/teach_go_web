@@ -5,14 +5,8 @@ import cn.jeeweb.core.utils.DateUtils;
 import cn.jeeweb.core.utils.SpringContextHolder;
 import cn.jeeweb.modules.oa.entity.OaNotification;
 import cn.jeeweb.modules.oa.service.IOaNotificationService;
-import cn.jeeweb.modules.sys.entity.Course;
-import cn.jeeweb.modules.sys.entity.CourseRecord;
-import cn.jeeweb.modules.sys.entity.CourseStudentRecord;
-import cn.jeeweb.modules.sys.entity.StudentCourseRel;
-import cn.jeeweb.modules.sys.service.ICourseRecordService;
-import cn.jeeweb.modules.sys.service.ICourseService;
-import cn.jeeweb.modules.sys.service.ICourseStudentRecordService;
-import cn.jeeweb.modules.sys.service.IStudentCourseRelService;
+import cn.jeeweb.modules.sys.entity.*;
+import cn.jeeweb.modules.sys.service.*;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -34,13 +28,16 @@ public class CourseTask {
 
     private ICourseService courseService = SpringContextHolder.getBean(ICourseService.class);
 
-    private IOaNotificationService oaNotificationService = SpringContextHolder.getBean(IOaNotificationService.class);;
+    private IOaNotificationService oaNotificationService = SpringContextHolder.getBean(IOaNotificationService.class);
 
-    private ICourseRecordService courseRecordService = SpringContextHolder.getBean(ICourseRecordService.class);;
+    private ICourseRecordService courseRecordService = SpringContextHolder.getBean(ICourseRecordService.class);
 
-    private ICourseStudentRecordService courseStudentRecordService = SpringContextHolder.getBean(ICourseStudentRecordService.class);;
+    private ICourseStudentRecordService courseStudentRecordService = SpringContextHolder.getBean(ICourseStudentRecordService.class);
 
-    private IStudentCourseRelService studentCourseRelService = SpringContextHolder.getBean(IStudentCourseRelService.class);;
+    private IStudentCourseRelService studentCourseRelService = SpringContextHolder.getBean(IStudentCourseRelService.class);
+
+
+    private IStudentService studentService = SpringContextHolder.getBean(IStudentService.class);
 
     public void run() {
 
@@ -192,6 +189,10 @@ public class CourseTask {
         courseStudentRecord.setStatus(CourseStudentRecord.CourseStudentRecordStatus.NORMAL);
         courseStudentRecord.setHaveAdjust(CourseRecord.HaveAdjust.NO);
         courseStudentRecord.setCreateDate(new Date());
+        Student student = this.studentService.selectById(studentCourseRel.getStudentId());
+        if (null != student) {
+            courseStudentRecord.setStudentRealName(student.getRealName());
+        }
         return courseStudentRecord;
     }
 

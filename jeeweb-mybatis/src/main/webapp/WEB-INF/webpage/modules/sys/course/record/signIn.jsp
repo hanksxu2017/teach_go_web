@@ -9,46 +9,30 @@
 
 </head>
 <body class="white-bg">
-<input type="hidden" value="${student.id}" id="selectedStudentId">
+<input type="hidden" value="${courseRecId}" id="selectedCourseRecId">
 <div class="row">
-	<div class="col-sm-5">
+
+	<div class="col-sm-10">
 		<div class="content-body">
-			<grid:grid id="selectedCourseGridIdStu" url="${adminPath}/sys/course/ajaxList?studentId=${student.id}" multiselect="false">
-				<grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
-                <grid:column label="编号"  name="code"/>
-				<grid:column label="sys.course.weekInfo" name="weekDay"   dict="weekinfo"  query="true" queryMode="select"  />
-				<grid:column label="开始时间"  name="startTime"/>
-				<grid:column label="结束时间"  name="endTime"  />
-				<grid:column label="时长(分钟)"  name="duration"  />
-				<grid:column label="状态"  name="statusStr"  />
-
-				<grid:toolbar  function="search"/>
-				<grid:toolbar  function="reset"/>
-			</grid:grid>
+            <div class="popover-title" >
+                <div class="checkbox"></div><label><input type="checkbox" onchange="CheckAll(this)" />全选</label>
+                <button type="button" class="close" onclick="hide()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="popover-content">
+                <ul class="list-inline" id="ul" >
+                    <!--<li><div class="checkbox"></div><label><input type="checkbox" value="0" onclick="Choose(this)"/>5M</label></li>-->
+                    <c:forEach items="${courseStudentRecordList}" var="li">
+                        ${li.studentRealName}
+                        <li>
+                            <div class='checkbox'></div>
+                            <label><input type='checkbox' value="${li.studentId}" onclick='Choose(this)'/>${li.studentRealName}</label></li>
+                    </c:forEach>
+                </ul>
+            </div>
 		</div>
-	</div>
-	<div class="col-sm-2">
-		<div class="text-center" style="padding-top: 200px;">
-			<button class="btn btn-large btn-info" onclick="removeCourse()"><i class="fa fa-search"></i>移除</button><br/>
-			<button class="btn btn-large btn-info" onclick="receiveCourse()"><i class="fa fa-search"></i>加入</button>
-		</div>
-	</div>
-	<div class="col-sm-5">
-		<div class="content-body">
-			<grid:grid id="blankCourseGridIdStu" url="${adminPath}/sys/course/ajaxList?s_blank=1&studentId=${student.id}" multiselect="false">
-				<grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
-                <grid:column label="编号"  name="code"/>
-                <grid:column label="sys.course.weekInfo" name="weekDay"   dict="weekinfo"  query="true" queryMode="select"  />
-				<grid:column label="开始时间"  name="startTime"/>
-				<grid:column label="结束时间"  name="endTime"  />
-				<grid:column label="时长(分钟)"  name="duration"  />
-				<grid:column label="状态"  name="statusStr"  />
-
-				<grid:toolbar  function="search"/>
-				<grid:toolbar  function="reset"/>
-			</grid:grid>
-		</div>
-
 	</div>
 
 </div>
@@ -57,68 +41,52 @@
 <script>
 
 	$(function () {
-        $("input[name='studentId']").val($("#selectedTeacherId").val());
+
     });
 
-	function removeCourse() {
-        var rowId = $("#selectedCourseGridIdStuGrid").jqGrid("getGridParam", "selrow");
-        if(null != rowId) {
-            var courseInfo = $("#selectedCourseGridIdStuGrid").jqGrid("getRowData", rowId);
-			if(null != courseInfo) {
-			    var courseId = courseInfo['id'];
-			    if(null != courseId && '' != courseId) {
-                    $.ajax({
-                        type : "post",
-                        url : "${adminPath}/sys/student/removeCourse",
-                        dataType : "json",
-						data : {
-                            "studentId" : $("#selectedStudentId").val(),
-							"courseId" : courseId,
-                        },
-                        success : function(data) {
-                            if(data.statusCode == 0) {
-                                search('selectedCourseGridIdGrid');
-                                search('blankCourseGridIdGrid');
-                            } else {
-                                top.layer.alert(data.errMsg);
-                            }
-                        }
-                    });
-				}
-			}
-        }
+    //全选操作
+    function CheckAll(t) {
+        var name = "";
+        var ids = "";
+        var popoverContent = $($(t).parent().parent().parent().children()[2]);
+        popoverContent.find("input[type=checkbox]").each(function(i,th) {
+            th.checked = t.checked;
+            if (t.checked) {
+                name += $(th).parent().text() + ",";
+                ids += $(th).val() + ",";
+            }
+        });
+        name = name.substr(0, name.length - 1);
+        ids = ids.substr(0, ids.length - 1);
+        $("#txt").val(name);
+        $("#ids").val(ids);
     }
 
-    function receiveCourse() {
-        var rowId = $("#blankCourseGridIdStuGrid").jqGrid("getGridParam", "selrow");
-        if(null != rowId) {
-            var courseInfo = $("#blankCourseGridIdStuGrid").jqGrid("getRowData", rowId);
-            if(null != courseInfo) {
-                var courseId = courseInfo['id'];
-                if(null != courseId && '' != courseId) {
-                    $.ajax({
-                        type : "post",
-                        url : "${adminPath}/sys/student/addCourse",
-                        dataType : "json",
-                        data : {
-                            "studentId" : $("#selectedStudentId").val(),
-                            "courseId" : courseId,
-                        },
-                        success : function(data) {
-                            if(data.statusCode == 0) {
-                                search('selectedCourseGridIdStuGrid');
-                                search('blankCourseGridIdStuGrid');
-                            } else if(data.statusCode == -1) {
-                                alert(data.errMsg);
-                            }
-                        }
-                    });
-                }
-            }
+    //勾选某一个操作
+    function Choose(t) {
+        var oldName = $("#txt").val();
+        var name = oldName == "" ? "," + $("#txt").val() : "," + $("#txt").val() + ",";
+        var ids = oldName == "" ? "," + $("#ids").val() : "," + $("#ids").val() + ",";
+        var newName = $(t).parent().text();
+        var newid = $(t).val();
+
+        if (t.checked) {//选中的操作
+            $("#txt").val(name += newName + ",");
+            $("#ids").val(ids += newid + ",");
+        } else {//去掉选中的操作
+            var index = name.indexOf(","+newName+",");
+            var len = newName.length;
+            name = name.substring(0, index) + name.substring(index + len + 1, name.length);
+
+            var index = ids.indexOf("," + newid + ",");
+            var len = newid.length;
+            ids = ids.substring(0, index) + ids.substring(index + len + 1, ids.length);
         }
+        name = name.substr(1, name.length - 2);
+        ids = ids.substr(1, ids.length - 2);
+        $("#txt").val(name);
+        $("#ids").val(ids);
     }
-	
-	
 	
 </script>
 

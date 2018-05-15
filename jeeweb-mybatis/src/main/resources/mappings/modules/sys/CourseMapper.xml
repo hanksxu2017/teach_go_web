@@ -3,10 +3,11 @@
 <mapper namespace="cn.jeeweb.modules.sys.mapper.CourseMapper" >
 
     <update id="blankTeacher">
-        delete tg_course set teacher_id = null where course_id = #{courseId}
+        update tg_course set teacher_id = null where id = #{courseId}
     </update>
+
     <update id="relatedTeacher">
-        delete tg_course set teacher_id = #{teacherId}, update_date = now() where course_id = #{courseId}
+        update tg_course set teacher_id = #{teacherId}, update_date = now() where id = #{courseId}
     </update>
 
 </mapper>

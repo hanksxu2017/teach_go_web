@@ -44,11 +44,11 @@ public class CourseTask {
 
     public void run() {
 
-        int curDayOfWeek = this.getCurDayOfWeek();
-        if(curDayOfWeek != 0) {
-            log.info("-------非周日时段,无法执行排课任务!");
-            return;
-        }
+//        int curDayOfWeek = this.getCurDayOfWeek();
+//        if(curDayOfWeek != 0) {
+//            log.info("-------非周日时段,无法执行排课任务!");
+//            return;
+//        }
 
         List<Course> courseList = this.findCourse();
         if(CollectionUtils.isEmpty(courseList)) {

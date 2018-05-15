@@ -23,7 +23,7 @@
 		         <td class="width-35" >
 		             ${data.realname}
 		         </td>
-		         <td  class="width-15 active text-right">用户名:</label></td>
+		         <td  class="width-15 active text-right"><label>用户名:</label></td>
 		         <td  class="width-35" >
 		              ${data.username}
 		         </td>

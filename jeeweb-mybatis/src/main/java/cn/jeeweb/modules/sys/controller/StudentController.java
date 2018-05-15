@@ -153,7 +153,7 @@ public class StudentController extends BaseCRUDController<Student, String> {
             Course relatedCourse;
             for(StudentCourseRel studentCourseRel : studentCourseRelList) {
                 relatedCourse = this.courseService.selectById(studentCourseRel.getCourseId());
-                if(null != relatedCourse) {
+                if(null != relatedCourse && !relatedCourse.getId().equalsIgnoreCase(targetCourse.getId()) && relatedCourse.getWeekInfo() == targetCourse.getWeekInfo()) {
                     if (less(relatedCourse.getStartTime(), targetCourse.getStartTime()) && greater(relatedCourse.getEndTime(), targetCourse.getEndTime())) {
                         return relatedCourse;
                     }
@@ -169,12 +169,5 @@ public class StudentController extends BaseCRUDController<Student, String> {
         return null;
     }
 
-    private boolean less(String srcTime, String targetTime) {
-        return Integer.parseInt(srcTime.replace(":", "")) <= Integer.parseInt(targetTime.replace(":", ""));
-    }
-
-    private boolean greater(String srcTime, String targetTime) {
-        return Integer.parseInt(srcTime.replace(":", "")) >= Integer.parseInt(targetTime.replace(":", ""));
-    }
 
 }

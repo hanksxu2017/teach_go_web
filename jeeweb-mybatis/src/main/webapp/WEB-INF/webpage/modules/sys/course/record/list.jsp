@@ -14,7 +14,7 @@
 			<grid:column label="sys.common.key" hidden="true" name="id" width="100"/>
 			<grid:column label="课程编号" name="courseCode" />
 			<grid:column label="sys.course.weekInfo" name="weekDay" dict="weekinfo"  query="true" queryMode="select"  />
-		    <grid:column label="授课教师"  name="teacherRealName"/>
+		    <grid:column label="授课教师"  name="teacherRealName" query="true" condition="like" />
 		    <grid:column label="开始时间"  name="startTime"/>
 		    <grid:column label="结束时间"  name="endTime"  />
 		    <grid:column label="时长(分钟)"  name="duration"  />

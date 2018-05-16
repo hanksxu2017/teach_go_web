@@ -101,8 +101,8 @@
                         url : "${adminPath}/sys/teacher/addCourse",
                         dataType : "json",
                         data : {
-                            "teacher_id" : $("#selectedTeacherId").val(),
-                            "course_id" : courseId,
+                            "teacherId" : $("#selectedTeacherId").val(),
+                            "courseId" : courseId,
                         },
                         success: function (data) {
                             if(data.statusCode == 0) {

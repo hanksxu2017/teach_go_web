@@ -76,23 +76,26 @@
                             "teacher_id" : $("#selectedTeacherId").val(),
 							"course_id" : courseId,
                         },
-                        success : function(data) {
+                        success: function (data) {
                             search('selectedCourseGridIdGrid');
                             search('blankCourseGridIdGrid');
                         }
                     });
-				}
-			}
+                }
+            }
+        } else {
+            top.layer.alert('请至少选择一条数据!', {icon: 0, title: '警告'});
+            return;
         }
     }
 
     function receiveCourse() {
         var rowId = $("#blankCourseGridIdGrid").jqGrid("getGridParam", "selrow");
-        if(null != rowId) {
+        if (null != rowId) {
             var courseInfo = $("#blankCourseGridIdGrid").jqGrid("getRowData", rowId);
-            if(null != courseInfo) {
+            if (null != courseInfo) {
                 var courseId = courseInfo['id'];
-                if(null != courseId && '' != courseId) {
+                if (null != courseId && '' != courseId) {
                     $.ajax({
                         type : "post",
                         url : "${adminPath}/sys/teacher/addCourse",
@@ -101,18 +104,24 @@
                             "teacher_id" : $("#selectedTeacherId").val(),
                             "course_id" : courseId,
                         },
-                        success : function(data) {
-                            search('selectedCourseGridIdGrid');
-                            search('blankCourseGridIdGrid');
+                        success: function (data) {
+                            if(data.statusCode == 0) {
+                                search('selectedCourseGridIdGrid');
+                                search('blankCourseGridIdGrid');
+                            } else {
+                                top.layer.alert(data.errMsg);
+                            }
                         }
                     });
                 }
             }
+        } else {
+            top.layer.alert('请至少选择一条数据!', {icon: 0, title: '警告'});
+            return;
         }
     }
-	
-	
-	
+
+
 </script>
 
 </body>

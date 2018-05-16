@@ -1,6 +1,7 @@
 package cn.jeeweb.core.utils;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang.time.DateFormatUtils;
@@ -197,16 +198,28 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
             } else {  
                     return "刚刚";  
             }  
-    }  
+    }
+
+	public static Date addDay(Date srcDate, int offset) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(srcDate);
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + offset);
+		return calendar.getTime();
+	}
 
 	/**
 	 * @param args
 	 * @throws ParseException
 	 */
 	public static void main(String[] args) throws ParseException {
-		// System.out.println(formatDate(parseDate("2010/3/6")));
-		// System.out.println(getDate("yyyy年MM月dd日 E"));
-		// long time = new Date().getTime()-parseDate("2012-11-19").getTime();
-		// System.out.println(time/(24*60*60*1000));
+		String dateStr = "2018-5-31 10:16:30";
+		Date curDate = DateUtils.parseDate(dateStr);
+		System.out.println(curDate);
+
+		Date newDay = addDay(curDate, 1);
+		System.out.println(DateUtils.formatDateTime(newDay));
+
+		String curDay = DateUtils.formatDate(new Date(), "yyyy-MM-dd");
+		System.out.println(curDay);
 	}
 }

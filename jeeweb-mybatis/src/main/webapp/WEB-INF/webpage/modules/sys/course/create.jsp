@@ -18,7 +18,7 @@
 		<tr >
 			<td  class="width-15 active text-right"><label><font color="red">*</font>星期:</label></td>
 			<td  class="width-35" colspan="2">
-				<form:select path="weekInfo"  dict="weekinfo" defaultValue="Monday" class="form-control"></form:select>
+				<form:select path="weekInfo"  dict="weekinfo" defaultValue="1" class="form-control"></form:select>
 				<label class="Validform_checktip"></label>
 			</td>
 		</tr>

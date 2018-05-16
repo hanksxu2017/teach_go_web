@@ -30,7 +30,7 @@ import cn.jeeweb.core.utils.SpringContextHolder;
  * @title: QuartzManager.java
  * @package cn.jeeweb.core.quartz
  * @description: 计划任务管理
- * @author: 王存见
+ * @author: admin
  * @date: 2017年5月9日 下午10:46:10
  * @version V1.0
  * @copyright: 2017 www.jeeweb.cn Inc. All rights reserved.
@@ -43,7 +43,7 @@ public class QuartzManager {
 	/**
 	 * 添加任务
 	 * 
-	 * @param scheduleJob
+	 * @param job
 	 * @throws SchedulerException
 	 */
 	public void addJob(ScheduleJob job) throws SchedulerException {

@@ -38,7 +38,7 @@ public abstract class BaseCRUDController<Entity extends AbstractEntity<ID>, ID e
 	/**
 	 * 设置基础service
 	 *
-	 * @param baseService
+	 * @param commonService
 	 */
 	@Autowired
 	public void setCommonService(ICommonService<Entity> commonService) {
@@ -73,7 +73,8 @@ public abstract class BaseCRUDController<Entity extends AbstractEntity<ID>, ID e
 	/**
 	 * 在异步获取数据之前
 	 * 
-	 * @param model
+	 * @param queryable
+	 * @param entityWrapper
 	 * @param request
 	 * @param response
 	 */
@@ -295,6 +296,15 @@ public abstract class BaseCRUDController<Entity extends AbstractEntity<ID>, ID e
 			validJson.setInfo("验证异常，请检查字段是否正确!");
 		}
 		return validJson;
+	}
+
+
+	protected final boolean less(String srcTime, String targetTime) {
+		return Integer.parseInt(srcTime.replace(":", "")) <= Integer.parseInt(targetTime.replace(":", ""));
+	}
+
+	protected final boolean greater(String srcTime, String targetTime) {
+		return Integer.parseInt(srcTime.replace(":", "")) >= Integer.parseInt(targetTime.replace(":", ""));
 	}
 
 }

@@ -3,9 +3,8 @@
 <mapper namespace="cn.jeeweb.modules.sys.mapper.CourseMapper" >
 
     <update id="blankTeacher">
-        update tg_course set teacher_id = null where id = #{courseId}
+        update tg_course set teacher_id = null, update_date = now() where id = #{courseId}
     </update>
-
     <update id="relatedTeacher">
         update tg_course set teacher_id = #{teacherId}, update_date = now() where id = #{courseId}
     </update>

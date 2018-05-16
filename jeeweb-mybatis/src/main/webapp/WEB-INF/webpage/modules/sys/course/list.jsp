@@ -24,7 +24,7 @@
 			<grid:column label="sys.common.key" hidden="true" name="id" width="100"/>
 			<grid:column label="编号" name="code" />
             <grid:query name="weekInfoId" queryMode="hidden" />
-			<grid:column label="sys.course.weekInfo" name="weekInfo"   dict="weekinfo"  query="true" queryMode="select"  />
+			<grid:column label="sys.course.weekInfo" name="weekDay"/>
 		    <grid:column label="开始时间"  name="startTime"/>
 		    <grid:column label="结束时间"  name="endTime"  />
 		    <grid:column label="时长(分钟)"  name="duration"  />
@@ -34,7 +34,7 @@
 			<grid:toolbar title="sys.create" function="create"/>
 			<grid:toolbar title="sys.update" function="update"/>
 			<grid:toolbar title="sys.delete" function="delete"/>
-			<grid:toolbar  function="search"/>
+<%--			<grid:toolbar  function="search"/>--%>
 			<grid:toolbar  function="reset"/>
 		</grid:grid>
 	</div>

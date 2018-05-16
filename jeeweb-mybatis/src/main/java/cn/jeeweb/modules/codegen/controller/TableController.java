@@ -47,7 +47,7 @@ import cn.jeeweb.modules.sys.service.IMenuService;
  * @package cn.jeeweb.modules.codegen.controller
  * @description: // http://www.runoob.com/mysql/mysql-data-types.html //
  *               http://www.cnblogs.com/htht66/archive/2012/02/11/2346835.html
- * @author: 王存见
+ * @author: admin
  * @date: 2017年7月21日 上午11:23:04
  * @version V1.0
  * @copyright: 2017 www.jeeweb.cn Inc. All rights reserved.

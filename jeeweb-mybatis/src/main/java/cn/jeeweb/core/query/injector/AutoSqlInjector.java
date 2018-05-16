@@ -17,7 +17,7 @@ import com.baomidou.mybatisplus.toolkit.StringUtils;
  * @title: AutoSqlInjector.java
  * @package cn.jeeweb.core.query.injector
  * @description: 自动注入器
- * @author: 王存见
+ * @author: admin
  * @date: 2017年7月20日 上午11:56:25
  * @version V1.0
  * @copyright: 2017 www.jeeweb.cn Inc. All rights reserved.

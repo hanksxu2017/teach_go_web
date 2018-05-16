@@ -21,7 +21,9 @@
             <grid:toolbar title="sys.update" function="update"/>
             <grid:toolbar title="sys.student.modifyStatus" icon="fa-database" function="updateDialog"
                           url="${adminPath}/sys/student/{id}/changeStatus"/>
-            <grid:toolbar title="sys.update" function="delete"/>
+            <grid:toolbar title="sys.delete" function="delete"/>
+            <grid:toolbar title="sys.course" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/student/{id}/course"  winwidth="1200px" winheight="800px"/>
+
             <grid:toolbar function="search"/>
             <grid:toolbar function="reset"/>
         </grid:grid>

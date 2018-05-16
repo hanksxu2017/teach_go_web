@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("${admin.url.prefix}/sys/courseTemplate")
-@RequiresPathPermission("sys:courseTemplate")
+@RequiresPathPermission("sys:user")
 public class CourseTemplateController extends BaseCRUDController<CourseTempalte, String> {
 
     @Autowired

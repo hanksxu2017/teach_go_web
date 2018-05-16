@@ -23,6 +23,10 @@ public class Course extends DataEntity<String> {
     @TableField(exist = false)
     private String code;
 
+    public String getCode() {
+        return "课程#" + index;
+    }
+
     private String description;
 
     // 格式: HH:mm
@@ -50,7 +54,14 @@ public class Course extends DataEntity<String> {
         return this.status.getMsg();
     }
 
-    private WeekInfo weekInfo;
+    private int weekInfo;
+
+    @TableField(exist = false)
+    private String weekDay;
+
+    public String getWeekDay() {
+        return this.weeks[weekInfo];
+    }
 
     private String teacherId;
 
@@ -68,25 +79,6 @@ public class Course extends DataEntity<String> {
         }
     }
 
-    public enum WeekInfo {
-        Monday("星期一"),
-        Tuesday("星期二"),
-        Wednesday("星期三"),
-        Thursday("星期四"),
-        Friday("星期五"),
-        Saturday("星期六"),
-        Sunday("星期天")
-        ;
-
-        private String msg;
-
-        WeekInfo(String msg) {
-            this.msg = msg;
-        }
-
-        public String getMsg() {
-            return this.msg;
-        }
-    }
-
+    @TableField(exist = false)
+    private String[] weeks = {"星期", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天"};
 }

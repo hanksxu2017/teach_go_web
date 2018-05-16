@@ -29,6 +29,9 @@ public class CourseController extends BaseCRUDController<Course, String> {
     @Autowired
     private ICourseService courseService;
 
+    @Autowired
+    private IStudentCourseRelService studentCourseRelService;
+
     public CourseController() {
         setCommonService(courseService);
     }
@@ -62,28 +65,50 @@ public class CourseController extends BaseCRUDController<Course, String> {
     @RequestMapping(value = "bootstrapTreeData")
     public void bootstrapTreeData(HttpServletResponse response, PropertyPreFilterable propertyPreFilterable) throws IOException {
         // TODO
-        String content = "[{\"href\":\"weekinfo\",\"nodes\":[{\"href\":\"Tuesday\",\"tags\":[],\"text\":\"星期二\"}],\"tags\":[],\"text\":\"星期\"}]";
+        String content = "[{\"href\":\"weekinfo\",\"nodes\":[{\"href\":\"1\",\"tags\":[],\"text\":\"星期一\"},{\"href\":\"2\",\"tags\":[],\"text\":\"星期二\"},{\"href\":\"3\",\"tags\":[],\"text\":\"星期三\"},{\"href\":\"4\",\"tags\":[],\"text\":\"星期四\"},{\"href\":\"5\",\"tags\":[],\"text\":\"星期五\"},{\"href\":\"6\",\"tags\":[],\"text\":\"星期六\"},{\"href\":\"7\",\"tags\":[],\"text\":\"星期天\"}],\"tags\":[],\"text\":\"星期\"}]";
         StringUtils.printJson(response, content);
     }
 
     @Override
     public void preAjaxList(Queryable queryable, EntityWrapper<Course> entityWrapper, HttpServletRequest request,
                             HttpServletResponse response) {
-        // 子查询
+
+        // 教师排课页面
+        String blank = request.getParameter("blank");
+        if(StringUtils.isNotBlank(blank) && 1 == Integer.parseInt(blank)) {
+            entityWrapper.isNull("teacher_id");
+        } else {
+            String teacherId = request.getParameter("teacherId");
+            if (StringUtils.isNotBlank(teacherId)) {
+                entityWrapper.eq("teacher_id", teacherId);
+            }
+        }
+
+        // 课程页面
         String weekInfo = request.getParameter("weekInfoId");
         if (StringUtils.isNotBlank(weekInfo)) {
             entityWrapper.eq("week_info", weekInfo);
         }
 
-        String teacherId = request.getParameter("teacherId");
-        if(StringUtils.isNotBlank(teacherId)) {
-            queryable.addCondition("teacher_id", teacherId);
+        // 学生排课页面
+        List<String> courseIdListRelatedWithStudent = new ArrayList<>();
+        String studentId = request.getParameter("studentId");
+        if(StringUtils.isNotBlank(studentId)) {
+            courseIdListRelatedWithStudent = this.studentCourseRelService.selectCourseIdRelatedWithStudentId(studentId);
         }
 
-        String blank = request.getParameter("blank");
-        if(StringUtils.isNotBlank(blank) && 1 == Integer.parseInt(blank)) {
-            entityWrapper.isNull("teacher_id");
+        String sBlank = request.getParameter("s_blank");
+        if(StringUtils.isNotBlank(sBlank)) {
+            entityWrapper.notIn(true, "id", courseIdListRelatedWithStudent);
+        } else {
+            entityWrapper.in(true, "id", courseIdListRelatedWithStudent);
         }
+
+        entityWrapper.orderBy("week_info");
     }
+
+
+
+
 
 }

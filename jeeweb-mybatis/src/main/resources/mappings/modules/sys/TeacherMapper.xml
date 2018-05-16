@@ -30,7 +30,7 @@
   </select>
 
     <delete id="deleteTeacherCourseRel" parameterType="map">
-        delete form tg_teacher_course_rel where teacher_id = #{teacherId} and course_id = #{courseId}
+        delete from tg_teacher_course_rel where teacher_id = #{teacherId} and course_id = #{courseId}
     </delete>
 
     <insert id="addTeacherCourseRel" parameterType="map">

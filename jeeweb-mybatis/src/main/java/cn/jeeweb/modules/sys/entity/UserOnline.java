@@ -16,7 +16,7 @@ import com.baomidou.mybatisplus.enums.IdType;
  * @title: UserOnline.java
  * @package cn.jeeweb.modules.sys.entity
  * @description: 当前在线会话
- * @author: 王存见
+ * @author: admin
  * @date: 2017年7月3日 下午3:59:32
  * @version V1.0
  * @copyright: 2017 www.jeeweb.cn Inc. All rights reserved.

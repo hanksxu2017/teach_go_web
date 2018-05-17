@@ -42,7 +42,7 @@
 				<label><font color="red">*</font>剩余课程:</label>
 			</td>
 			<td class="width-35" >
-				<form:input path="level" class="form-control" datatype="*" nullmsg="请输入课程数！"  htmlEscape="false" defaultValue="20"/>
+				<form:input path="remainCourse" class="form-control" datatype="*" nullmsg="请输入课程数！"  htmlEscape="false" defaultValue="20"/>
 				<label class="Validform_checktip"></label>
 			</td>
 		</tr>

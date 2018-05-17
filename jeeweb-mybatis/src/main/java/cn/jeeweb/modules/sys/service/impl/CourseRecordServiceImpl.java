@@ -3,6 +3,7 @@ package cn.jeeweb.modules.sys.service.impl;
 import cn.jeeweb.core.common.service.impl.CommonServiceImpl;
 import cn.jeeweb.core.query.data.Page;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.core.utils.DateUtils;
 import cn.jeeweb.modules.sys.entity.Course;
 import cn.jeeweb.modules.sys.entity.CourseRecord;
 import cn.jeeweb.modules.sys.entity.Teacher;
@@ -50,6 +51,13 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
             if (null != course) {
                 courseRecord.setCourseCode(course.getCode());
             }
+
+            courseRecord.setDuration(DateUtils.subDate(courseRecord.getCourseEndDate(), courseRecord.getCourseStartDate()));
         }
+    }
+
+    @Override
+    public void signIn(String courseId, String studentIds) {
+
     }
 }

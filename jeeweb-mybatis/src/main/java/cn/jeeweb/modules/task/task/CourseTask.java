@@ -41,7 +41,7 @@ public class CourseTask {
 
     public void run() {
 
-//        int curDayOfWeek = this.getCurDayOfWeek();
+        int curDayOfWeek = this.getCurDayOfWeek();
 //        if(curDayOfWeek != 0) {
 //            log.info("-------非周日时段,无法执行排课任务!");
 //            return;
@@ -55,7 +55,6 @@ public class CourseTask {
         }
 
         this.doCoursePlan(courseList);
-
     }
 
     /**
@@ -89,16 +88,19 @@ public class CourseTask {
         CourseRecord courseRecord;
         for(Course course : courseList) {
             courseRecord = this.initCourseRecord(course);
-            courseRecordList.add(courseRecord);
+
+            this.courseRecordService.insert(courseRecord);
+
+//            courseRecordList.add(courseRecord);
             courseStudentRecordList.addAll(this.generateCourseStudentRecord(courseRecord));
         }
 
-        if(CollectionUtils.isEmpty(courseRecordList)) {
-            this.notifyError();
-            return;
-        }
+//        if(CollectionUtils.isEmpty(courseRecordList)) {
+//            this.notifyError();
+//            return;
+//        }
 
-        this.courseRecordService.insertBatch(courseRecordList);
+//        this.courseRecordService.insertBatch(courseRecordList);
 
         if(CollectionUtils.isNotEmpty(courseStudentRecordList)) {
             this.courseStudentRecordService.insertBatch(courseStudentRecordList);
@@ -149,7 +151,7 @@ public class CourseTask {
         int offset = course.getWeekInfo();
 
         courseRecord.setCourseStartDate(DateUtils.addDay(DateUtils.parseDate(startDate), offset));
-        courseRecord.setCourseStartDate(DateUtils.addDay(DateUtils.parseDate(endDate), offset));
+        courseRecord.setCourseEndDate(DateUtils.addDay(DateUtils.parseDate(endDate), offset));
     }
 
     /**
@@ -160,6 +162,7 @@ public class CourseTask {
     private int getStudentCourseRelCount(String courseId) {
         Wrapper<StudentCourseRel> entityWrapper = new EntityWrapper<>(StudentCourseRel.class);
         entityWrapper.eq("course_id", courseId);
+        entityWrapper.eq("status", StudentCourseRel.StudentCourseRelStatus.NORMAL.name());
         return this.studentCourseRelService.selectCount(entityWrapper);
     }
 
@@ -204,6 +207,7 @@ public class CourseTask {
     private List<StudentCourseRel> getStudentCourseRelList(String courseId) {
         Wrapper<StudentCourseRel> entityWrapper = new EntityWrapper<>(StudentCourseRel.class);
         entityWrapper.eq("course_id", courseId);
+        entityWrapper.eq("status", "NORMAL");
         return this.studentCourseRelService.selectList(entityWrapper);
     }
 

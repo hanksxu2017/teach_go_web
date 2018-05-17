@@ -222,4 +222,8 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		String curDay = DateUtils.formatDate(new Date(), "yyyy-MM-dd");
 		System.out.println(curDay);
 	}
+
+	public static int subDate(Date dt1, Date dt2) {
+		return (int) ((dt1.getTime() - dt2.getTime())/(1000 * 60));
+	}
 }

@@ -1,8 +1,6 @@
 package cn.jeeweb.modules.sys.entity;
 
 import cn.jeeweb.core.common.entity.DataEntity;
-import cn.jeeweb.core.common.entity.TreeEntity;
-import cn.jeeweb.core.common.entity.tree.TreeNode;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -64,6 +62,12 @@ public class Course extends DataEntity<String> {
     }
 
     private String teacherId;
+
+    @TableField(exist = false)
+    private String teacherRealName;
+
+    @TableField(exist = false)
+    private int studentCount;
 
     public enum CourseStatus {
         NORMAL("正常");

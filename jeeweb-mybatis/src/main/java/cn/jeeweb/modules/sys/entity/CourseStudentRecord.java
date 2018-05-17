@@ -34,7 +34,7 @@ public class CourseStudentRecord extends DataEntity<String> {
     private CourseRecord.HaveAdjust haveAdjust;
 
     public enum CourseStudentRecordStatus {
-        NORMAL("正常");
+        NORMAL("正常"), LEAVE("未到");
 
         @Getter
         private String msg;

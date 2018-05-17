@@ -51,7 +51,19 @@ public class CourseRecord extends DataEntity<String> {
     @TableField(exist = false)
     private String teacherRealName;
 
+    @TableField(exist = false)
+    private String haveAdjustStr;
 
+    @TableField(exist = false)
+    private String statusStr;
+
+    public String getHaveAdjustStr() {
+        return this.haveAdjust.getMsg();
+    }
+
+    public String getStatusStr() {
+        return status.getMsg();
+    }
 
     public enum CourseRecordStatus {
         NORMAL("正常"), FINISHED("已完结"), DOING("进行中"), WAITING("未开始"), CANCELED("已取消");

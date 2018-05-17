@@ -211,6 +211,7 @@
 			        expanded_field: 'expanded'
 			    },
 			    </#if>
+
             };
             <#if gridSettingCallback??&&gridSettingCallback!=''>
             $.extend(settings, typeof ${gridSettingCallback} == "function" && ${gridSettingCallback}());

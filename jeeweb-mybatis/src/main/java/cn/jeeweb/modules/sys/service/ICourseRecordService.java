@@ -6,5 +6,4 @@ import cn.jeeweb.modules.sys.entity.CourseRecord;
 
 public interface ICourseRecordService extends ICommonService<CourseRecord> {
 
-    void signIn(String courseId, String studentIds);
 }

@@ -110,7 +110,7 @@ public class CourseRecordController extends BaseCRUDController<CourseRecord, Str
         ajaxJson.success("签到完成");
 
         String studentIds = request.getParameter("studentIds");
-
+        this.courseStudentRecordService.signIn(courseRecId, studentIds);
         // TODO
 
 

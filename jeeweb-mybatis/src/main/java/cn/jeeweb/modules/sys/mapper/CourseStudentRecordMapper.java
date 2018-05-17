@@ -5,4 +5,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 public interface CourseStudentRecordMapper extends BaseMapper<CourseStudentRecord> {
 
+    void updateStatus(CourseStudentRecord.CourseStudentRecordStatus status);
 }

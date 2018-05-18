@@ -64,7 +64,6 @@ public class CourseController extends BaseCRUDController<Course, String> {
 
     @RequestMapping(value = "bootstrapTreeData")
     public void bootstrapTreeData(HttpServletResponse response, PropertyPreFilterable propertyPreFilterable) throws IOException {
-        // TODO
         String content = "[{\"href\":\"weekinfo\",\"nodes\":[{\"href\":\"1\",\"tags\":[],\"text\":\"星期一\"},{\"href\":\"2\",\"tags\":[],\"text\":\"星期二\"},{\"href\":\"3\",\"tags\":[],\"text\":\"星期三\"},{\"href\":\"4\",\"tags\":[],\"text\":\"星期四\"},{\"href\":\"5\",\"tags\":[],\"text\":\"星期五\"},{\"href\":\"6\",\"tags\":[],\"text\":\"星期六\"},{\"href\":\"7\",\"tags\":[],\"text\":\"星期天\"}],\"tags\":[],\"text\":\"星期\"}]";
         StringUtils.printJson(response, content);
     }

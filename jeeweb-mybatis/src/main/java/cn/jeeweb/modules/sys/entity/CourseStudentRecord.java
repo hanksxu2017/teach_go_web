@@ -30,8 +30,24 @@ public class CourseStudentRecord extends DataEntity<String> {
     @TableField(value = "status")
     private CourseStudentRecordStatus status;
 
-    @TableField(value = "have_adjust")
-    private CourseRecord.HaveAdjust haveAdjust;
+    @TableField(exist = false)
+    private String courseCode;
+
+    @TableField(exist = false)
+    private int duration;
+
+    @TableField(exist = false)
+    private String teacherRealName;
+
+    @TableField(exist = false)
+    private Date courseStartDate;
+
+    @TableField(exist = false)
+    private Date courseEndDate;
+
+    @TableField(exist = false)
+    private String statusStr;
+
 
     public enum CourseStudentRecordStatus {
         NORMAL("正常"), LEAVE("缺席");

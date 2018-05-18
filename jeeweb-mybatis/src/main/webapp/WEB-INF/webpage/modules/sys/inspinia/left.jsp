@@ -4,7 +4,7 @@
 	<li class="nav-header">
 		<div class="dropdown profile-element">
 			<span class="default-avatar"><img alt="image" class="img-circle"
-				src="${appPath}/${fns:getUser().portrait}" /></span> <a
+				src="${appPath}/static/uadmin/images/users.gif" /></span> <a
 				data-toggle="dropdown" class="dropdown-toggle" href="#"> <span
 				class="clear"> <span class="block m-t-xs"><strong
 						class="font-bold">${fns:getUser().username}</strong></span> <span

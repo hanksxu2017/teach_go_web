@@ -17,11 +17,12 @@ import java.util.Date;
 public class Student  extends DataEntity<String> {
 
     /**
-     * 是否锁定（1：正常；-1：删除；0：锁定；）
+     * 是否锁定（1：正常；-1：退学；0：锁定；）
      */
     public static final int STATUS_DELETE = -1;
     public static final int STATUS_LOCKED = 0;
     public static final int STATUS_NORMAL = 1;
+    public static final int STATUS_ARREARS = 2;
 
     @TableId(value = "id", type = IdType.UUID)
     private String id;
@@ -44,10 +45,15 @@ public class Student  extends DataEntity<String> {
         if(0 == this.status) {
             return "锁定";
         }
+        if(2 == this.status) {
+            return "欠费";
+        }
         return "未设置";
     }
 
-    private int remainCourse;
+    private int totalCourse;
+
+    private int usedCourse;
 
     public String getCreateDateStr() {
         return DateUtils.formatDate(this.createDate, "yyyy-MM-dd HH:mm:ss");

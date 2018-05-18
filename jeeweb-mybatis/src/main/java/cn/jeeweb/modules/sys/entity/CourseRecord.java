@@ -1,6 +1,7 @@
 package cn.jeeweb.modules.sys.entity;
 
 import cn.jeeweb.core.common.entity.DataEntity;
+import cn.jeeweb.core.utils.DateUtils;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -55,6 +56,12 @@ public class CourseRecord extends DataEntity<String> {
     private String haveAdjustStr;
 
     @TableField(exist = false)
+    private String courseStartDateStr;
+
+    @TableField(exist = false)
+    private String courseEndDateStr;
+
+    @TableField(exist = false)
     private String statusStr;
 
     public String getHaveAdjustStr() {
@@ -63,6 +70,14 @@ public class CourseRecord extends DataEntity<String> {
 
     public String getStatusStr() {
         return status.getMsg();
+    }
+
+    public String getCourseStartDateStr() {
+        return DateUtils.formatDate(this.courseStartDate, "yyyy-MM-dd HH:mm");
+    }
+
+    public String getCourseEndDateStr() {
+        return DateUtils.formatDate(this.courseEndDate, "yyyy-MM-dd HH:mm");
     }
 
     public enum CourseRecordStatus {

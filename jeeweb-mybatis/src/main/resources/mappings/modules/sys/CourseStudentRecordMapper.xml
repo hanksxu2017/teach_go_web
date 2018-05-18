@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.sys.mapper.CourseStudentRecordMapper" >
+
+  <update id="updateStatus">
+      update tg_course_student_record set status = #{status},
+        update_date = now()
+      where course_rec_id = #{courseRecId}
+      and status != #{status}
+      <if test="studentIdList != null and studentIdList != ''">
+          and student_id in
+          <foreach collection="studentIdList" index="index" item="item"
+                   separator="," open="(" close=")">
+              #{item}
+          </foreach>
+      </if>
+
+  </update>
+
+</mapper>

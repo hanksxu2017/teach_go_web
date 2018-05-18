@@ -1,6 +1,7 @@
 package cn.jeeweb.modules.sys.entity;
 
 import cn.jeeweb.core.common.entity.DataEntity;
+import cn.jeeweb.modules.sys.utils.ConstantUtils;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -58,7 +59,7 @@ public class Course extends DataEntity<String> {
     private String weekDay;
 
     public String getWeekDay() {
-        return this.weeks[weekInfo];
+        return ConstantUtils.WEEK_DAYS[weekInfo];
     }
 
     private String teacherId;
@@ -83,6 +84,4 @@ public class Course extends DataEntity<String> {
         }
     }
 
-    @TableField(exist = false)
-    private String[] weeks = {"星期", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天"};
 }

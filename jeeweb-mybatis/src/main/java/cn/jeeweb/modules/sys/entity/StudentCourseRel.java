@@ -25,7 +25,7 @@ public class StudentCourseRel extends DataEntity<String> {
     private StudentCourseRelStatus status;
 
     public enum StudentCourseRelStatus {
-        NORMAL("正常"), LEAVE("请假"), DROP_OUT("退学"), CANCEL("已取消");
+        NORMAL("正常"), CANCEL("取消");
 
         @Getter
         private String msg;

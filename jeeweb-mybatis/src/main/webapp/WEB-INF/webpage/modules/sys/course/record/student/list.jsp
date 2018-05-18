@@ -33,25 +33,25 @@
  -->
 <div class="row">
 	<div  class="col-sm-10 col-md-10">
-		<grid:grid id="courseRecordGridId" url="${adminPath}/sys/course/record/ajaxList" >
+		<grid:grid id="courseRecordGridId" url="${adminPath}/sys/course/record/student/ajaxList" >
             <grid:query name="queryStartDate"  queryMode="hidden" />
             <grid:query name="queryEndDate"  queryMode="hidden" />
             <grid:column label="sys.common.key" hidden="true" name="id" width="100"/>
 			<grid:column label="课程编号" name="courseCode" />
-			<grid:column label="sys.course.weekInfo" name="weekName" />
+			<grid:column label="sys.course.weekInfo" name="weekDay" dict="weekinfo"  query="true" queryMode="select"  />
 		    <grid:column label="授课教师"  name="teacherRealName" query="true" condition="like" />
-		    <grid:column label="开始时间"  name="courseStartDateStr" sortable="true"/>
-		    <grid:column label="结束时间"  name="courseEndDateStr"  />
+		    <grid:column label="开始时间"  name="courseStartDate" sortable="true"/>
+		    <grid:column label="结束时间"  name="courseEndDate"  />
 		    <grid:column label="时长(分钟)"  name="duration"  />
 		    <grid:column label="应到学生"  name="studentQuantityPlan"  width="80"/>
 		    <grid:column label="实到学生"  name="studentQuantityActual"  width="80"/>
 		    <grid:column label="是否存在调整"  name="haveAdjustStr"  />
 			<grid:column label="进度"  name="statusStr"  />
-			<grid:column label="创建时间"  name="createDate"  />
 
 			<grid:toolbar title="学生签到" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/course/record/{id}/signIn"  winwidth="1200px" winheight="800px"/>
 			<grid:toolbar title="授课调整" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/course/record/{id}/adjust"  winwidth="1200px" winheight="800px"/>
-			<grid:toolbar title="导出" icon="fa fa-pencil-square-o"  onclick="exportCourseRecord()"/>
+			<grid:toolbar title="导出" icon="fa fa-pencil-square-o"  url="${adminPath}/sys/course/record/{id}/adjust"  winwidth="1200px" winheight="800px"/>
+			<grid:toolbar title="导出" icon="fa fa-pencil-square-o"  onclick="exportCourseRecord()" winwidth="1200px" winheight="800px"/>
 			<grid:toolbar  function="search"/>
 			<grid:toolbar  function="reset"/>
 		</grid:grid>
@@ -82,6 +82,7 @@
         // var selectedRows =$("#courseRecordGridIdGrid").jqGrid('getGridParam','selarrrow');
 
         var url="${adminPath}/sys/course/record/export?weekDay=" + $("select[name='weekDay']").val() + "&teacherRealName=" + $("input[name='teacherRealName']").val();
+        // window.open(url);
         location.href = url;
     }
 

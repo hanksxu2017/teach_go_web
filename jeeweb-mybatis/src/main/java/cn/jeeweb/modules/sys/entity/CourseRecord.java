@@ -38,7 +38,7 @@ public class CourseRecord extends DataEntity<String> {
     private int studentQuantityActual;
 
     @TableField(value = "status")
-    private CourseRecordStatus status = CourseRecordStatus.NORMAL;
+    private CourseRecordStatus status = CourseRecordStatus.WAITING;
 
     @TableField(value = "have_adjust")
     private HaveAdjust haveAdjust;
@@ -63,6 +63,9 @@ public class CourseRecord extends DataEntity<String> {
 
     @TableField(exist = false)
     private String statusStr;
+
+    @TableField(exist = false)
+    private String weekName;
 
     public String getHaveAdjustStr() {
         return this.haveAdjust.getMsg();

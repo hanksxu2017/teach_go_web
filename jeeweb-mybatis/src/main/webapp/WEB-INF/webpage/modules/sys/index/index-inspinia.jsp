@@ -38,7 +38,7 @@
                            </div>
                        </div>
                     </div>
-                    <ul class="nav navbar-top-links navbar-right">
+                   <%-- <ul class="nav navbar-top-links navbar-right">
                         <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                                 <i class="fa fa-bell"></i> <span class="label label-warning">${oaNotificationCount}</span>
@@ -48,7 +48,7 @@
                                 <li>
                                     <div class="dropdown-messages-box">
                                         <a href="#" class="pull-left">
-                                            <img alt="image" class="img-circle" src="${appPath}/${oaNotification.createBy.portrait}">
+                                            <img alt="image" class="img-circle" src="${appPath}/static/uadmin/images/users.gif">
                                         </a>
                                         <div class="media-body ">
                                             <strong>${oaNotification.createBy.realname}</strong>${fn:substring(oaNotification.content, 0, 50)}
@@ -68,13 +68,13 @@
                                 </li>
                             </ul>
                         </li>
-                        
+
                         <li class="dropdown hidden-xs">
                             <a class="right-sidebar-toggle" aria-expanded="false">
                                 <i class="fa fa-tasks"></i> 主题
                             </a>
                         </li>
-                    </ul>
+                    </ul>--%>
                 </nav>
             </div>
             <div class="row content-tabs">

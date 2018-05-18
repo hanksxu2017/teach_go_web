@@ -21,7 +21,7 @@
 	</div>
 	<div  class="col-sm-9 col-md-10">
 		<grid:grid id="courseGridId" url="${adminPath}/sys/course/ajaxList" >
-			<grid:column label="sys.common.key" hidden="true" name="id" width="100"/>
+			<grid:column label="sys.common.key" hidden="true" name="id"/>
 			<grid:column label="编号" name="code" />
             <grid:query name="weekInfoId" queryMode="hidden" />
 			<grid:column label="sys.course.weekInfo" name="weekDay"/>
@@ -39,7 +39,7 @@
 			<grid:toolbar title="sys.delete" function="delete"/>
 
 			<grid:toolbar title="学生列表" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/course/{id}/listRelStudent"  winwidth="1200px" winheight="800px"/>
-			<grid:toolbar title="生成授课记录" icon="fa fa-pencil-square-o"  function="generateCourseRec"/>
+			<grid:toolbar title="生成授课信息" icon="fa fa-pencil-square-o"  onclick="generateCourseRec()"/>
 			<grid:toolbar  function="reset"/>
 		</grid:grid>
 	</div>
@@ -47,47 +47,38 @@
 
 <script>
 
-
     function generateCourseRec() {
-        var gridId = "courseGridIdStuGrid";
+        var gridId = "courseGridIdGrid";
 
-        var rowId = $("#" + gridId).jqGrid("getGridParam", "selrow");
-        if(null != courseInfo) {
-            var courseId = courseInfo['id'];
+        var rowsData = $("#"+gridId).jqGrid('getGridParam','selarrrow');
+        var rowData= $("#"+gridId).jqGrid('getGridParam','selrow');
+
+        if (!rowsData || rowsData.length==0) {
+            top.layer.alert('请至少选择一条数据!', {icon: 0, title:'警告'});
+            return;
+        }
+        if (rowsData.length>1) {
+            top.layer.alert('只能选择一条数据!', {icon: 0, title:'警告'});
+            return;
         }
 
-        if(tipMsg==undefined||tipMsg==''){
-            tipMsg="您确定要执行该操作！";
-        }
-        swal({
-            title: "提示",
-            text: tipMsg,
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "确定",
-            closeOnConfirm: false,
-            cancelButtonText: "取消",
-        }, function () {
-            $.ajax({
-                url : "${adminPath}/sys/course/generateRec",
-                type : 'post',
-                data : {
-                    courseId : courseId
-                },
-                cache : false,
-                success : function(d) {
-                    if (d.ret==0) {
-                        var msg = d.msg;
-                        swal("提示！", msg, "success");
-                        //刷新表单
-                        refreshTable(gridId);
-                    }else{
-                        var msg = d.msg;
-                        swal("提示！", msg, "error");
-                    }
+        $.ajax({
+            url : "${adminPath}/sys/course/record/generateRec",
+            type : 'post',
+            data : {
+                courseId : rowsData[0]
+            },
+            cache : false,
+            success : function(d) {
+                var msg = d.msg;
+                if (d.ret==0) {
+                    swal("提示！", msg, "success");
+                    //刷新表单
+                    // refreshTable(gridId);
+                }else{
+                    swal("提示！", msg, "error");
                 }
-            });
+            }
         });
     }
 

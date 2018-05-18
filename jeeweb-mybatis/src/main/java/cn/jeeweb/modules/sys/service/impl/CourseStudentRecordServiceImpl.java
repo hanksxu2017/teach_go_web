@@ -18,12 +18,16 @@ import java.util.List;
 @Service
 public class CourseStudentRecordServiceImpl extends CommonServiceImpl<CourseStudentRecordMapper, CourseStudentRecord> implements ICourseStudentRecordService {
 
+
+
     @Override
     public void signIn(String courseRecId, String studentIds) {
         if(StringUtils.isBlank(studentIds)) {
             // 全部设置为缺席
             // TODO
-
+            this.baseMapper.updateStatus(CourseStudentRecord.CourseStudentRecordStatus.LEAVE.name(),
+                    null, courseRecId);
+            return;
         }
 
         EntityWrapper<CourseStudentRecord> entityWrapper = new EntityWrapper<>();
@@ -31,7 +35,16 @@ public class CourseStudentRecordServiceImpl extends CommonServiceImpl<CourseStud
         List<CourseStudentRecord> courseStudentRecordList = this.selectList(entityWrapper);
 
         List<String> inStudentIdList = Arrays.asList(studentIds.split(","));
+        this.baseMapper.updateStatus(CourseStudentRecord.CourseStudentRecordStatus.NORMAL.name(),
+                inStudentIdList, courseRecId);
+
         List<String> allStudentIdList = this.getAllStudentIdList(courseStudentRecordList);
+        allStudentIdList.removeAll(inStudentIdList);
+        this.baseMapper.updateStatus(CourseStudentRecord.CourseStudentRecordStatus.LEAVE.name(),
+                allStudentIdList, courseRecId);
+
+        // TODO 缺席学生查看缺席记录
+
 
 
     }

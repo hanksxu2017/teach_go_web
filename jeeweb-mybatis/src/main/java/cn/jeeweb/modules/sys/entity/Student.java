@@ -3,6 +3,7 @@ package cn.jeeweb.modules.sys.entity;
 
 import cn.jeeweb.core.common.entity.DataEntity;
 import cn.jeeweb.core.utils.DateUtils;
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
@@ -23,6 +24,7 @@ public class Student  extends DataEntity<String> {
     public static final int STATUS_LOCKED = 0;
     public static final int STATUS_NORMAL = 1;
     public static final int STATUS_ARREARS = 2;
+    public static final int STATUS_PAUSE = 3;
 
     @TableId(value = "id", type = IdType.UUID)
     private String id;
@@ -48,12 +50,24 @@ public class Student  extends DataEntity<String> {
         if(2 == this.status) {
             return "欠费";
         }
+        if(3 == this.status) {
+            return "休学";
+        }
         return "未设置";
     }
 
     private int totalCourse;
 
     private int usedCourse;
+
+    private String parentName;
+
+    private String parentPhone;
+
+    private int age;
+
+    @TableField(exist = false)
+    private int addCourse;
 
     public String getCreateDateStr() {
         return DateUtils.formatDate(this.createDate, "yyyy-MM-dd HH:mm:ss");

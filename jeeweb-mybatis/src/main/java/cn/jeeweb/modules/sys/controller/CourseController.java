@@ -10,6 +10,7 @@ import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.modules.sys.entity.Course;
 import cn.jeeweb.modules.sys.service.ICourseService;
 import cn.jeeweb.modules.sys.service.IStudentCourseRelService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -90,17 +91,25 @@ public class CourseController extends BaseCRUDController<Course, String> {
         }
 
         // 学生排课页面
-        List<String> courseIdListRelatedWithStudent = new ArrayList<>();
-        String studentId = request.getParameter("studentId");
-        if(StringUtils.isNotBlank(studentId)) {
-            courseIdListRelatedWithStudent = this.studentCourseRelService.selectCourseIdRelatedWithStudentId(studentId);
-        }
-
         String sBlank = request.getParameter("s_blank");
         if(StringUtils.isNotBlank(sBlank)) {
-            entityWrapper.notIn(true, "id", courseIdListRelatedWithStudent);
-        } else {
-            entityWrapper.in(true, "id", courseIdListRelatedWithStudent);
+            List<String> courseIdListRelatedWithStudent = new ArrayList<>();
+            String studentId = request.getParameter("studentId");
+            if(StringUtils.isNotBlank(studentId)) {
+                courseIdListRelatedWithStudent = this.studentCourseRelService.selectCourseIdRelatedWithStudentId(studentId);
+            }
+            if(CollectionUtils.isNotEmpty(courseIdListRelatedWithStudent)) {
+                if(StringUtils.equals("1", sBlank)) {
+                    entityWrapper.in(true, "id", courseIdListRelatedWithStudent);
+                } else {
+                    entityWrapper.notIn(true, "id", courseIdListRelatedWithStudent);
+                }
+            } else {
+                if(StringUtils.equals("1", sBlank)) {
+                    // 当目标学生无关联课程时，设置查询条件为假从而查询不到任何课程信息
+                    entityWrapper.isNull("id");
+                }
+            }
         }
 
         entityWrapper.orderBy("week_info");

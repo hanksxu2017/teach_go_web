@@ -25,6 +25,14 @@
 				<form:input path="realName" class="form-control " datatype="*" nullmsg="请输入姓名！" htmlEscape="false" />
 				<label class="Validform_checktip"></label>
 			</td>
+
+			<td  class="width-15 active text-right">
+				<label><font color="red">*</font>年龄:</label>
+			</td>
+			<td class="width-35" >
+				<form:input path="age" class="form-control " datatype="*" nullmsg="请输入年龄！" htmlEscape="false" />
+				<label class="Validform_checktip"></label>
+			</td>
 		</tr>
 
 		<tr>
@@ -32,17 +40,32 @@
 				<label><font color="red">*</font>校内等级:</label>
 			</td>
 			<td class="width-35" >
-				<form:input path="level" class="form-control" datatype="*" nullmsg="请输入等级！"  htmlEscape="false" defaultValue="0"/>
+				<form:input path="level" class="form-control" datatype="*" nullmsg="请输入等级！"  htmlEscape="false" defaultValue="25"/>
 				<label class="Validform_checktip"></label>
 			</td>
 		</tr>
 
 		<tr>
 			<td  class="width-15 active text-right">
-				<label><font color="red">*</font>剩余课程:</label>
+				<label><font color="red">*</font>初始课时:</label>
 			</td>
 			<td class="width-35" >
-				<form:input path="remainCourse" class="form-control" datatype="*" nullmsg="请输入课程数！"  htmlEscape="false" defaultValue="20"/>
+				<form:input path="totalCourse" class="form-control" datatype="*" nullmsg="请输入课程数！"  htmlEscape="false" defaultValue="20"/>
+				<label class="Validform_checktip"></label>
+			</td>
+		</tr>
+
+		<tr>
+			<td  class="width-15 active text-right">	<label><font color="red">*</font>家长:</label></td>
+			<td  class="width-35" >
+				<form:input path="parentName" class="form-control" htmlEscape="false"  datatype="*"  nullmsg="请输入家长姓名！"/>
+				<label class="Validform_checktip"></label>
+			</td>
+			<td  class="width-15 active text-right">
+				<label><font color="red">*</font>联系方式:</label>
+			</td>
+			<td class="width-35" >
+				<form:input path="parentPhone" class="form-control " datatype="*" nullmsg="请输入手机号！" htmlEscape="false" />
 				<label class="Validform_checktip"></label>
 			</td>
 		</tr>

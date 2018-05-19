@@ -4,7 +4,7 @@
 <html>
 <head>
 	<title><spring:message code="sys.course" /></title>
-	<meta name="decorator" content="list"/>
+	<meta name="decorator" content="form"/>
 	<html:component name="bootstrap-treeview"/>
 
 </head>
@@ -13,14 +13,15 @@
 <div class="row">
 	<div class="col-sm-5">
 		<div class="content-body">
-			<grid:grid id="selectedCourseGridIdStu" url="${adminPath}/sys/course/ajaxList?studentId=${student.id}" multiselect="false">
-				<grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
+			<grid:grid id="selectedCourseGridIdStu" url="${adminPath}/sys/course/ajaxList?s_blank=1&studentId=${student.id}" multiselect="false">
+				<grid:column label="sys.common.key" hidden="true"   name="id"/>
                 <grid:column label="编号"  name="code"/>
 				<grid:column label="sys.course.weekInfo" name="weekDay"   dict="weekinfo"  query="true" queryMode="select"  />
 				<grid:column label="开始时间"  name="startTime"/>
 				<grid:column label="结束时间"  name="endTime"  />
 				<grid:column label="时长(分钟)"  name="duration"  />
 				<grid:column label="状态"  name="statusStr"  />
+				<grid:column label="授课老师"  name="teacherRealName"  />
 
 				<grid:toolbar  function="search"/>
 				<grid:toolbar  function="reset"/>
@@ -35,14 +36,15 @@
 	</div>
 	<div class="col-sm-5">
 		<div class="content-body">
-			<grid:grid id="blankCourseGridIdStu" url="${adminPath}/sys/course/ajaxList?s_blank=1&studentId=${student.id}" multiselect="false">
-				<grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
+			<grid:grid id="blankCourseGridIdStu" url="${adminPath}/sys/course/ajaxList?s_blank=0&studentId=${student.id}" multiselect="false">
+				<grid:column label="sys.common.key" hidden="true"   name="id"/>
                 <grid:column label="编号"  name="code"/>
                 <grid:column label="sys.course.weekInfo" name="weekDay"   dict="weekinfo"  query="true" queryMode="select"  />
 				<grid:column label="开始时间"  name="startTime"/>
 				<grid:column label="结束时间"  name="endTime"  />
 				<grid:column label="时长(分钟)"  name="duration"  />
 				<grid:column label="状态"  name="statusStr"  />
+				<grid:column label="授课老师"  name="teacherRealName"  />
 
 				<grid:toolbar  function="search"/>
 				<grid:toolbar  function="reset"/>

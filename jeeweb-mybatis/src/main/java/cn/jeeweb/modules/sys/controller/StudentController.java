@@ -6,6 +6,8 @@ import cn.jeeweb.core.model.AjaxJson;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.core.utils.StringUtils;
+import cn.jeeweb.modules.codegen.codegenerator.data.DbTableInfo;
+import cn.jeeweb.modules.codegen.entity.Table;
 import cn.jeeweb.modules.sys.entity.*;
 import cn.jeeweb.modules.sys.service.ICourseService;
 import cn.jeeweb.modules.sys.service.IStudentCourseRelService;
@@ -50,23 +52,7 @@ public class StudentController extends BaseCRUDController<Student, String> {
     public void preSave(Student entity, HttpServletRequest request, HttpServletResponse response) {
         super.preSave(entity, request, response);
         entity.setCreateDate(new Date());
-    }
-
-    @RequestMapping(value = "{id}/changeStatus", method = RequestMethod.POST)
-    @ResponseBody
-    public AjaxJson changeStatus(@PathVariable("id") String id, HttpServletRequest request,
-                                   HttpServletResponse response) {
-        AjaxJson ajaxJson = new AjaxJson();
-        ajaxJson.success("状态修改成功");
-
-        try {
-            String status = request.getParameter("status");
-            studentService.changeStatus(id, status);
-        } catch (Exception e) {
-            e.printStackTrace();
-            ajaxJson.fail("状态修改失败");
-        }
-        return ajaxJson;
+        entity.setTotalCourse(entity.getTotalCourse() + entity.getAddCourse());
     }
 
     @RequestMapping(value = "{id}/course", method = RequestMethod.GET)

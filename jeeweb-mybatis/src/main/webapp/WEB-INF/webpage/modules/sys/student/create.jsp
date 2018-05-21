@@ -98,6 +98,7 @@
 			</td>
 			<td class="width-35" >
 				<form:select path="studyPlace"  dict="studyplace" class="form-control" id="studyPlaceSelect"></form:select>
+				<label class="Validform_checktip"></label>
 			</td>
 
 			<td  class="width-15 active text-right">
@@ -123,30 +124,27 @@
 
         $('#studyPlaceSelect').on('change',function(){
             if($(this).val()){
-                var selectedValue = $(this).find('option:selected').value();
+                var selectedValue = $(this).find('option:selected').val();
 
                 $.ajax({
-                    url : "${adminPath}/sys/class/ajaxList",
+                    url : "${adminPath}/sys/study/class/list",
                     type : 'post',
                     data : {
                         studyPlace : selectedValue
                     },
                     cache : false,
                     success : function(d) {
-                        var msg = d.msg;
                         if (d.ret==0) {
                             for (var i = 0; i < d.data.length; i++) {
                                 $("#studyClassSelect").append("<option value='" + d.data[i].id + "'>" + d.data[i].name + "</option>");
                             }
                         }else{
-                            swal("提示！", msg, "error");
+                            swal("提示！", d.msg, "error");
                         }
                     }
 				});
             }
         });
-
-
     });
 
 

@@ -2,12 +2,14 @@ package cn.jeeweb.modules.sys.controller;
 
 
 import cn.jeeweb.core.common.controller.BaseCRUDController;
+import cn.jeeweb.core.model.AjaxJson;
 import cn.jeeweb.core.query.data.PropertyPreFilterable;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.modules.sys.entity.Course;
+import cn.jeeweb.modules.sys.entity.StudentCourseRel;
 import cn.jeeweb.modules.sys.entity.StudyClass;
 import cn.jeeweb.modules.sys.entity.Teacher;
 import cn.jeeweb.modules.sys.service.ICourseService;
@@ -19,12 +21,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("${admin.url.prefix}/sys/study/class")
@@ -60,4 +66,22 @@ public class StudyClassController extends BaseCRUDController<StudyClass, String>
         teacherEntityWrapper.eq("status", "NORMAL");
         return this.teacherService.selectList(teacherEntityWrapper);
     }
+
+    @RequestMapping(value = "list", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxJson removeCourse(@RequestParam(value = "studyPlace") String studyPlace,
+                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        EntityWrapper<StudyClass> entityWrapper = new EntityWrapper<>();
+        entityWrapper.eq("study_place", studyPlace);
+        List<StudyClass> studyClassList = this.studyClassService.selectList(entityWrapper);
+
+        AjaxJson ajaxJson = new AjaxJson();
+        ajaxJson.success("查询成功");
+        ajaxJson.setData(studyClassList);
+
+        return ajaxJson;
+    }
+
+
 }

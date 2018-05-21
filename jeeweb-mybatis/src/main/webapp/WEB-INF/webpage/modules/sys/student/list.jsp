@@ -13,19 +13,22 @@
         <grid:grid id="studentGridId" url="${adminPath}/sys/student/ajaxList">
             <grid:column label="sys.common.key" hidden="true" name="id" width="100"/>
             <grid:column label="sys.realName" name="realName" query="true" condition="like"/>
-            <grid:column label="年龄" name="age"/>
-            <grid:column label="sys.student.level" name="level"/>
-            <grid:column label="总课时" name="totalCourse"/>
-            <grid:column label="已用课时" name="usedCourse"/>
-            <grid:column label="家长姓名" name="parentName"/>
-            <grid:column label="联系方式" name="parentPhone"/>
-            <grid:column label="sys.status" name="statusStr"/>
-            <grid:column label="sys.createDate" name="createDateStr"/>
+            <grid:column label="性别" name="sexStr" />
+            <grid:column label="出生年月" name="birthday" />
+            <grid:column label="就读学校" name="schoolName" />
+<%--            <grid:column label="身份证" name="idCard" />--%>
+            <grid:column label="等级" name="level"/>
+            <grid:column label="联系方式" name="phone"/>
+            <grid:column label="总课时" name="totalCourse" width="50"/>
+            <grid:column label="剩余课时" name="usedCourse" width="50"/>
+            <grid:column label="状态" name="statusStr" width="50"/>
+            <grid:column label="校区" name="createDateStr"/>
+            <grid:column label="创建时间" name="createDateStr"/>
 
             <grid:toolbar title="sys.create" function="create"/>
             <grid:toolbar title="sys.update" function="update"/>
             <grid:toolbar title="sys.delete" function="delete"/>
-            <grid:toolbar title="sys.course" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/student/{id}/course"  winwidth="1400px" winheight="800px"/>
+            <grid:toolbar title="sys.course" icon="fa fa-pencil-square-o"  function="rowDialogDetailRefresh" url="${adminPath}/sys/student/{id}/course"  winwidth="1400px" winheight="800px"/>
 
             <grid:toolbar function="search"/>
             <grid:toolbar function="reset"/>

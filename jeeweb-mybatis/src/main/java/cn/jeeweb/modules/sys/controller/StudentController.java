@@ -10,6 +10,7 @@ import cn.jeeweb.modules.codegen.codegenerator.data.DbTableInfo;
 import cn.jeeweb.modules.codegen.entity.Table;
 import cn.jeeweb.modules.sys.entity.*;
 import cn.jeeweb.modules.sys.service.ICourseService;
+import cn.jeeweb.modules.sys.service.ISchoolService;
 import cn.jeeweb.modules.sys.service.IStudentCourseRelService;
 import cn.jeeweb.modules.sys.service.IStudentService;
 import org.apache.commons.collections.CollectionUtils;
@@ -39,12 +40,17 @@ public class StudentController extends BaseCRUDController<Student, String> {
     @Autowired
     private ICourseService courseService;
 
+    @Autowired
+    private ISchoolService schoolService;
+
     public StudentController() {
         setCommonService(studentService);
     }
 
     @Override
     public String showCreate(Student student, Model model, HttpServletRequest request, HttpServletResponse response) {
+        EntityWrapper<School> entityWrapper = new EntityWrapper<>();
+        model.addAttribute("schools", schoolService.selectList(entityWrapper));
         return display("create");
     }
 

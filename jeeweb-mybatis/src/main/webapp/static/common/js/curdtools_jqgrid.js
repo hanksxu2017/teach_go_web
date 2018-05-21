@@ -175,14 +175,18 @@ function openDialog(title,url,gridId,width,height){
 	         var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 	         //文档地址
 	         //http://www.layui.com/doc/modules/layer.html#use
-	         iframeWin.contentWindow.doSubmit(function()
-	         {
-	        	 //判断逻辑并关闭
-       	         setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
-	        	 //刷新表单
-	        	 refreshTable(gridId);
-	         });
-			
+            try {
+                iframeWin.contentWindow.doSubmit(function()
+                {
+                    //判断逻辑并关闭
+                    setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
+                    //刷新表单
+                    refreshTable(gridId);
+                });
+            } catch (e) {
+                //关闭
+                setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
+            }
 		  },
 		  cancel: function(index){ 
 			  

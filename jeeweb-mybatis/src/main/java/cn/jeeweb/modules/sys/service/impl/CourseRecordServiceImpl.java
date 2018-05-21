@@ -9,11 +9,11 @@ import cn.jeeweb.core.utils.DateUtils;
 import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.modules.oa.entity.OaNotification;
 import cn.jeeweb.modules.oa.service.IOaNotificationService;
+import cn.jeeweb.modules.sys.Constants;
 import cn.jeeweb.modules.sys.entity.*;
 import cn.jeeweb.modules.sys.mapper.CourseMapper;
 import cn.jeeweb.modules.sys.mapper.CourseRecordMapper;
 import cn.jeeweb.modules.sys.service.*;
-import cn.jeeweb.modules.sys.utils.ConstantUtils;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -78,7 +78,7 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
             if (null != course) {
                 courseRecord.setCourseCode(course.getCode());
 
-                courseRecord.setWeekName(ConstantUtils.WEEK_DAYS[course.getWeekInfo()]);
+                courseRecord.setWeekName(Constants.WEEK_DAYS[course.getWeekInfo()]);
 
                 courseRecord.setDuration(course.getDuration());
             }
@@ -345,17 +345,17 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
         for (CourseStudentRecord courseStudentRecord : courseStudentRecordList) {
 
             student = this.studentService.selectById(courseStudentRecord.getStudentId());
-            student.setUsedCourse(student.getUsedCourse() + 1);
-            if (student.getTotalCourse() <= student.getUsedCourse()) {
+            student.setRemainCourse(student.getRemainCourse() - 1);
+            if (student.getRemainCourse() <= 0) {
                 student.setStatus(Student.STATUS_ARREARS);
             }
             this.studentService.updateById(student);
 
-            if (student.getTotalCourse() <= student.getUsedCourse()) {
+            if (student.getRemainCourse() <= 0) {
                 oaNotificationService.insert(this.initOaNotification("学生信息更新",
                         "学生[" + student.getRealName() + "]可用授课数量为0,无法继续排课!"));
             }
-            if ((student.getTotalCourse() - student.getUsedCourse()) <= 3) {
+            if (student.getRemainCourse() <= 2) {
                 oaNotificationService.insert(this.initOaNotification("学生信息更新",
                         "学生[" + student.getRealName() + "]可用授课数量已不足3课时,请及时通知补交学费!"));
             }

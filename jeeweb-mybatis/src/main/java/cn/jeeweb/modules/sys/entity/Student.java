@@ -30,10 +30,26 @@ public class Student  extends DataEntity<String> {
     private String id;
 
     private String realName;
+    // 1-男, 2-女
+    private char sex;
+
+    private Date birthday;
+    // 就读学校编号
+    private String schoolId;
+    // 培训学校编号
+    private String studyPlace;
+    // 班级编号
+    private String studyClassId;
+
+    private String idCard;
 
     private int level;
 
-    private String salt;
+    private String phone;
+
+    private int totalCourse;
+
+    private int remainCourse;
 
     private int status = STATUS_NORMAL;
 
@@ -56,15 +72,14 @@ public class Student  extends DataEntity<String> {
         return "未设置";
     }
 
-    private int totalCourse;
+    @TableField(exist = false)
+    private String schoolName;
 
-    private int usedCourse;
+    @TableField(exist = false)
+    private String studyClassName;
 
-    private String parentName;
-
-    private String parentPhone;
-
-    private int age;
+    @TableField(exist = false)
+    private String studyPlaceName;
 
     @TableField(exist = false)
     private int addCourse;
@@ -73,4 +88,11 @@ public class Student  extends DataEntity<String> {
         return DateUtils.formatDate(this.createDate, "yyyy-MM-dd HH:mm:ss");
     }
 
+    public String getSexStr() {
+        return '1' == this.sex ? "男" : "女";
+    }
+
+    public String getBirthdayStr() {
+        return DateUtils.formatDate(this.birthday, "yyyy-MM-dd HH:mm:ss");
+    }
 }

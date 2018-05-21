@@ -6,7 +6,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><spring:message code="sys.student.createStudent" /></title>
+	<title>学生信息|新增</title>
 	<meta name="decorator" content="form"/>
 
 </head>
@@ -27,25 +27,62 @@
 			</td>
 
 			<td  class="width-15 active text-right">
-				<label><font color="red">*</font>年龄:</label>
+				<label><font color="red">*</font>性别:</label>
 			</td>
 			<td class="width-35" >
-				<form:input path="age" class="form-control " datatype="*" nullmsg="请输入年龄！" htmlEscape="false" />
+				<form:select path="sex"  dict="sex" class="form-control"></form:select>
+			</td>
+		</tr>
+
+		<tr>
+			<td  class="width-15 active text-right">
+				<label><font color="red">*</font>出生年月:</label>
+			</td>
+			<td class="width-35" >
+				<form:input path="birthday" id="birthday" class="form-control" datatype="*" nullmsg="请设置出生年月！" htmlEscape="false" />
+				<label class="Validform_checktip"></label>
+			</td>
+
+			<td  class="width-15 active text-right">
+				<label><font color="red">*</font>身份证编号:</label>
+			</td>
+			<td class="width-35" >
+				<form:input path="idCard" class="form-control " datatype="*" nullmsg="请输入身份证编号！" htmlEscape="false" />
 				<label class="Validform_checktip"></label>
 			</td>
 		</tr>
 
 		<tr>
 			<td  class="width-15 active text-right">
-				<label><font color="red">*</font>校内等级:</label>
+				<label>就读学校:</label>
 			</td>
 			<td class="width-35" >
-				<form:input path="level" class="form-control" datatype="*" nullmsg="请输入等级！"  htmlEscape="false" defaultValue="25"/>
+				<select name="schoolId" class="form-control">
+					<c:forEach items="${schools}" var="school">
+						<option value="${school.id}">${school.name}</option>
+					</c:forEach>
+				</select>
+				<label class="Validform_checktip"></label>
+			</td>
+
+			<td  class="width-15 active text-right">
+				<label><font color="red">*</font>联系方式:</label>
+			</td>
+			<td class="width-35" >
+				<form:input path="phone" class="form-control" datatype="*" nullmsg="请输入手机号！" htmlEscape="false" />
 				<label class="Validform_checktip"></label>
 			</td>
 		</tr>
 
 		<tr>
+			<td  class="width-15 active text-right">
+				<label><font color="red">*</font>等级:</label>
+			</td>
+			<td class="width-35" >
+				<form:input path="level" class="form-control" datatype="*" nullmsg="请输入等级！"  htmlEscape="false" defaultValue="25"/>
+				<label class="Validform_checktip"></label>
+			</td>
+
 			<td  class="width-15 active text-right">
 				<label><font color="red">*</font>初始课时:</label>
 			</td>
@@ -56,22 +93,64 @@
 		</tr>
 
 		<tr>
-			<td  class="width-15 active text-right">	<label><font color="red">*</font>家长:</label></td>
-			<td  class="width-35" >
-				<form:input path="parentName" class="form-control" htmlEscape="false"  datatype="*"  nullmsg="请输入家长姓名！"/>
-				<label class="Validform_checktip"></label>
-			</td>
 			<td  class="width-15 active text-right">
-				<label><font color="red">*</font>联系方式:</label>
+				<label><font color="red">*</font>校区:</label>
 			</td>
 			<td class="width-35" >
-				<form:input path="parentPhone" class="form-control " datatype="*" nullmsg="请输入手机号！" htmlEscape="false" />
-				<label class="Validform_checktip"></label>
+				<form:select path="studyPlace"  dict="studyplace" class="form-control" id="studyPlaceSelect"></form:select>
+			</td>
+
+			<td  class="width-15 active text-right">
+				<label><font color="red">*</font>班级:</label>
+			</td>
+			<td class="width-35" >
+				<select name="studyClassId" class="form-control" id="studyClassSelect">
+				</select>
 			</td>
 		</tr>
+
 		</tbody>
 	</table>
 </form:form>
+
+<script>
+
+    $(function () {
+
+        $('#birthday').datepicker({
+
+        });
+
+        $('#studyPlaceSelect').on('change',function(){
+            if($(this).val()){
+                var selectedValue = $(this).find('option:selected').value();
+
+                $.ajax({
+                    url : "${adminPath}/sys/class/ajaxList",
+                    type : 'post',
+                    data : {
+                        studyPlace : selectedValue
+                    },
+                    cache : false,
+                    success : function(d) {
+                        var msg = d.msg;
+                        if (d.ret==0) {
+                            for (var i = 0; i < d.data.length; i++) {
+                                $("#studyClassSelect").append("<option value='" + d.data[i].id + "'>" + d.data[i].name + "</option>");
+                            }
+                        }else{
+                            swal("提示！", msg, "error");
+                        }
+                    }
+				});
+            }
+        });
+
+
+    });
+
+
+</script>
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 package cn.jeeweb.modules.sys.entity;
 
 import cn.jeeweb.core.common.entity.DataEntity;
-import cn.jeeweb.modules.sys.utils.ConstantUtils;
+import cn.jeeweb.modules.sys.Constants;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -59,7 +59,7 @@ public class Course extends DataEntity<String> {
     private String weekDay;
 
     public String getWeekDay() {
-        return ConstantUtils.WEEK_DAYS[weekInfo];
+        return Constants.WEEK_DAYS[weekInfo];
     }
 
     private String teacherId;

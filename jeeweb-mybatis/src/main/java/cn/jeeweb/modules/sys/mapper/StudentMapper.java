@@ -10,11 +10,4 @@ import java.util.List;
 
 public interface StudentMapper extends BaseMapper<Student> {
 
-    /**
-     *
-     * @param page
-     * @param wrapper
-     * @return
-     */
-    List<Student> selectStudentList(Pagination page, @Param("ew") Wrapper<Student> wrapper);
 }

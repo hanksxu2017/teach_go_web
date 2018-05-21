@@ -68,10 +68,12 @@ function openDialog(title, url, width, height, target) {
 			var iframeWin = layero.find('iframe')[0]; // 得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 			// 文档地址
 			// http://www.layui.com/doc/modules/layer.html#use
-			iframeWin.contentWindow.doSubmit(top, index, function() {
-				// 刷新表单
-				refreshTable('contentTable');
-			});
+			if($("iframe form")) {
+                iframeWin.contentWindow.doSubmit(top, index, function() {
+                    // 刷新表单
+                    refreshTable('contentTable');
+                });
+			}
 
 		},
 		cancel : function(index) {

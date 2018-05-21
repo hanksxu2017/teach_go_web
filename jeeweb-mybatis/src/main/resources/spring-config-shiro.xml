@@ -10,10 +10,6 @@
 		class="cn.jeeweb.core.security.shiro.cache.SpringCacheManagerWrapper">
 		<property name="cacheManager" ref="springCacheManager" />
 	</bean>
-    <!-- 缓存管理器
-    <bean id="shiroCacheManager" class="cn.jeeweb.core.security.shiro.cache.JedisCacheManager">
-        <property name="cacheKeyPrefix" value="jeeweb_cache_" />
-    </bean> -->
 
 	<!-- 凭证匹配器 -->
 	<bean id="credentialsMatcher"

@@ -4,7 +4,7 @@
 <html>
 <head>
 	<title><spring:message code="sys.course" /></title>
-	<meta name="decorator" content="form"/>
+	<meta name="decorator" content="list"/>
 	<html:component name="bootstrap-treeview"/>
 
 </head>
@@ -19,7 +19,6 @@
 				<grid:column label="sys.course.weekInfo" name="weekDay"   dict="weekinfo"  query="true" queryMode="select"  />
 				<grid:column label="开始时间"  name="startTime"/>
 				<grid:column label="结束时间"  name="endTime"  />
-				<grid:column label="时长(分钟)"  name="duration"  />
 				<grid:column label="状态"  name="statusStr"  />
 				<grid:column label="授课老师"  name="teacherRealName"  />
 
@@ -42,7 +41,6 @@
                 <grid:column label="sys.course.weekInfo" name="weekDay"   dict="weekinfo"  query="true" queryMode="select"  />
 				<grid:column label="开始时间"  name="startTime"/>
 				<grid:column label="结束时间"  name="endTime"  />
-				<grid:column label="时长(分钟)"  name="duration"  />
 				<grid:column label="状态"  name="statusStr"  />
 				<grid:column label="授课老师"  name="teacherRealName"  />
 
@@ -54,7 +52,7 @@
 	</div>
 
 </div>
-
+</form>
 
 <script>
 

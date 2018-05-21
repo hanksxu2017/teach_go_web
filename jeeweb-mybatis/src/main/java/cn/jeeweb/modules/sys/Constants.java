@@ -1,13 +1,15 @@
 package cn.jeeweb.modules.sys;
 
-public class Constants {
+public interface Constants {
 	// 字典缓存KEY
-	public static final String CACHE_DICT_MAP = "cacheDictMap";
-	public static final String CURRENT_USER = "systemuser";
-	public static final String CURRENT_USERNAME = "systemusername";
-	public static final String SESSION_FORCE_LOGOUT_KEY = "session.force.logout";
+	String CACHE_DICT_MAP = "cacheDictMap";
+	String CURRENT_USER = "systemuser";
+	String CURRENT_USERNAME = "systemusername";
+	String SESSION_FORCE_LOGOUT_KEY = "session.force.logout";
 
-	public static final String ERROR = "error";
-	public static final String SUCCESS = "error";
-	public static final String MESSAGE = "message";
+	String ERROR = "error";
+	String SUCCESS = "error";
+	String MESSAGE = "message";
+
+	String[] WEEK_DAYS = {"星期", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天"};
 }

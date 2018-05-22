@@ -15,11 +15,11 @@
 
         <tr>
             <td class="width-15 active text-right">
-                <label><font color="red">*</font>校区:</label>
+                <label>校区:</label>
             </td>
             <td class="width-35">
-                <form:select path="studyPlace" dict="studyplace" class="form-control"
-                             id="studyPlaceSelect" defaultValue="${data.studyPlace}"></form:select>
+                <input name="studyPlace" type="hidden" value="${studySchool.id}"/>
+                <span>${studySchool.name}</span>
             </td>
         </tr>
 

@@ -96,7 +96,12 @@
 				<label><font color="red">*</font>校区:</label>
 			</td>
 			<td class="width-35" >
-				<form:select path="studyPlace"  dict="studyplace" class="form-control" id="studyPlaceSelect"></form:select>
+
+                <select name="studyPlace" class="form-control">
+                    <c:forEach items="${studySchools}" var="studySchool">
+                        <option value="${studySchool.id}">${studySchool.name}</option>
+                    </c:forEach>
+                </select>
 				<label class="Validform_checktip"></label>
 			</td>
 
@@ -142,7 +147,7 @@
             url : "${adminPath}/sys/study/class/list",
             type : 'post',
             data : {
-                studyPlace : selectedStudyPlace
+                studySchoolId : selectedStudyPlace
             },
             cache : false,
             success : function(d) {

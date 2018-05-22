@@ -96,7 +96,11 @@
                 <label>校区:</label>
             </td>
             <td class="width-35" >
-                <form:select path="studyPlace"  dict="studyplace" class="form-control" id="studyPlaceSelect" />
+                <select name="studySchoolId" class="form-control" id="studySchoolIdSelect">
+                    <c:forEach items="${studySchools}" var="studyShool">
+                        <option value="${studyShool.id}">${studyShool.name}</option>
+                    </c:forEach>
+                </select>
             </td>
 
             <td  class="width-15 active text-right">
@@ -117,23 +121,23 @@
 
     $(function () {
 
-        if(null != $("#studyPlaceSelect").find('option:selected')) {
-            initStudyClass($("#studyPlaceSelect").find('option:selected').val())
+        if(null != $("#studySchoolIdSelect").find('option:selected')) {
+            initStudyClass($("#studySchoolIdSelect").find('option:selected').val());
         }
 
-        $('#studyPlaceSelect').on('change',function(){
+        $('#studySchoolIdSelect').on('change',function(){
             if($(this).val()){
                 initStudyClass($(this).find('option:selected').val());
             }
         });
     });
 
-    function initStudyClass(selectedStudyPlace) {
+    function initStudyClass(studySchoolIdSelect) {
         $.ajax({
             url : "${adminPath}/sys/study/class/list",
             type : 'post',
             data : {
-                studyPlace : selectedStudyPlace
+                studySchoolId : studySchoolIdSelect
             },
             cache : false,
             success : function(d) {

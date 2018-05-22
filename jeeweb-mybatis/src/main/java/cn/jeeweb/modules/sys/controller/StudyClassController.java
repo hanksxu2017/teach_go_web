@@ -8,14 +8,8 @@ import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.core.utils.StringUtils;
-import cn.jeeweb.modules.sys.entity.Course;
-import cn.jeeweb.modules.sys.entity.StudentCourseRel;
-import cn.jeeweb.modules.sys.entity.StudyClass;
-import cn.jeeweb.modules.sys.entity.Teacher;
-import cn.jeeweb.modules.sys.service.ICourseService;
-import cn.jeeweb.modules.sys.service.IStudentCourseRelService;
-import cn.jeeweb.modules.sys.service.IStudyClassService;
-import cn.jeeweb.modules.sys.service.ITeacherService;
+import cn.jeeweb.modules.sys.entity.*;
+import cn.jeeweb.modules.sys.service.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.collections.CollectionUtils;
@@ -46,20 +40,44 @@ public class StudyClassController extends BaseCRUDController<StudyClass, String>
     @Autowired
     private ITeacherService teacherService;
 
+    @Autowired
+    private IStudySchoolService studySchoolService;
+
     public StudyClassController() {
         setCommonService(studyClassService);
     }
 
     @Override
-    public String showCreate(StudyClass entity, Model model, HttpServletRequest request, HttpServletResponse response) {
+    public void preList(Model model, HttpServletRequest request, HttpServletResponse response) {
+        String schoolId = request.getParameter("schoolId");
+        if(StringUtils.isNotBlank(schoolId)) {
+            StudySchool studySchool = studySchoolService.selectById(schoolId);
+            if(null != studySchool) {
+                model.addAttribute("studySchool", studySchool);
+            }
+        }
+    }
 
-        model.addAttribute("teachers", this.findValidTeacher());
-        return display("create");
+    @Override
+    public void preAjaxList(Queryable queryable, EntityWrapper<StudyClass> entityWrapper, HttpServletRequest request,
+                            HttpServletResponse response) {
+        String schoolId = request.getParameter("schoolId");
+        if(StringUtils.isNotBlank(schoolId)) {
+            entityWrapper.eq("study_place", schoolId);
+        }
+
     }
 
     @Override
     public void preEdit(StudyClass entity, Model model, HttpServletRequest request, HttpServletResponse response) {
-        super.preEdit(entity, model, request, response);
+
+        String schoolId = request.getParameter("schoolId");
+        if (StringUtils.isNotBlank(schoolId)) {
+            StudySchool studySchool = this.studySchoolService.selectById(schoolId);
+            if(null != studySchool) {
+                model.addAttribute("studySchool", studySchool);
+            }
+        }
 
         model.addAttribute("teachers", this.findValidTeacher());
     }
@@ -72,13 +90,13 @@ public class StudyClassController extends BaseCRUDController<StudyClass, String>
 
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxJson removeCourse(@RequestParam(value = "studyPlace") String studyPlace,
+    public AjaxJson removeCourse(@RequestParam(value = "studySchoolId") String studySchoolId,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
         AjaxJson ajaxJson = new AjaxJson();
         ajaxJson.success("查询成功");
 
         EntityWrapper<StudyClass> entityWrapper = new EntityWrapper<>();
-        entityWrapper.eq("study_place", studyPlace);
+        entityWrapper.eq("study_school_id", studySchoolId);
         List<StudyClass> studyClassList = this.studyClassService.selectList(entityWrapper);
         if(CollectionUtils.isEmpty(studyClassList)) {
             ajaxJson.fail("无班级信息");

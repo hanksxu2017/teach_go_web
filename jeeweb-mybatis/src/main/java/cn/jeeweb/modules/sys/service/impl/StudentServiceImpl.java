@@ -7,10 +7,12 @@ import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.modules.sys.entity.School;
 import cn.jeeweb.modules.sys.entity.Student;
 import cn.jeeweb.modules.sys.entity.StudyClass;
+import cn.jeeweb.modules.sys.entity.StudySchool;
 import cn.jeeweb.modules.sys.mapper.StudentMapper;
 import cn.jeeweb.modules.sys.service.ISchoolService;
 import cn.jeeweb.modules.sys.service.IStudentService;
 import cn.jeeweb.modules.sys.service.IStudyClassService;
+import cn.jeeweb.modules.sys.service.IStudySchoolService;
 import cn.jeeweb.modules.sys.utils.DictUtils;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import org.apache.commons.collections.CollectionUtils;
@@ -46,6 +48,9 @@ public class StudentServiceImpl extends CommonServiceImpl<StudentMapper, Student
     @Autowired
     private IStudyClassService studyClassService;
 
+    @Autowired
+    private IStudySchoolService studySchoolService;
+
     private void packageStudent(Page<Student> studentPage) {
         if(null == studentPage) {
             return;
@@ -56,9 +61,15 @@ public class StudentServiceImpl extends CommonServiceImpl<StudentMapper, Student
         }
 
         School school;
+        StudySchool studySchool;
         StudyClass studyClass;
         for(Student student : studentList) {
-            student.setStudyPlaceName(DictUtils.getDictLabel(this.dictCodeForStudyPlace, student.getStudyPlace()));
+            if(StringUtils.isNotBlank(student.getStudySchoolId())) {
+                studySchool = this.studySchoolService.selectById(student.getStudySchoolId());
+                if(null != studySchool) {
+                    student.setStudySchoolName(studySchool.getName());
+                }
+            }
 
             if(StringUtils.isNotBlank(student.getSchoolId())) {
                 school = schoolService.selectById(student.getSchoolId());

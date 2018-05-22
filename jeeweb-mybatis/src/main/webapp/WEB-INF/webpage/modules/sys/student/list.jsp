@@ -22,7 +22,7 @@
             <%--<grid:column label="总课时" name="totalCourse" width="50"/>--%>
             <grid:column label="剩余课时" name="remainCourse" width="80"/>
             <grid:column label="状态" name="statusStr" width="50"/>
-            <grid:column label="校区" name="studyPlaceName" dict="studyplace" query="true" queryMode="select" />
+            <grid:column label="校区" name="studySchoolName" dict="StudySchool" query="true" queryMode="select" />
             <grid:column label="班级" name="studyClassName" />
             <grid:column label="创建时间" name="createDateStr"/>
 
@@ -39,7 +39,7 @@
 
 <script>
     $(function () {
-        $("select[name='studyPlaceName']").attr("name", "studyPlace");
+        $("select[name='studySchoolName']").attr("name", "studySchoolId");
     });
     
     

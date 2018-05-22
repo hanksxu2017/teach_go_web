@@ -22,7 +22,7 @@
 			 	          </#if>
 			 	          <#if queryItem.queryMode=='select'>
 			 	          <${queryItem.queryMode} <#list queryItem?keys as queryItemKey><#if queryItemKey??&&queryItemKey!='label'&&queryItemKey!='queryMode'&&queryItemKey!=''> ${queryItemKey}='${queryItem[queryItemKey]}'</#if></#list>>
-			 	               <option value ="">请选择</option>
+			 	               <option value ="">--请选择--</option>
 			 	               <#list columnDictMap[queryItem.dict] as dict>
 					             <option value ="${dict.value!}">${dict.label!}</option>
 					           </#list>

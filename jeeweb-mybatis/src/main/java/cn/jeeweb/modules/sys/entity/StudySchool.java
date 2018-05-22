@@ -8,39 +8,39 @@ import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Getter;
 import lombok.Setter;
 
-@TableName("tg_study_class")
+@TableName("tg_study_school")
 @Getter
 @Setter
-public class StudyClass extends DataEntity<String> {
+public class StudySchool extends DataEntity<String> {
 
     @TableId(value = "id", type = IdType.UUID)
     private String id;
     //
-    private String studySchoolId;
-    //
-    private String subject;
-    //
     private String name;
     //
-    private String teacherId;
+    private String address;
     //
-    private int level;
+    private String manager;
     //
-    private StudyClassStatus status = StudyClassStatus.NORMAL;
+    private String managerPhone;
+    //
+    private String tel;
+    //
+    private StudySchoolStatus status = StudySchoolStatus.NORMAL;
 
-    public enum StudyClassStatus {
+    public enum StudySchoolStatus {
         NORMAL("正常"), DISSOLVE("已解散");
 
         @Getter
         private String msg;
 
-        StudyClassStatus(String msg) {
+        StudySchoolStatus(String msg) {
             this.msg = msg;
         }
     }
 
     @TableField(exist = false)
-    private String studySchoolName;
+    private String studyPlaceName;
 
     @TableField(exist = false)
     private String subjectName;

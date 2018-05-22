@@ -11,10 +11,7 @@ import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.modules.codegen.codegenerator.data.DbTableInfo;
 import cn.jeeweb.modules.codegen.entity.Table;
 import cn.jeeweb.modules.sys.entity.*;
-import cn.jeeweb.modules.sys.service.ICourseService;
-import cn.jeeweb.modules.sys.service.ISchoolService;
-import cn.jeeweb.modules.sys.service.IStudentCourseRelService;
-import cn.jeeweb.modules.sys.service.IStudentService;
+import cn.jeeweb.modules.sys.service.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,6 +41,9 @@ public class StudentController extends BaseCRUDController<Student, String> {
 
     @Autowired
     private ISchoolService schoolService;
+
+    @Autowired
+    private IStudySchoolService studySchoolService;
 
     public StudentController() {
         setCommonService(studentService);
@@ -173,16 +173,9 @@ public class StudentController extends BaseCRUDController<Student, String> {
         super.preEdit(entity, model, request, response);
         EntityWrapper<School> entityWrapper = new EntityWrapper<>();
         model.addAttribute("schools", schoolService.selectList(entityWrapper));
+
+        EntityWrapper<StudySchool> studySchoolEntityWrapper = new EntityWrapper<>();
+        model.addAttribute("studySchools", studySchoolService.selectList(studySchoolEntityWrapper));
     }
 
-    @Override
-    public void preAjaxList(Queryable queryable, EntityWrapper<Student> entityWrapper, HttpServletRequest request, HttpServletResponse response) {
-        super.preAjaxList(queryable, entityWrapper, request, response);
-
-        String studyPlaceName = request.getParameter("studyPlaceName");
-        if(StringUtils.isNotBlank(studyPlaceName)) {
-            entityWrapper.eq("study_place", studyPlaceName);
-        }
-
-    }
 }

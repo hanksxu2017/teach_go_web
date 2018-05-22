@@ -5,8 +5,10 @@ import cn.jeeweb.core.query.data.Page;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.modules.sys.entity.StudyClass;
+import cn.jeeweb.modules.sys.entity.StudySchool;
 import cn.jeeweb.modules.sys.entity.Teacher;
 import cn.jeeweb.modules.sys.mapper.StudyClassMapper;
+import cn.jeeweb.modules.sys.mapper.StudySchoolMapper;
 import cn.jeeweb.modules.sys.service.IStudyClassService;
 import cn.jeeweb.modules.sys.service.ITeacherService;
 import cn.jeeweb.modules.sys.utils.DictUtils;
@@ -40,21 +42,24 @@ public class StudyClassServiceImpl extends CommonServiceImpl<StudyClassMapper, S
         }
 
         for(StudyClass studyClass : studyClassList) {
-            studyClass.setStudyPlaceName(this.getStudyPlaceName(studyClass.getStudyPlace()));
+            studyClass.setStudySchoolName(this.getStudySchoolName(studyClass.getStudySchoolId()));
             studyClass.setSubjectName(this.getSubjectName(studyClass.getSubject()));
             studyClass.setTeacherName(this.getTeacherName(studyClass.getTeacherId()));
 
             // TODO 查询学生数量
 
         }
-
     }
 
-    @Value("${dict.code.studyPlace}")
-    private String dictCodeForStudyPlace;
+    @Autowired
+    private StudySchoolMapper studySchoolMapper;
 
-    private String getStudyPlaceName(String studyPlace) {
-        return DictUtils.getDictLabel(this.dictCodeForStudyPlace, studyPlace);
+    private String getStudySchoolName(String studySchoolId) {
+        StudySchool studySchool = this.studySchoolMapper.selectById(studySchoolId);
+        if(null != studySchool) {
+            return studySchool.getName();
+        }
+        return null;
     }
 
     @Value("${dict.code.subject}")

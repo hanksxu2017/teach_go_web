@@ -37,7 +37,7 @@ public class Student  extends DataEntity<String> {
     // 就读学校编号
     private String schoolId;
     // 培训学校编号
-    private String studyPlace;
+    private String studySchoolId;
     // 班级编号
     private String studyClassId;
 
@@ -79,7 +79,7 @@ public class Student  extends DataEntity<String> {
     private String studyClassName;
 
     @TableField(exist = false)
-    private String studyPlaceName;
+    private String studySchoolName;
 
     @TableField(exist = false)
     private int addCourse;

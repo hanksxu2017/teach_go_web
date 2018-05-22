@@ -8,6 +8,12 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
+
+import cn.jeeweb.core.common.service.ICommonService;
+import cn.jeeweb.core.query.wrapper.EntityWrapper;
+import cn.jeeweb.modules.sys.entity.StudySchool;
+import cn.jeeweb.modules.sys.service.ICourseRecordService;
+import cn.jeeweb.modules.sys.service.IStudySchoolService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeFilter;
 import cn.jeeweb.core.query.data.PropertyPreFilterable;
@@ -22,6 +28,7 @@ import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.modules.sys.entity.Dict;
 import cn.jeeweb.modules.sys.tags.SysFunctions;
 import cn.jeeweb.modules.sys.utils.DictUtils;
+import org.apache.commons.collections.CollectionUtils;
 
 @SuppressWarnings("serial")
 public class DataGridTag extends AbstractGridHtmlTag {
@@ -265,10 +272,35 @@ public class DataGridTag extends AbstractGridHtmlTag {
 	}
 
 	public void putColumnDict(String dict) {
-		columnDictMap.put(dict, DictUtils.getDictList(dict));
+	    if(StringUtils.equals("StudySchool", dict)) {
+	        this.setStudySchool(dict);
+        } else {
+            columnDictMap.put(dict, DictUtils.getDictList(dict));
+        }
 	}
 	public void putColumnDict(String dict,List<Dict> dictList) {
-		columnDictMap.put(dict,dictList);
+        if(StringUtils.equals("StudySchool", dict)) {
+            this.setStudySchool(dict);
+        } else {
+            columnDictMap.put(dict,dictList);
+        }
+	}
+
+	private void setStudySchool(String dictName) {
+        IStudySchoolService studySchoolService = SpringContextHolder.getBean(IStudySchoolService.class);
+        EntityWrapper<StudySchool> studySchoolEntityWrapper = new EntityWrapper<>();
+        studySchoolEntityWrapper.eq("status", "NORMAL");
+        List<StudySchool> studySchoolList = studySchoolService.selectList(studySchoolEntityWrapper);
+        if(CollectionUtils.isNotEmpty(studySchoolList)) {
+            List<Dict> dictList = new ArrayList<>();
+            for(StudySchool studySchool : studySchoolList) {
+                Dict dict = new Dict();
+                dict.setValue(studySchool.getId());
+                dict.setLabel(studySchool.getName());
+                dictList.add(dict);
+            }
+            columnDictMap.put(dictName, dictList);
+        }
 	}
 
 	public void addColumn(Map<String, Object> column) {

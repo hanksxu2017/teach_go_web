@@ -548,6 +548,12 @@ CREATE TABLE `sys_log` (
 
 /*Data for the table `sys_log` */
 
+insert  into `sys_log`(`id`,`type`,`title`,`content`,`logtype`,`create_by`,`create_date`,`remote_addr`,`user_agent`,`request_uri`,`method`,`params`,`exception`) values 
+('0cc67ddc18cd4e3896cd6c6268cc19b2','1','校务管理-教师信息','','','4028ea815a3d2a8c015a3d2f8d2a0002','2018-05-22 17:14:24','127.0.0.1','Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36','/admin/sys/teacher','GET','',''),
+('20b143ef7626420e92129c143fd34d64','1','校务管理-教师信息','','','4028ea815a3d2a8c015a3d2f8d2a0002','2018-05-22 17:15:38','127.0.0.1','Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36','/admin/sys/teacher','GET','',''),
+('702faac8d8ea4623b7bde257d5da1a71','1','校务管理-学生信息','','','4028ea815a3d2a8c015a3d2f8d2a0002','2018-05-22 17:15:38','127.0.0.1','Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36','/admin/sys/student','GET','',''),
+('86988687c39b47d4b2d8ca0e102d3f22','1','校务管理-课程模板','','','4028ea815a3d2a8c015a3d2f8d2a0002','2018-05-22 17:20:22','127.0.0.1','Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36','/admin/sys/course','GET','','');
+
 /*Table structure for table `sys_menu` */
 
 DROP TABLE IF EXISTS `sys_menu`;
@@ -1043,6 +1049,27 @@ CREATE TABLE `test_tree` (
 
 /*Data for the table `test_tree` */
 
+/*Table structure for table `tg_cfg_time` */
+
+DROP TABLE IF EXISTS `tg_cfg_time`;
+
+CREATE TABLE `tg_cfg_time` (
+  `id` varchar(255) NOT NULL,
+  `week_info` int(1) DEFAULT NULL,
+  `start_time` varchar(16) DEFAULT NULL,
+  `end_time` varchar(16) DEFAULT NULL,
+  `status` varchar(16) DEFAULT NULL,
+  `create_by` varchar(255) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  `update_by` varchar(255) DEFAULT NULL,
+  `update_date` datetime DEFAULT NULL,
+  `remarks` varchar(255) DEFAULT NULL,
+  `del_flag` char(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tg_cfg_time` */
+
 /*Table structure for table `tg_course` */
 
 DROP TABLE IF EXISTS `tg_course`;
@@ -1058,27 +1085,25 @@ CREATE TABLE `tg_course` (
   `week_info` smallint(16) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   `create_by` varchar(32) DEFAULT NULL,
-  `salt` varchar(32) DEFAULT NULL,
   `remarks` varchar(255) DEFAULT NULL,
   `update_by` varchar(32) DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   `del_flag` char(1) DEFAULT NULL,
-  `teacher_id` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`,`index`),
   KEY `index` (`index`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tg_course` */
 
-insert  into `tg_course`(`id`,`index`,`description`,`start_time`,`end_time`,`duration`,`status`,`week_info`,`create_date`,`create_by`,`salt`,`remarks`,`update_by`,`update_date`,`del_flag`,`teacher_id`) values 
-('24bbfed5052f424cabcf29454c0c3d78',1,NULL,'10:00','10:30',30,'NORMAL',2,'2018-05-07 15:56:09','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,NULL,'2018-05-15 14:15:07','0','f895dad333c54c789d365a5726c8789e'),
-('2a3a5e8b1d59474e83db51cfd3d40f07',2,NULL,'8:00','9:00',60,'NORMAL',6,'2018-05-07 15:56:17','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,NULL,'2018-05-15 14:34:07','0','f895dad333c54c789d365a5726c8789e'),
-('56ee7340a81943d38149b205062e27ed',3,NULL,'8:00','8:20',20,'NORMAL',1,'2018-05-04 10:54:40','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,NULL,'2018-05-15 14:15:21','0','f895dad333c54c789d365a5726c8789e'),
-('5e2849df42314213b8e605b8d9737391',4,NULL,'9:00','9:30',30,'NORMAL',3,'2018-05-07 15:55:44','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,NULL,NULL,'0',NULL),
-('7114bbbb33974613bbe724bd2212a3ed',5,NULL,'8:00','9:10',70,'NORMAL',1,'2018-05-07 15:55:35','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,NULL,'2018-05-15 14:28:58','0',NULL),
-('84353134bcf749f8b6dcdc29a732cc55',6,NULL,'8:00','8:30',30,'NORMAL',6,'2018-05-07 15:56:27','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,NULL,NULL,'0',NULL),
-('9192affc51d94aed8ccba3264249aa44',8,NULL,'8:00','9:00',60,'NORMAL',7,'2018-05-15 16:06:17','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,NULL,NULL,'0',NULL),
-('92222ed9017b4068bd7eb57a704d1676',7,NULL,'8:00','8:30',30,'NORMAL',4,'2018-05-07 15:55:54','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,NULL,'2018-05-15 14:28:55','0',NULL);
+insert  into `tg_course`(`id`,`index`,`description`,`start_time`,`end_time`,`duration`,`status`,`week_info`,`create_date`,`create_by`,`remarks`,`update_by`,`update_date`,`del_flag`) values 
+('24bbfed5052f424cabcf29454c0c3d78',1,NULL,'10:00','10:30',30,'NORMAL',2,'2018-05-07 15:56:09','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,'2018-05-15 14:15:07','0'),
+('2a3a5e8b1d59474e83db51cfd3d40f07',2,NULL,'8:00','9:00',60,'NORMAL',6,'2018-05-07 15:56:17','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,'2018-05-15 14:34:07','0'),
+('56ee7340a81943d38149b205062e27ed',3,NULL,'8:00','8:20',20,'NORMAL',1,'2018-05-04 10:54:40','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,'2018-05-15 14:15:21','0'),
+('5e2849df42314213b8e605b8d9737391',4,NULL,'9:00','9:30',30,'NORMAL',3,'2018-05-07 15:55:44','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,NULL,'0'),
+('7114bbbb33974613bbe724bd2212a3ed',5,NULL,'8:00','9:10',70,'NORMAL',1,'2018-05-07 15:55:35','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,'2018-05-15 14:28:58','0'),
+('84353134bcf749f8b6dcdc29a732cc55',6,NULL,'8:00','8:30',30,'NORMAL',6,'2018-05-07 15:56:27','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,NULL,'0'),
+('9192affc51d94aed8ccba3264249aa44',8,NULL,'8:00','9:00',60,'NORMAL',7,'2018-05-15 16:06:17','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,NULL,'0'),
+('92222ed9017b4068bd7eb57a704d1676',7,NULL,'8:00','8:30',30,'NORMAL',4,'2018-05-07 15:55:54','4028ea815a3d2a8c015a3d2f8d2a0002',NULL,NULL,'2018-05-15 14:28:55','0');
 
 /*Table structure for table `tg_course_record` */
 
@@ -1317,7 +1342,7 @@ CREATE TABLE `tg_teacher` (
 /*Data for the table `tg_teacher` */
 
 insert  into `tg_teacher`(`id`,`real_name`,`phone`,`status`,`create_by`,`create_date`,`update_by`,`update_date`,`remarks`,`del_flag`,`salt`) values 
-('09294f7b2b1f4f3098dca4e1bb8ca546','蒋老师','18861530001','NORMAL','4028ea815a3d2a8c015a3d2f8d2a0002','2018-05-22 10:29:41',NULL,NULL,NULL,'0',NULL),
+('09294f7b2b1f4f3098dca4e1bb8ca546','蒋老师','18861530001','NORMAL','4028ea815a3d2a8c015a3d2f8d2a0002','2018-05-22 10:29:41','4028ea815a3d2a8c015a3d2f8d2a0002','2018-05-22 17:15:45',NULL,'0',NULL),
 ('58f63cc6c9a444a7a39d1e46ead678ca','周老师','18861530002','NORMAL','4028ea815a3d2a8c015a3d2f8d2a0002','2018-05-22 10:29:52',NULL,NULL,NULL,'0',NULL),
 ('74ed58b5737e46fa9893201d61093b38','张老师','18861530003','NORMAL','4028ea815a3d2a8c015a3d2f8d2a0002','2018-05-22 10:30:12',NULL,NULL,NULL,'0',NULL);
 

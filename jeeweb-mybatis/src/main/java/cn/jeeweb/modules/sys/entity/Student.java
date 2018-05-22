@@ -33,7 +33,7 @@ public class Student  extends DataEntity<String> {
     // 1-男, 2-女
     private char sex;
 
-    private Date birthday;
+    private String birthday;
     // 就读学校编号
     private String schoolId;
     // 培训学校编号
@@ -48,7 +48,7 @@ public class Student  extends DataEntity<String> {
     private String phone;
 
     private int totalCourse;
-
+    // 剩余课程
     private int remainCourse;
 
     private int status = STATUS_NORMAL;
@@ -85,14 +85,10 @@ public class Student  extends DataEntity<String> {
     private int addCourse;
 
     public String getCreateDateStr() {
-        return DateUtils.formatDate(this.createDate, "yyyy-MM-dd HH:mm:ss");
+        return DateUtils.formatDate(this.createDate, "yyyy-MM-dd HH:mm");
     }
 
     public String getSexStr() {
         return '1' == this.sex ? "男" : "女";
-    }
-
-    public String getBirthdayStr() {
-        return DateUtils.formatDate(this.birthday, "yyyy-MM-dd HH:mm:ss");
     }
 }

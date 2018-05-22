@@ -16,6 +16,8 @@ import cn.jeeweb.modules.sys.service.ICourseService;
 import cn.jeeweb.modules.sys.service.IStudentCourseRelService;
 import cn.jeeweb.modules.sys.service.IStudyClassService;
 import cn.jeeweb.modules.sys.service.ITeacherService;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,16 +74,41 @@ public class StudyClassController extends BaseCRUDController<StudyClass, String>
     @ResponseBody
     public AjaxJson removeCourse(@RequestParam(value = "studyPlace") String studyPlace,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AjaxJson ajaxJson = new AjaxJson();
+        ajaxJson.success("查询成功");
 
         EntityWrapper<StudyClass> entityWrapper = new EntityWrapper<>();
         entityWrapper.eq("study_place", studyPlace);
         List<StudyClass> studyClassList = this.studyClassService.selectList(entityWrapper);
-
-        AjaxJson ajaxJson = new AjaxJson();
-        ajaxJson.success("查询成功");
-        ajaxJson.setData(studyClassList);
+        if(CollectionUtils.isEmpty(studyClassList)) {
+            ajaxJson.fail("无班级信息");
+        } else {
+            ajaxJson.setData(this.packageList(studyClassList));
+        }
 
         return ajaxJson;
+    }
+
+    private List<StudyClassSimple> packageList(List<StudyClass> studyClassList) {
+        List<StudyClassSimple> studyClassSimpleList = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(studyClassList)) {
+            for(StudyClass studyClass : studyClassList) {
+                studyClassSimpleList.add(new StudyClassSimple(studyClass.getId(), studyClass.getName()));
+            }
+        }
+        return studyClassSimpleList;
+    }
+
+    @Getter
+    @Setter
+    class StudyClassSimple {
+        private String id;
+        private String name;
+
+        StudyClassSimple(String id, String name) {
+            this.id = id;
+            this.name = name;
+        }
     }
 
 

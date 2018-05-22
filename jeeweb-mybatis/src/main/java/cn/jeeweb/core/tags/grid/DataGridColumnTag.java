@@ -71,6 +71,9 @@ public class DataGridColumnTag extends AbstractGridHtmlTag {
 	private Map<String, Object> queryDynamicAttributes;
 	private DataGridTag parentTag = null;
 
+	// 查询列名,针对于封装列时使用
+	private String queryColumn;
+
 	public int doEndTag() throws JspTagException {
 		parentTag = (DataGridTag) findAncestorWithClass(this, DataGridTag.class);
 		this.label = MessageUtils.getMessageOrSelf(label);
@@ -470,4 +473,11 @@ public class DataGridColumnTag extends AbstractGridHtmlTag {
 		this.editrules = editrules;
 	}
 
+	public String getQueryColumn() {
+		return queryColumn;
+	}
+
+	public void setQueryColumn(String queryColumn) {
+		this.queryColumn = queryColumn;
+	}
 }

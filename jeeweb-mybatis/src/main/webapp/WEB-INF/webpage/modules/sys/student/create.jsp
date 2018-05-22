@@ -36,19 +36,18 @@
 
 		<tr>
 			<td  class="width-15 active text-right">
-				<label><font color="red">*</font>出生年月:</label>
+				<label><font color="red">*</font>出生日期(例如:1990.10.1):</label>
 			</td>
 			<td class="width-35" >
-				<form:input path="birthday" id="birthday" class="form-control" datatype="*" nullmsg="请设置出生年月！" htmlEscape="false" />
+				<form:input path="birthday" id="birthday" class="form-control" datatype="*" nullmsg="请输入出生日期！" htmlEscape="false" />
 				<label class="Validform_checktip"></label>
 			</td>
 
 			<td  class="width-15 active text-right">
-				<label><font color="red">*</font>身份证编号:</label>
+				<label>身份证编号:</label>
 			</td>
 			<td class="width-35" >
-				<form:input path="idCard" class="form-control " datatype="*" nullmsg="请输入身份证编号！" htmlEscape="false" />
-				<label class="Validform_checktip"></label>
+				<form:input path="idCard" class="form-control " nullmsg="请输入身份证编号！" htmlEscape="false" />
 			</td>
 		</tr>
 
@@ -114,38 +113,51 @@
 	</table>
 </form:form>
 
+
 <script>
 
     $(function () {
 
-        $('#birthday').datepicker({
+        // $('#birthday').datepicker({
+        //     language: "zh-CN",
+        //     autoclose: true,//选中之后自动隐藏日期选择框
+        //     clearBtn: true,//清除按钮
+        //     todayBtn: true,//今日按钮
+        //     format: "yyyy.mm.dd"
+        // });
 
-        });
+		if(null != $("#studyPlaceSelect").find('option:selected')) {
+            initStudyClass($("#studyPlaceSelect").find('option:selected').val())
+		}
 
         $('#studyPlaceSelect').on('change',function(){
             if($(this).val()){
-                var selectedValue = $(this).find('option:selected').val();
-
-                $.ajax({
-                    url : "${adminPath}/sys/study/class/list",
-                    type : 'post',
-                    data : {
-                        studyPlace : selectedValue
-                    },
-                    cache : false,
-                    success : function(d) {
-                        if (d.ret==0) {
-                            for (var i = 0; i < d.data.length; i++) {
-                                $("#studyClassSelect").append("<option value='" + d.data[i].id + "'>" + d.data[i].name + "</option>");
-                            }
-                        }else{
-                            swal("提示！", d.msg, "error");
-                        }
-                    }
-				});
+                initStudyClass($(this).find('option:selected').val());
             }
         });
     });
+
+    function initStudyClass(selectedStudyPlace) {
+        $.ajax({
+            url : "${adminPath}/sys/study/class/list",
+            type : 'post',
+            data : {
+                studyPlace : selectedStudyPlace
+            },
+            cache : false,
+            success : function(d) {
+                $("#studyClassSelect").empty();
+                if (d.ret==0) {
+                    $("#studyClassSelect").append("<option value='-1'>--请选择班级--</option>");
+                    for (var i = 0; i < d.data.length; i++) {
+                        $("#studyClassSelect").append("<option value='" + d.data[i].id + "'>" + d.data[i].name + "</option>");
+                    }
+                }else{
+                    swal("提示！", d.msg, "error");
+                }
+            }
+        });
+    }
 
 
 </script>

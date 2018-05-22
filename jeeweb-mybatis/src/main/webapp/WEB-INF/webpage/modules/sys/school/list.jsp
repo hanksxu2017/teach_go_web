@@ -16,7 +16,7 @@
             <grid:column label="地址" name="address" />
 
             <grid:toolbar title="sys.create" function="create"/>
-            <grid:toolbar title="sys.update" function="edit"/>
+            <grid:toolbar title="sys.update" function="update"/>
             <grid:toolbar title="sys.delete" function="delete"/>
 
             <grid:toolbar function="search"/>

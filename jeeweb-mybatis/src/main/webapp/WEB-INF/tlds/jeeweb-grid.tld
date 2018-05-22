@@ -379,6 +379,12 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<attribute>
+			<description>查询列名称</description>
+			<name>queryColumn</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 		<!-- 指定支持动态属性 -->
 		<dynamic-attributes>true</dynamic-attributes>
 	</tag>

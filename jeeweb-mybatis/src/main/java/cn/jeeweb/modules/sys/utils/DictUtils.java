@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.google.common.collect.Lists;
 import cn.jeeweb.core.utils.CacheUtils;
@@ -76,6 +78,18 @@ public class DictUtils {
 			dictList = new ArrayList<Dict>();
 		}
 		return dictList;
+	}
+
+	public static String getDictLabel(String code, String value) {
+		List<Dict> dictList = DictUtils.getDictList(code);
+		if(CollectionUtils.isNotEmpty(dictList)) {
+			for(Dict dict : dictList) {
+				if(cn.jeeweb.core.utils.StringUtils.equals(dict.getValue(), value)) {
+					return dict.getLabel();
+				}
+			}
+		}
+		return null;
 	}
 
 	/*

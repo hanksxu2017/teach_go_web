@@ -3,8 +3,10 @@ package cn.jeeweb.modules.sys.controller;
 
 import cn.jeeweb.core.common.controller.BaseCRUDController;
 import cn.jeeweb.core.model.AjaxJson;
+import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.core.utils.ObjectUtils;
 import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.modules.codegen.codegenerator.data.DbTableInfo;
 import cn.jeeweb.modules.codegen.entity.Table;
@@ -57,8 +59,13 @@ public class StudentController extends BaseCRUDController<Student, String> {
     @Override
     public void preSave(Student entity, HttpServletRequest request, HttpServletResponse response) {
         super.preSave(entity, request, response);
-        entity.setCreateDate(new Date());
-        entity.setTotalCourse(entity.getTotalCourse() + entity.getAddCourse());
+        if (ObjectUtils.isNullOrEmpty(entity.getId())) {
+            entity.setRemainCourse(entity.getTotalCourse());
+        } else {
+            if(StringUtils.equals("-1", entity.getStudyClassId())) {
+                entity.setStudyClassName(null);
+            }
+        }
     }
 
     @RequestMapping(value = "{id}/course", method = RequestMethod.GET)
@@ -161,5 +168,21 @@ public class StudentController extends BaseCRUDController<Student, String> {
         return null;
     }
 
+    @Override
+    public void preEdit(Student entity, Model model, HttpServletRequest request, HttpServletResponse response) {
+        super.preEdit(entity, model, request, response);
+        EntityWrapper<School> entityWrapper = new EntityWrapper<>();
+        model.addAttribute("schools", schoolService.selectList(entityWrapper));
+    }
 
+    @Override
+    public void preAjaxList(Queryable queryable, EntityWrapper<Student> entityWrapper, HttpServletRequest request, HttpServletResponse response) {
+        super.preAjaxList(queryable, entityWrapper, request, response);
+
+        String studyPlaceName = request.getParameter("studyPlaceName");
+        if(StringUtils.isNotBlank(studyPlaceName)) {
+            entityWrapper.eq("study_place", studyPlaceName);
+        }
+
+    }
 }

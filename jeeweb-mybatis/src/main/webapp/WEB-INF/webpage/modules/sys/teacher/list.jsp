@@ -20,7 +20,7 @@
 			<grid:toolbar title="sys.create" function="create"/>
 		 	<grid:toolbar title="sys.update" function="update"/>
 			<grid:toolbar title="sys.delete" function="delete"/>
-            <grid:toolbar title="sys.course" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/teacher/{id}/course"  winwidth="1200px" winheight="800px"/>
+            <%--<grid:toolbar title="sys.course" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/teacher/{id}/course"  winwidth="1200px" winheight="800px"/>--%>
 			<grid:toolbar function="search"/>
 			<grid:toolbar function="reset"/>
 		</grid:grid>

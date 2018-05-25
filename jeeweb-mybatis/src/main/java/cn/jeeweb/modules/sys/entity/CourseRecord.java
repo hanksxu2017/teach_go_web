@@ -19,29 +19,46 @@ public class CourseRecord extends DataEntity<String> {
     @TableId(value = "id", type = IdType.UUID)
     private String id;
 
+    // 课程编号
     @TableField(value = "course_id")
     private String courseId;
 
-    @TableField(value = "teacher_id")
-    private String teacherId;
-
+    // 开始时间
     @TableField(value = "course_start_date")
     private Date courseStartDate;
-
+    // 结束时间
     @TableField(value = "course_end_date")
     private Date courseEndDate;
 
+    // 校区编号
+    @TableField(value = "study_school_id")
+    private String studySchoolId;
+    // 班级编号
+    @TableField(value = "study_class_id")
+    private String studyClassId;
+    // 教室编号
+    @TableField(value = "study_classroom_id")
+    private String studyClassroomId;
+
+    // 教师编号
+    @TableField(value = "teacher_id")
+    private String teacherId;
+
+    // 应到
     @TableField(value = "student_quantity_plan")
     private int studentQuantityPlan;
-
+    // 实到
     @TableField(value = "student_quantity_actual")
     private int studentQuantityActual;
 
+    // 状态
     @TableField(value = "status")
     private CourseRecordStatus status = CourseRecordStatus.WAITING;
-
+    // 是否调整
     @TableField(value = "have_adjust")
     private HaveAdjust haveAdjust;
+
+
 
     @TableField(exist = false)
     private String courseCode;

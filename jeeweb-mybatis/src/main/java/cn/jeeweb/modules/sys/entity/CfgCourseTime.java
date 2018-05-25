@@ -12,7 +12,7 @@ import lombok.Setter;
 
 import java.util.Date;
 
-@TableName("tg_cfg_time")
+@TableName("tg_cfg_course_time")
 @Getter
 @Setter
 public class CfgCourseTime extends DataEntity<String> {
@@ -36,12 +36,20 @@ public class CfgCourseTime extends DataEntity<String> {
     @TableField(exist = false)
     private String sortName;
 
+    @TableField(exist = false)
+    private String name;
+
+
     public String getSortName() {
-        return this.getWeekDay() + "_#" + sort;
+        return this.getWeekDay() + "#" + sort;
     }
 
     public String getWeekDay() {
         return Constants.WEEK_DAYS[weekInfo];
+    }
+
+    public String getName() {
+        return this.getSortName() + "(" + this.startTime + "~" + this.endTime + ")";
     }
 
     public enum CfgCourseTimeStatus {

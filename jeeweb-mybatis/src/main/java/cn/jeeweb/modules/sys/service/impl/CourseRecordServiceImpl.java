@@ -77,10 +77,7 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
             course = this.courseService.selectById(courseRecord.getCourseId());
             if (null != course) {
                 courseRecord.setCourseCode(course.getCode());
-
                 courseRecord.setWeekName(Constants.WEEK_DAYS[course.getWeekInfo()]);
-
-                courseRecord.setDuration(course.getDuration());
             }
 
             if(courseRecord.getCourseStartDate().before(curDate) && courseRecord.getCourseEndDate().after(curDate)) {
@@ -107,7 +104,7 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
 
         int curDayOfWeek = this.getCurDayOfWeek();
         if (curDayOfWeek != 0) {
-            oaNotificationService.insert(this.initOaNotification("排课失败", "非周日时段执行排课任务,联系研发!"));
+            oaNotificationService.insert(this.initOaNotification("排课失败", "非周日时段执行排课任务,请联系研发!"));
             return ResultBean.FAILED("非周日时段无法进行排课");
         }
 
@@ -164,12 +161,6 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
         CourseRecord courseRecord;
         for (Course course : courseList) {
 
-            if (StringUtils.isBlank(course.getTeacherId())) {
-                log.error("-------课程[{}]未设置授课老师,请及时处理!", course.getCode());
-                oaNotificationService.insert(this.initOaNotification("排课失败", "课程[" + course.getCode() + "]未设置授课老师,请及时处理!"));
-                continue;
-            }
-
             // 非周日时段，只能生成本周的授课信息
             if (curDayOfWeek > 0 && curDayOfWeek >= course.getWeekInfo()) {
                 log.error("-------只允许生成本周的授课信息");
@@ -214,7 +205,7 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
         CourseRecord courseRecord = new CourseRecord();
 
         courseRecord.setCourseId(course.getId());
-        courseRecord.setTeacherId(course.getTeacherId());
+
         this.calculateDate(curDayOfWeek, course, courseRecord);
 
         courseRecord.setHaveAdjust(CourseRecord.HaveAdjust.NO);
@@ -241,12 +232,12 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
             offset = (7 - curDayOfWeek) + course.getWeekInfo();
         }*/
 
-        String curDay = DateUtils.formatDate(new Date(), "yyyy-MM-dd");
-        String startDate = curDay + " " + course.getStartTime();
-        String endDate = curDay + " " + course.getEndTime();
-
-        courseRecord.setCourseStartDate(DateUtils.addDay(DateUtils.parseDate(startDate), offset));
-        courseRecord.setCourseEndDate(DateUtils.addDay(DateUtils.parseDate(endDate), offset));
+//        String curDay = DateUtils.formatDate(new Date(), "yyyy-MM-dd");
+//        String startDate = curDay + " " + course.getStartTime();
+//        String endDate = curDay + " " + course.getEndTime();
+//
+//        courseRecord.setCourseStartDate(DateUtils.addDay(DateUtils.parseDate(startDate), offset));
+//        courseRecord.setCourseEndDate(DateUtils.addDay(DateUtils.parseDate(endDate), offset));
     }
 
     /**
@@ -373,9 +364,9 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
             return ResultBean.FAILED("无有效课程");
         }
 
-        if (StringUtils.isBlank(course.getTeacherId())) {
-            return ResultBean.FAILED("课程[" + course.getCode() + "]未设置授课老师");
-        }
+//        if (StringUtils.isBlank(course.getTeacherId())) {
+//            return ResultBean.FAILED("课程[" + course.getCode() + "]未设置授课老师");
+//        }
 
         int curDayOfWeek = this.getCurDayOfWeek();
         if(curDayOfWeek >= course.getWeekInfo()) {

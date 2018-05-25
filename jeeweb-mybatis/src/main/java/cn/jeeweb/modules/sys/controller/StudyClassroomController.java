@@ -41,13 +41,13 @@ public class StudyClassroomController extends BaseCRUDController<StudyClassroom,
 							HttpServletResponse response) {
 		String studyPlace = request.getParameter("studyPlace");
 		if(StringUtils.isNotBlank(studyPlace)) {
-			queryable.addCondition("study_place", studyPlace);
+			queryable.addCondition("study_school_id", studyPlace);
 		}
 	}
 
 	@Override
 	public void preEdit(StudyClassroom entity, Model model, HttpServletRequest request, HttpServletResponse response) {
 		String studyPlace = request.getParameter("studyPlace");
-		model.addAttribute("study_place", studyPlace);
+		model.addAttribute("study_school_id", studyPlace);
 	}
 }

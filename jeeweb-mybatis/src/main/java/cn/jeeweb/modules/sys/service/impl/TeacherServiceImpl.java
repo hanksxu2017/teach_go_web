@@ -23,9 +23,6 @@ public class TeacherServiceImpl extends CommonServiceImpl<TeacherMapper, Teacher
     private final String CACHE_NAME = "teacherCache";
 
     @Autowired
-    private CourseMapper courseMapper;
-
-    @Autowired
     private EhCacheCacheManager springCacheManager;
 
     // 缓存读取
@@ -57,20 +54,6 @@ public class TeacherServiceImpl extends CommonServiceImpl<TeacherMapper, Teacher
             springCacheManager.getCache(CACHE_NAME).put(entity.getId(), entity);
         }
         return ret;
-    }
-
-    @Override
-    public void removeCourse(String teacherId, String courseId) throws Exception {
-        TeacherMapper teacherMapper = (TeacherMapper) this.baseMapper;
-        teacherMapper.deleteTeacherCourseRel(teacherId, courseId);
-        courseMapper.blankTeacher(courseId);
-    }
-
-    @Override
-    public void addCourse(String teacherId, String courseId) throws Exception {
-        TeacherMapper teacherMapper = (TeacherMapper) this.baseMapper;
-        teacherMapper.addTeacherCourseRel(StringUtils.randomUUID(), teacherId, courseId);
-        courseMapper.relatedTeacher(courseId, teacherId);
     }
 
 }

@@ -56,8 +56,6 @@ public class TeacherController extends BaseCRUDController<Teacher, String> {
                                             @RequestParam(value = "courseId") String courseId,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        this.teacherService.removeCourse(teacherId, courseId);
-
         Map<String, Object> result = new HashMap<>();
         result.put("statusCode", 0);
         return result;
@@ -79,8 +77,6 @@ public class TeacherController extends BaseCRUDController<Teacher, String> {
             return result;
         }
 
-        this.teacherService.addCourse(teacherId, courseId);
-
         return result;
     }
 
@@ -98,21 +94,21 @@ public class TeacherController extends BaseCRUDController<Teacher, String> {
         entityWrapper.eq("teacher_id", teacherId);
         List<Course> relatedCourseList = this.courseService.selectList(entityWrapper);
 
-        if (CollectionUtils.isNotEmpty(relatedCourseList)) {
-            for (Course relatedCourse : relatedCourseList) {
-                if(null != relatedCourse && !relatedCourse.getId().equalsIgnoreCase(targetCourse.getId()) && relatedCourse.getWeekInfo() == targetCourse.getWeekInfo()) {
-                    if (less(relatedCourse.getStartTime(), targetCourse.getStartTime()) && greater(relatedCourse.getEndTime(), targetCourse.getEndTime())) {
-                        return relatedCourse;
-                    }
-                    if (greater(relatedCourse.getStartTime(), targetCourse.getStartTime()) && less(relatedCourse.getStartTime(), targetCourse.getEndTime())) {
-                        return relatedCourse;
-                    }
-                    if (greater(relatedCourse.getEndTime(), targetCourse.getStartTime()) && less(relatedCourse.getEndTime(), targetCourse.getEndTime())) {
-                        return relatedCourse;
-                    }
-                }
-            }
-        }
+//        if (CollectionUtils.isNotEmpty(relatedCourseList)) {
+//            for (Course relatedCourse : relatedCourseList) {
+//                if(null != relatedCourse && !relatedCourse.getId().equalsIgnoreCase(targetCourse.getId()) && relatedCourse.getWeekInfo() == targetCourse.getWeekInfo()) {
+//                    if (less(relatedCourse.getStartTime(), targetCourse.getStartTime()) && greater(relatedCourse.getEndTime(), targetCourse.getEndTime())) {
+//                        return relatedCourse;
+//                    }
+//                    if (greater(relatedCourse.getStartTime(), targetCourse.getStartTime()) && less(relatedCourse.getStartTime(), targetCourse.getEndTime())) {
+//                        return relatedCourse;
+//                    }
+//                    if (greater(relatedCourse.getEndTime(), targetCourse.getStartTime()) && less(relatedCourse.getEndTime(), targetCourse.getEndTime())) {
+//                        return relatedCourse;
+//                    }
+//                }
+//            }
+//        }
         return null;
     }
 

@@ -65,6 +65,9 @@ public class LogUtils {
 			// 异步保存日志
 			new SaveLogThread(log, handler, ex).start();
 		}
+		if(null != ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	/**

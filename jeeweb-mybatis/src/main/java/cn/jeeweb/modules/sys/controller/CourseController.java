@@ -7,9 +7,13 @@ import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.core.utils.StringUtils;
+import cn.jeeweb.modules.sys.entity.CfgCourseTime;
 import cn.jeeweb.modules.sys.entity.Course;
+import cn.jeeweb.modules.sys.entity.StudyClass;
+import cn.jeeweb.modules.sys.service.ICfgCourseTimeService;
 import cn.jeeweb.modules.sys.service.ICourseService;
 import cn.jeeweb.modules.sys.service.IStudentCourseRelService;
+import cn.jeeweb.modules.sys.service.IStudyClassService;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +35,10 @@ public class CourseController extends BaseCRUDController<Course, String> {
     private ICourseService courseService;
 
     @Autowired
-    private IStudentCourseRelService studentCourseRelService;
+    private IStudyClassService studyClassService;
+
+    @Autowired
+    private ICfgCourseTimeService cfgCourseTimeService;
 
     public CourseController() {
         setCommonService(courseService);
@@ -39,28 +46,29 @@ public class CourseController extends BaseCRUDController<Course, String> {
 
     @Override
     public String showCreate(Course course, Model model, HttpServletRequest request, HttpServletResponse response) {
+
+        EntityWrapper<StudyClass> studyClassEntityWrapper = new EntityWrapper<>();
+        studyClassEntityWrapper.eq("status", "NORMAL");
+        model.addAttribute("studyClassList", this.studyClassService.selectList(studyClassEntityWrapper));
         return display("create");
+    }
+
+    @Override
+    public String _showUpdate(String s, Model model, HttpServletRequest request, HttpServletResponse response) {
+        String view = super._showUpdate(s, model, request, response);
+        EntityWrapper<CfgCourseTime> cfgCourseTimeEntityWrapper = new EntityWrapper<>();
+        cfgCourseTimeEntityWrapper.eq("status", "NORMAL");
+        model.addAttribute("cfgCourseTimeList", cfgCourseTimeService.selectList(cfgCourseTimeEntityWrapper));
+
+        EntityWrapper<StudyClass> studyClassEntityWrapper = new EntityWrapper<>();
+        studyClassEntityWrapper.eq("status", "NORMAL");
+        model.addAttribute("studyClassList", this.studyClassService.selectList(studyClassEntityWrapper));
+        return view;
     }
 
     @Override
     public void preSave(Course entity, HttpServletRequest request, HttpServletResponse response) {
         super.preSave(entity, request, response);
-
-        String startTimeHour = entity.getStartTimeHour();
-        String startTimeMinute = entity.getStartTimeMinute();
-
-        String endTimeHour = entity.getEndTimeHour();
-        String endTimeMinute = entity.getEndTimeMinute();
-
-        int duration = 60 * (Integer.valueOf(endTimeHour) - Integer.valueOf(startTimeHour)) +
-                (Integer.valueOf(endTimeMinute) - Integer.valueOf(startTimeMinute));
-        if(duration <= 0) {
-            throw new RuntimeException("错误的开始时间和结束时间");
-        }
-
-        entity.setStartTime(startTimeHour + ":" + startTimeMinute);
-        entity.setEndTime(endTimeHour + ":" + endTimeMinute);
-        entity.setDuration(duration);
     }
 
     @RequestMapping(value = "bootstrapTreeData")
@@ -73,50 +81,13 @@ public class CourseController extends BaseCRUDController<Course, String> {
     public void preAjaxList(Queryable queryable, EntityWrapper<Course> entityWrapper, HttpServletRequest request,
                             HttpServletResponse response) {
 
-        // 教师排课页面
-        String blank = request.getParameter("blank");
-        if(StringUtils.isNotBlank(blank) && 1 == Integer.parseInt(blank)) {
-            entityWrapper.isNull("teacher_id");
-        } else {
-            String teacherId = request.getParameter("teacherId");
-            if (StringUtils.isNotBlank(teacherId)) {
-                entityWrapper.eq("teacher_id", teacherId);
-            }
-        }
-
         // 课程页面
         String weekInfo = request.getParameter("weekInfoId");
         if (StringUtils.isNotBlank(weekInfo)) {
             entityWrapper.eq("week_info", weekInfo);
         }
 
-        // 学生排课页面
-        String sBlank = request.getParameter("s_blank");
-        if(StringUtils.isNotBlank(sBlank)) {
-            List<String> courseIdListRelatedWithStudent = new ArrayList<>();
-            String studentId = request.getParameter("studentId");
-            if(StringUtils.isNotBlank(studentId)) {
-                courseIdListRelatedWithStudent = this.studentCourseRelService.selectCourseIdRelatedWithStudentId(studentId);
-            }
-            if(CollectionUtils.isNotEmpty(courseIdListRelatedWithStudent)) {
-                if(StringUtils.equals("1", sBlank)) {
-                    entityWrapper.in(true, "id", courseIdListRelatedWithStudent);
-                } else {
-                    entityWrapper.notIn(true, "id", courseIdListRelatedWithStudent);
-                }
-            } else {
-                if(StringUtils.equals("1", sBlank)) {
-                    // 当目标学生无关联课程时，设置查询条件为假从而查询不到任何课程信息
-                    entityWrapper.isNull("id");
-                }
-            }
-        }
-
         entityWrapper.orderBy("week_info");
     }
-
-
-
-
 
 }

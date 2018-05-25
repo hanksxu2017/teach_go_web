@@ -63,7 +63,7 @@ public class StudyClassController extends BaseCRUDController<StudyClass, String>
                             HttpServletResponse response) {
         String schoolId = request.getParameter("schoolId");
         if(StringUtils.isNotBlank(schoolId)) {
-            entityWrapper.eq("study_place", schoolId);
+            entityWrapper.eq("study_school_id", schoolId);
         }
 
     }
@@ -107,26 +107,14 @@ public class StudyClassController extends BaseCRUDController<StudyClass, String>
         return ajaxJson;
     }
 
-    private List<StudyClassSimple> packageList(List<StudyClass> studyClassList) {
-        List<StudyClassSimple> studyClassSimpleList = new ArrayList<>();
+    private List<SimpleEntity> packageList(List<StudyClass> studyClassList) {
+        List<SimpleEntity> studyClassSimpleList = new ArrayList<>();
         if(CollectionUtils.isNotEmpty(studyClassList)) {
             for(StudyClass studyClass : studyClassList) {
-                studyClassSimpleList.add(new StudyClassSimple(studyClass.getId(), studyClass.getName()));
+                studyClassSimpleList.add(new SimpleEntity(studyClass.getId(), studyClass.getName()));
             }
         }
         return studyClassSimpleList;
-    }
-
-    @Getter
-    @Setter
-    class StudyClassSimple {
-        private String id;
-        private String name;
-
-        StudyClassSimple(String id, String name) {
-            this.id = id;
-            this.name = name;
-        }
     }
 
 

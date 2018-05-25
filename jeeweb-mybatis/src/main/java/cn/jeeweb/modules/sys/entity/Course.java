@@ -9,6 +9,9 @@ import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 课程表
+ */
 @TableName("tg_course")
 @Getter
 @Setter
@@ -28,25 +31,6 @@ public class Course extends DataEntity<String> {
 
     private String description;
 
-    // 格式: HH:mm
-    private String startTime;
-
-    @TableField(exist = false)
-    private String startTimeHour;
-    @TableField(exist = false)
-    private String startTimeMinute;
-
-    // 格式: HH:mm
-    private String endTime;
-
-    @TableField(exist = false)
-    private String endTimeHour;
-    @TableField(exist = false)
-    private String endTimeMinute;
-
-    // 时长,单位分钟
-    private int duration;
-
     private CourseStatus status = CourseStatus.NORMAL;
 
     public String getStatusStr() {
@@ -61,14 +45,25 @@ public class Course extends DataEntity<String> {
     public String getWeekDay() {
         return Constants.WEEK_DAYS[weekInfo];
     }
+    // 课时信息
+    private String courseTimeId;
+    // 班级信息
+    private String studyClassId;
 
-    private String teacherId;
+    @TableField(exist = false)
+    private String studyClassName;
 
     @TableField(exist = false)
     private String teacherRealName;
 
     @TableField(exist = false)
     private int studentCount;
+
+    @TableField(exist = false)
+    private String startTime;
+
+    @TableField(exist = false)
+    private String endTime;
 
     public enum CourseStatus {
         NORMAL("正常");

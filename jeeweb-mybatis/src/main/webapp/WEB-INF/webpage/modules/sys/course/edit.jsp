@@ -16,32 +16,50 @@
 	<table  class="table table-bordered  table-condensed dataTables-example dataTable no-footer">
 		<tbody>
 		<tr >
-			<td  class="width-15 active text-right"><label><font color="red">*</font>星期:</label></td>
+			<td  class="width-15 active text-right"><label>星期:</label></td>
 			<td  class="width-35" colspan="2">
-				<form:select path="weekInfo"  dict="weekinfo" defaultValue="-1" class="form-control" onchange="weekDayChanged(this)"/>
+				<form:select path="weekInfo"  dict="weekinfo" defaultValue="${data.weekInfo}" class="form-control" onchange="weekDayChanged(this)" />
 				<label class="Validform_checktip"></label>
 			</td>
 		</tr>
 
 		<tr>
 			<td  class="width-15 active text-right">
-				<label><font color="red">*</font>课时:</label>
+				<label>课时:</label>
 			</td>
 			<td  class="width-35" >
-				<select name="courseTimeId" class="form-control" id="courseTimeIdSelect">
-				</select>
+                <select name="courseTimeId" class="form-control" id="courseTimeIdSelect">
+                    <option value="-1">--请选择课时--</option>
+                    <c:forEach items="${cfgCourseTimeList}" var="cfgCourseTime">
+                        <c:choose>
+                            <c:when test="${cfgCourseTime.id == data.courseTimeId}">
+                                <option value="${cfgCourseTime.id}" selected>${cfgCourseTime.name}</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${cfgCourseTime.id}">${cfgCourseTime.name}</option>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </select>
 			</td>
 		</tr>
 
         <tr>
             <td  class="width-15 active text-right">
-                <label><font color="red">*</font>班级:</label>
+                <label>班级:</label>
             </td>
             <td  class="width-35" >
 				<select name="studyClassId" class="form-control">
                     <option value="-1">--请选择班级--</option>
 					<c:forEach items="${studyClassList}" var="studyClass">
-						<option value="${studyClass.id}">${studyClass.name}</option>
+                        <c:choose>
+                            <c:when test="${studyClass.id == data.studyClassId}">
+                                <option value="${studyClass.id}" selected>${studyClass.name}</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${studyClass.id}">${studyClass.name}</option>
+                            </c:otherwise>
+                        </c:choose>
 					</c:forEach>
 				</select>
                 <label class="Validform_checktip"></label>

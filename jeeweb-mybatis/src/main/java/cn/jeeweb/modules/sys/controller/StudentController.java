@@ -152,17 +152,17 @@ public class StudentController extends BaseCRUDController<Student, String> {
             Course relatedCourse;
             for(StudentCourseRel studentCourseRel : studentCourseRelList) {
                 relatedCourse = this.courseService.selectById(studentCourseRel.getCourseId());
-                if(null != relatedCourse && !relatedCourse.getId().equalsIgnoreCase(targetCourse.getId()) && relatedCourse.getWeekInfo() == targetCourse.getWeekInfo()) {
-                    if (less(relatedCourse.getStartTime(), targetCourse.getStartTime()) && greater(relatedCourse.getEndTime(), targetCourse.getEndTime())) {
-                        return relatedCourse;
-                    }
-                    if(greater(relatedCourse.getStartTime(), targetCourse.getStartTime()) && less(relatedCourse.getStartTime(), targetCourse.getEndTime())) {
-                        return relatedCourse;
-                    }
-                    if(greater(relatedCourse.getEndTime(), targetCourse.getStartTime()) && less(relatedCourse.getEndTime(), targetCourse.getEndTime())) {
-                        return relatedCourse;
-                    }
-                }
+//                if(null != relatedCourse && !relatedCourse.getId().equalsIgnoreCase(targetCourse.getId()) && relatedCourse.getWeekInfo() == targetCourse.getWeekInfo()) {
+//                    if (less(relatedCourse.getStartTime(), targetCourse.getStartTime()) && greater(relatedCourse.getEndTime(), targetCourse.getEndTime())) {
+//                        return relatedCourse;
+//                    }
+//                    if(greater(relatedCourse.getStartTime(), targetCourse.getStartTime()) && less(relatedCourse.getStartTime(), targetCourse.getEndTime())) {
+//                        return relatedCourse;
+//                    }
+//                    if(greater(relatedCourse.getEndTime(), targetCourse.getStartTime()) && less(relatedCourse.getEndTime(), targetCourse.getEndTime())) {
+//                        return relatedCourse;
+//                    }
+//                }
             }
         }
         return null;

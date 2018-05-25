@@ -4,13 +4,14 @@ import cn.jeeweb.core.common.service.impl.CommonServiceImpl;
 import cn.jeeweb.core.query.data.Page;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.utils.StringUtils;
-import cn.jeeweb.modules.sys.entity.Course;
-import cn.jeeweb.modules.sys.entity.StudentCourseRel;
-import cn.jeeweb.modules.sys.entity.Teacher;
+import cn.jeeweb.modules.sys.entity.*;
 import cn.jeeweb.modules.sys.mapper.CourseMapper;
 import cn.jeeweb.modules.sys.mapper.StudentCourseRelMapper;
 import cn.jeeweb.modules.sys.mapper.TeacherMapper;
+import cn.jeeweb.modules.sys.service.ICfgCourseTimeService;
 import cn.jeeweb.modules.sys.service.ICourseService;
+import cn.jeeweb.modules.sys.service.IStudyClassService;
+import cn.jeeweb.modules.sys.service.ITeacherService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import org.apache.commons.collections.CollectionUtils;
@@ -23,10 +24,11 @@ import java.util.List;
 public class CourseServiceImpl extends CommonServiceImpl<CourseMapper, Course> implements ICourseService {
 
     @Autowired
-    private TeacherMapper teacherMapper;
-
+    private ITeacherService teacherService;
     @Autowired
-    private StudentCourseRelMapper studentCourseRelMapper;
+    private IStudyClassService studyClassService;
+    @Autowired
+    private ICfgCourseTimeService cfgCourseTimeService;
 
     @Override
     public Page<Course> list(Queryable queryable, Wrapper<Course> wrapper) {
@@ -41,20 +43,31 @@ public class CourseServiceImpl extends CommonServiceImpl<CourseMapper, Course> i
             return;
         }
 
+        StudyClass studyClass;
         Teacher teacher;
-        EntityWrapper<StudentCourseRel> entityWrapper = new EntityWrapper<>();
+        CfgCourseTime cfgCourseTime;
+
         for(Course course : courseList) {
-            if(StringUtils.isNotBlank(course.getTeacherId())) {
-                teacher = this.teacherMapper.selectById(course.getTeacherId());
-                if(null != teacher) {
-                    course.setTeacherRealName(teacher.getRealName());
+            if(StringUtils.isNotBlank(course.getStudyClassId())) {
+                studyClass = this.studyClassService.selectById(course.getStudyClassId());
+                if(null != studyClass) {
+                    course.setStudyClassName(studyClass.getName());
+                    if(StringUtils.isNotBlank(studyClass.getTeacherId())) {
+                        teacher = this.teacherService.selectById(studyClass.getTeacherId());
+                        if(null != teacher) {
+                            course.setTeacherRealName(teacher.getRealName());
+                        }
+                    }
                 }
             }
 
-            entityWrapper.eq("course_id", course.getId());
-            entityWrapper.eq("status", StudentCourseRel.StudentCourseRelStatus.NORMAL.name());
-            course.setStudentCount(this.studentCourseRelMapper.selectCount(entityWrapper));
+            if(StringUtils.isNotBlank(course.getCourseTimeId())) {
+                cfgCourseTime = cfgCourseTimeService.selectById(course.getCourseTimeId());
+                if(null != cfgCourseTime) {
+                    course.setStartTime(cfgCourseTime.getStartTime());
+                    course.setEndTime(cfgCourseTime.getEndTime());
+                }
+            }
         }
-
     }
 }

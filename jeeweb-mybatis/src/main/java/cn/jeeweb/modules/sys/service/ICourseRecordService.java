@@ -16,8 +16,16 @@ public interface ICourseRecordService extends ICommonService<CourseRecord> {
 
     /**
      *
-     * @param courseIds
+     * @param courseId
      * @return
      */
     ResultBean generateCourseRecordForCurWeek(String courseId);
+
+    /**
+     *
+     * @param courseId
+     * @param studentId
+     * @return
+     */
+    ResultBean generateCourseRecordForCurWeek(String courseId, String studentId);
 }

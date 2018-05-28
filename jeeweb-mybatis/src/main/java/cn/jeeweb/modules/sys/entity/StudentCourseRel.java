@@ -19,10 +19,28 @@ public class StudentCourseRel extends DataEntity<String> {
     @TableField(value = "course_id")
     private String courseId;
 
+    @TableField(value = "study_class_id")
+    private String studyClassId;
+
     @TableField(value = "student_id")
     private String studentId;
 
-    private StudentCourseRelStatus status;
+    private StudentCourseRelStatus status = StudentCourseRelStatus.NORMAL;
+
+    @TableField(exist = false)
+    private String studySchoolName;
+
+    @TableField(exist = false)
+    private String studyClassName;
+
+    @TableField(exist = false)
+    private String teacherName;
+
+    @TableField(exist = false)
+    private String weekDay;
+
+    @TableField(exist = false)
+    private String courseDesc;
 
     public enum StudentCourseRelStatus {
         NORMAL("正常"), CANCEL("取消");

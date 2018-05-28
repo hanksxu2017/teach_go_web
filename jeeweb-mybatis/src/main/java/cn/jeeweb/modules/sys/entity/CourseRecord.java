@@ -25,10 +25,10 @@ public class CourseRecord extends DataEntity<String> {
 
     // 开始时间
     @TableField(value = "course_start_date")
-    private Date courseStartDate;
+    private String courseStartDate;
     // 结束时间
     @TableField(value = "course_end_date")
-    private Date courseEndDate;
+    private String courseEndDate;
 
     // 校区编号
     @TableField(value = "study_school_id")
@@ -64,9 +64,6 @@ public class CourseRecord extends DataEntity<String> {
     private String courseCode;
 
     @TableField(exist = false)
-    private int duration;
-
-    @TableField(exist = false)
     private String teacherRealName;
 
     @TableField(exist = false)
@@ -90,14 +87,6 @@ public class CourseRecord extends DataEntity<String> {
 
     public String getStatusStr() {
         return status.getMsg();
-    }
-
-    public String getCourseStartDateStr() {
-        return DateUtils.formatDate(this.courseStartDate, "yyyy-MM-dd HH:mm");
-    }
-
-    public String getCourseEndDateStr() {
-        return DateUtils.formatDate(this.courseEndDate, "yyyy-MM-dd HH:mm");
     }
 
     public enum CourseRecordStatus {

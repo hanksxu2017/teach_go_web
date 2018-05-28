@@ -26,7 +26,7 @@ public class Course extends DataEntity<String> {
     private String code;
 
     public String getCode() {
-        return "课程#" + index;
+        return "课程#" + index + "(" + this.getWeekDay() + " " + startTime + "~" + endTime + ")";
     }
 
     private String description;

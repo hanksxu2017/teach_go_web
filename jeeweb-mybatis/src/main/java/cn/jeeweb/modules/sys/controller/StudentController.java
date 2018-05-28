@@ -16,10 +16,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -78,94 +80,30 @@ public class StudentController extends BaseCRUDController<Student, String> {
         return display("setCourse");
     }
 
-    @RequestMapping(value = "removeCourse", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> removeCourse(@RequestParam(value = "studentId") String studentId,
-                                            @RequestParam(value = "courseId") String courseId,
-                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        EntityWrapper<StudentCourseRel> entityWrapper = new EntityWrapper<>();
-        entityWrapper.eq("course_id", courseId);
-        entityWrapper.eq("student_id", studentId);
-        StudentCourseRel studentCourseRel = this.studentCourseRelService.selectOne(entityWrapper);
-        if(null != studentCourseRel && !StudentCourseRel.StudentCourseRelStatus.CANCEL.equals(studentCourseRel.getStatus())) {
-            studentCourseRel.setStatus(StudentCourseRel.StudentCourseRelStatus.CANCEL);
-            studentCourseRel.setUpdateDate(new Date());
-            this.studentCourseRelService.updateById(studentCourseRel);
-        }
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("statusCode", 0);
-        return result;
+    @RequestMapping(value = "{id}/addCourse", method = RequestMethod.GET)
+    public String addCourse(@PathVariable("id") String id, Model model, HttpServletRequest request,
+                              HttpServletResponse response) {
+        Student entity = studentService.selectById(id);
+        model.addAttribute("data", entity);
+        return display("addCourse");
     }
 
-    @RequestMapping(value = "addCourse", method = RequestMethod.POST)
+    @RequestMapping(value = "{id}/addCourse", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> addCourse(@RequestParam(value = "studentId") String studentId,
-                                         @RequestParam(value = "courseId") String courseId,
-                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public AjaxJson addCourse(Model model, @Valid @ModelAttribute("data") Student student, BindingResult result,
+                           HttpServletRequest request, HttpServletResponse response) {
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("statusCode", 0);
+        AjaxJson ajaxJson = new AjaxJson();
+        ajaxJson.success("课时增加成功");
 
-        Course conflictCourse = this.isHaveCourseInPeriod(studentId, courseId);
-        if(null != conflictCourse) {
-            result.put("statusCode", -1);
-            result.put("errMsg", "目标课程所属时间段内存在冲突课程[" + conflictCourse.getCode() + "],请选择其他课程!");
-            return result;
+        Student dbStudent = this.studentService.selectById(student.getId());
+        if(null != dbStudent && Student.STATUS_DELETE != dbStudent.getStatus()) {
+            dbStudent.setTotalCourse(dbStudent.getTotalCourse() + student.getAddCourse());
+            dbStudent.setRemainCourse(dbStudent.getRemainCourse() + student.getAddCourse());
+            this.studentService.updateById(dbStudent);
         }
 
-        EntityWrapper<StudentCourseRel> entityWrapper = new EntityWrapper<>();
-        entityWrapper.eq("course_id", courseId);
-        entityWrapper.eq("student_id", studentId);
-        StudentCourseRel studentCourseRel = this.studentCourseRelService.selectOne(entityWrapper);
-        if(null == studentCourseRel) {
-            studentCourseRel = new StudentCourseRel();
-            studentCourseRel.setCourseId(courseId);
-            studentCourseRel.setStudentId(studentId);
-            studentCourseRel.setStatus(StudentCourseRel.StudentCourseRelStatus.NORMAL);
-            studentCourseRel.setCreateDate(new Date());
-            this.studentCourseRelService.insert(studentCourseRel);
-        } else {
-            if(StudentCourseRel.StudentCourseRelStatus.CANCEL.equals(studentCourseRel.getStatus())) {
-                studentCourseRel.setStatus(StudentCourseRel.StudentCourseRelStatus.NORMAL);
-                studentCourseRel.setUpdateDate(new Date());
-                this.studentCourseRelService.updateById(studentCourseRel);
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * 判断在目标课程时段，是否存在其他关联的课程信息
-     * @param studentId
-     * @param courseId
-     * @return
-     */
-    private Course isHaveCourseInPeriod(String studentId, String courseId) {
-        Course targetCourse = this.courseService.selectById(courseId);
-        EntityWrapper<StudentCourseRel> studentCourseRelEntityWrapper = new EntityWrapper<>();
-        studentCourseRelEntityWrapper.eq("student_id", studentId);
-        List<StudentCourseRel> studentCourseRelList = this.studentCourseRelService.selectList(studentCourseRelEntityWrapper);
-        if(CollectionUtils.isNotEmpty(studentCourseRelList)) {
-            Course relatedCourse;
-            for(StudentCourseRel studentCourseRel : studentCourseRelList) {
-                relatedCourse = this.courseService.selectById(studentCourseRel.getCourseId());
-//                if(null != relatedCourse && !relatedCourse.getId().equalsIgnoreCase(targetCourse.getId()) && relatedCourse.getWeekInfo() == targetCourse.getWeekInfo()) {
-//                    if (less(relatedCourse.getStartTime(), targetCourse.getStartTime()) && greater(relatedCourse.getEndTime(), targetCourse.getEndTime())) {
-//                        return relatedCourse;
-//                    }
-//                    if(greater(relatedCourse.getStartTime(), targetCourse.getStartTime()) && less(relatedCourse.getStartTime(), targetCourse.getEndTime())) {
-//                        return relatedCourse;
-//                    }
-//                    if(greater(relatedCourse.getEndTime(), targetCourse.getStartTime()) && less(relatedCourse.getEndTime(), targetCourse.getEndTime())) {
-//                        return relatedCourse;
-//                    }
-//                }
-            }
-        }
-        return null;
+        return ajaxJson;
     }
 
     @Override
@@ -176,6 +114,17 @@ public class StudentController extends BaseCRUDController<Student, String> {
 
         EntityWrapper<StudySchool> studySchoolEntityWrapper = new EntityWrapper<>();
         model.addAttribute("studySchools", studySchoolService.selectList(studySchoolEntityWrapper));
+    }
+
+
+    @RequestMapping(value = "{id}/changeCourse", method = RequestMethod.GET)
+    public String changeCourse(@PathVariable("id") String id, Model model, HttpServletRequest request,
+                         HttpServletResponse response) {
+
+        Student student = this.studentService.selectById(id);
+        model.addAttribute("student", student);
+
+        return display("changeCourse");
     }
 
 }

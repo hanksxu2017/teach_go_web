@@ -21,20 +21,23 @@ public class CourseStudentRecord extends DataEntity<String> {
     @TableField(value = "course_rec_id")
     private String courseRecId;
 
+    @TableField(value = "study_class_id")
+    private String studyClassId;
+
     @TableField(value = "student_id")
     private String studentId;
 
     @TableField(value = "student_real_name")
     private String studentRealName;
 
+    @TableField(value = "rec_status")
+    private CourseRecord.CourseRecordStatus recStatus = CourseRecord.CourseRecordStatus.WAITING;
+
     @TableField(value = "status")
     private CourseStudentRecordStatus status;
 
     @TableField(exist = false)
     private String courseCode;
-
-    @TableField(exist = false)
-    private int duration;
 
     @TableField(exist = false)
     private String teacherRealName;

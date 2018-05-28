@@ -143,12 +143,12 @@ public abstract class BaseCRUDController<Entity extends AbstractEntity<ID>, ID e
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String _showCreate(Model model, HttpServletRequest request, HttpServletResponse response) {
 		preEdit(newModel(), model, request, response);
-		String creteaView = showCreate(newModel(), model, request, response);
+		String createView = showCreate(newModel(), model, request, response);
 		if (!model.containsAttribute("data")) {
 			model.addAttribute("data", newModel());
 		}
-		if (!StringUtils.isEmpty(creteaView)) {
-			return creteaView;
+		if (!StringUtils.isEmpty(createView)) {
+			return createView;
 		}
 		return display("edit");
 	}

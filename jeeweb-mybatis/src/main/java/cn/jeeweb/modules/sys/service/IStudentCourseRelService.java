@@ -8,6 +8,4 @@ import java.util.List;
 
 public interface IStudentCourseRelService extends ICommonService<StudentCourseRel> {
 
-
-    List<String> selectCourseIdRelatedWithStudentId(String studentId);
 }

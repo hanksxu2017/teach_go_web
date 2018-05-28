@@ -67,7 +67,6 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
     private void packageCourseRecord(List<CourseRecord> courseRecordList) {
         Teacher teacher;
         Course course;
-        Date curDate = new Date();
         for (CourseRecord courseRecord : courseRecordList) {
             teacher = this.teacherService.selectById(courseRecord.getTeacherId());
             if (null != teacher) {
@@ -78,20 +77,6 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
             if (null != course) {
                 courseRecord.setCourseCode(course.getCode());
                 courseRecord.setWeekName(Constants.WEEK_DAYS[course.getWeekInfo()]);
-            }
-
-            if(courseRecord.getCourseStartDate().before(curDate) && courseRecord.getCourseEndDate().after(curDate)) {
-                if(!CourseRecord.CourseRecordStatus.DOING.equals(courseRecord.getStatus())) {
-                    courseRecord.setStatus(CourseRecord.CourseRecordStatus.DOING);
-                    courseRecord.setUpdateDate(new Date());
-                    this.updateById(courseRecord);
-                }
-            } else if(courseRecord.getCourseEndDate().before(curDate)) {
-                if(!CourseRecord.CourseRecordStatus.FINISHED.equals(courseRecord.getStatus())) {
-                    courseRecord.setStatus(CourseRecord.CourseRecordStatus.FINISHED);
-                    courseRecord.setUpdateDate(new Date());
-                    this.updateById(courseRecord);
-                }
             }
         }
     }
@@ -151,6 +136,9 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
         return oaNotification;
     }
 
+    @Autowired
+    private ICfgCourseTimeService cfgCourseTimeService;
+
     /**
      * @param courseList
      */
@@ -159,8 +147,14 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
         List<CourseStudentRecord> courseStudentRecordList = new ArrayList<>();
 
         CourseRecord courseRecord;
+        CfgCourseTime cfgCourseTime;
         for (Course course : courseList) {
 
+            cfgCourseTime = this.cfgCourseTimeService.selectById(course.getCourseTimeId());
+            if(null != cfgCourseTime) {
+                course.setStartTime(cfgCourseTime.getStartTime());
+                course.setEndTime(cfgCourseTime.getEndTime());
+            }
             // 非周日时段，只能生成本周的授课信息
             if (curDayOfWeek > 0 && curDayOfWeek >= course.getWeekInfo()) {
                 log.error("-------只允许生成本周的授课信息");
@@ -197,6 +191,9 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
         return null != dbRec;
     }
 
+    @Autowired
+    private IStudyClassService studyClassService;
+
     /**
      * @param course
      * @return
@@ -208,11 +205,18 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
 
         this.calculateDate(curDayOfWeek, course, courseRecord);
 
+
+        StudyClass studyClass = this.studyClassService.selectById(course.getStudyClassId());
+        if(null != studyClass) {
+            courseRecord.setStudySchoolId(studyClass.getStudySchoolId());
+            courseRecord.setStudyClassId(studyClass.getId());
+            courseRecord.setStudyClassroomId(null);
+            courseRecord.setTeacherId(studyClass.getTeacherId());
+        }
+
         courseRecord.setHaveAdjust(CourseRecord.HaveAdjust.NO);
 
         courseRecord.setStudentQuantityPlan(this.getStudentCourseRelCount(course.getId()));
-
-        courseRecord.setCreateDate(new Date());
 
         courseRecord.setCourseCode(course.getCode());
 
@@ -227,17 +231,12 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
 
         int offset = course.getWeekInfo() - curDayOfWeek;
 
-        // 下周的课程不在非周日时段生成授课信息
-/*        if(course.getWeekInfo() <= curDayOfWeek) {
-            offset = (7 - curDayOfWeek) + course.getWeekInfo();
-        }*/
+        Date startDay = DateUtils.addDay(new Date(), offset);
+        String startDate = startDay + " " + course.getStartTime();
+        String endDate = startDay + " " + course.getEndTime();
 
-//        String curDay = DateUtils.formatDate(new Date(), "yyyy-MM-dd");
-//        String startDate = curDay + " " + course.getStartTime();
-//        String endDate = curDay + " " + course.getEndTime();
-//
-//        courseRecord.setCourseStartDate(DateUtils.addDay(DateUtils.parseDate(startDate), offset));
-//        courseRecord.setCourseEndDate(DateUtils.addDay(DateUtils.parseDate(endDate), offset));
+        courseRecord.setCourseStartDate(startDate);
+        courseRecord.setCourseEndDate(endDate);
     }
 
     /**
@@ -309,8 +308,9 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
 
         CourseStudentRecord courseStudentRecord = new CourseStudentRecord();
         courseStudentRecord.setStudentRealName(student.getRealName());
-        courseStudentRecord.setCourseRecId(courseRecord.getId());
         courseStudentRecord.setStudentId(studentCourseRel.getStudentId());
+        courseStudentRecord.setCourseRecId(courseRecord.getId());
+        courseStudentRecord.setStudyClassId(courseRecord.getStudyClassId());
         courseStudentRecord.setStatus(CourseStudentRecord.CourseStudentRecordStatus.NORMAL);
         courseStudentRecord.setCreateDate(new Date());
 
@@ -343,11 +343,11 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
             this.studentService.updateById(student);
 
             if (student.getRemainCourse() <= 0) {
-                oaNotificationService.insert(this.initOaNotification("学生信息更新",
+                oaNotificationService.insert(this.initOaNotification("学生课时监控",
                         "学生[" + student.getRealName() + "]可用授课数量为0,无法继续排课!"));
             }
             if (student.getRemainCourse() <= 2) {
-                oaNotificationService.insert(this.initOaNotification("学生信息更新",
+                oaNotificationService.insert(this.initOaNotification("学生课时监控",
                         "学生[" + student.getRealName() + "]可用授课数量已不足3课时,请及时通知补交学费!"));
             }
         }
@@ -364,9 +364,9 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
             return ResultBean.FAILED("无有效课程");
         }
 
-//        if (StringUtils.isBlank(course.getTeacherId())) {
-//            return ResultBean.FAILED("课程[" + course.getCode() + "]未设置授课老师");
-//        }
+        if (StringUtils.isBlank(course.getStudyClassId())) {
+            return ResultBean.FAILED("课程[" + course.getCode() + "]未设置班级信息");
+        }
 
         int curDayOfWeek = this.getCurDayOfWeek();
         if(curDayOfWeek >= course.getWeekInfo()) {
@@ -391,4 +391,60 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
         return ResultBean.SUCCESS();
     }
 
+    @Override
+    public ResultBean generateCourseRecordForCurWeek(String courseId, String studentId) {
+
+        Course course = this.courseService.selectById(courseId);
+        if (null == course || !Course.CourseStatus.NORMAL.equals(course.getStatus())) {
+            return ResultBean.FAILED("无有效课程");
+        }
+
+        int curDayOfWeek = this.getCurDayOfWeek();
+        if(curDayOfWeek >= course.getWeekInfo()) {
+            return ResultBean.FAILED("本周内的课程[" + course.getCode() + "]已无法创建");
+        }
+
+        int offset = course.getWeekInfo() - curDayOfWeek;
+
+        Date startDay = DateUtils.addDay(new Date(), offset);
+        String startDate = startDay + " " + course.getStartTime();
+        CourseRecord courseRecord = this.getRecAtCurWeek(course.getId(), startDate);
+        if(null == courseRecord) {
+            return ResultBean.FAILED("本周内无课程[课时:" + course.getCode() + ",开始时间:" + startDate + "]记录");
+        }
+
+        CourseStudentRecord courseStudentRecord = this.getStudentRec(courseRecord.getId(), studentId);
+        if(null == courseStudentRecord) {
+            EntityWrapper<StudentCourseRel> wrapper = new EntityWrapper<>();
+            wrapper.eq("course_id", course.getId());
+            wrapper.eq("student_id", studentId);
+            StudentCourseRel studentCourseRel = this.studentCourseRelService.selectOne(wrapper);
+            courseStudentRecord = this.initCourseStudentRecord(studentCourseRel, courseRecord);
+
+            List<CourseStudentRecord> courseStudentRecordList = new ArrayList<>();
+            courseStudentRecordList.add(courseStudentRecord);
+            this.courseStudentRecordService.insertBatch(courseStudentRecordList);
+            // 检查剩余数量，更新学生课程数量信息，同时发送系统通知
+            this.filterStudent(courseStudentRecordList);
+
+        }
+
+        return ResultBean.SUCCESS();
+    }
+
+    private CourseRecord getRecAtCurWeek(String courseId, String startDate) {
+        EntityWrapper<CourseRecord> wrapper = new EntityWrapper<>();
+        wrapper.eq("course_id", courseId);
+        wrapper.eq("course_start_date", startDate);
+        CourseRecord courseRecord = this.selectOne(wrapper);
+        return courseRecord;
+    }
+
+    private CourseStudentRecord getStudentRec(String recId, String studentId) {
+        EntityWrapper<CourseStudentRecord> wrapper = new EntityWrapper<>();
+        wrapper.eq("course_rec_id", recId);
+        wrapper.eq("student_id", studentId);
+        CourseStudentRecord courseRecord = this.courseStudentRecordService.selectOne(wrapper);
+        return courseRecord;
+    }
 }

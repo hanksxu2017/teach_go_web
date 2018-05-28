@@ -11,10 +11,10 @@
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
     <grid:button title="新增班级" groupname="opt" function="rowDialogDetailRefresh" outclass="btn-primary"
-                 innerclass="fa-plus" url="${adminPath}/sys/study/class?schoolId=\"+row.id+\""/>
+                 innerclass="fa-plus" url="${adminPath}/sys/study/class?studySchoolId=\"+row.id+\""/>
 
     <%--<grid:button title="新增教室" groupname="opt" function="rowDialogDetailRefresh" outclass="btn-primary"--%>
-                 <%--innerclass="fa-plus" url="${adminPath}/sys/study/classroom?schoolId=\"+row.id+\""/>--%>
+                 <%--innerclass="fa-plus" url="${adminPath}/sys/study/classroom?studySchoolId=\"+row.id+\""/>--%>
 
     <grid:column label="校区" name="name"/>
     <grid:column label="地址" name="address"/>

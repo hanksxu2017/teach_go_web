@@ -49,7 +49,7 @@ public class StudyClassController extends BaseCRUDController<StudyClass, String>
 
     @Override
     public void preList(Model model, HttpServletRequest request, HttpServletResponse response) {
-        String schoolId = request.getParameter("schoolId");
+        String schoolId = request.getParameter("studySchoolId");
         if(StringUtils.isNotBlank(schoolId)) {
             StudySchool studySchool = studySchoolService.selectById(schoolId);
             if(null != studySchool) {
@@ -61,7 +61,7 @@ public class StudyClassController extends BaseCRUDController<StudyClass, String>
     @Override
     public void preAjaxList(Queryable queryable, EntityWrapper<StudyClass> entityWrapper, HttpServletRequest request,
                             HttpServletResponse response) {
-        String schoolId = request.getParameter("schoolId");
+        String schoolId = request.getParameter("studySchoolId");
         if(StringUtils.isNotBlank(schoolId)) {
             entityWrapper.eq("study_school_id", schoolId);
         }
@@ -71,7 +71,7 @@ public class StudyClassController extends BaseCRUDController<StudyClass, String>
     @Override
     public void preEdit(StudyClass entity, Model model, HttpServletRequest request, HttpServletResponse response) {
 
-        String schoolId = request.getParameter("schoolId");
+        String schoolId = request.getParameter("studySchoolId");
         if (StringUtils.isNotBlank(schoolId)) {
             StudySchool studySchool = this.studySchoolService.selectById(schoolId);
             if(null != studySchool) {

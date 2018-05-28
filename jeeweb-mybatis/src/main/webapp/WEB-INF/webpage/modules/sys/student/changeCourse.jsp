@@ -8,14 +8,15 @@
 	<html:component name="bootstrap-treeview"/>
 </head>
 <body title="学生课时信息">
-<grid:grid id="groupGridId" url="${adminPath}/sys/student/course?studentId=${studySchool.id}">
+<grid:grid id="groupGridId" url="${adminPath}/sys/student/course/ajaxList?studentId=${student.id}">
 	<grid:column label="sys.common.key" hidden="true" name="id"/>
 	<grid:column label="校区" name="studySchoolName"/>
 	<grid:column label="班级" name="studyClassName"/>
+	<grid:column label="教师" name="teacherName"/>
 	<grid:column label="星期" name="weekDay"/>
 	<grid:column label="课时"  name="courseDesc" />
 
-	<grid:toolbar function="create" url="${adminPath}/sys/student/course/create?studySchoolId=${studySchool.id}"  />
+	<grid:toolbar function="create" url="${adminPath}/sys/student/course/create?studentId=${student.id}"  />
 	<grid:toolbar   function="update"    />
 	<grid:toolbar   function="delete"    />
 	<grid:toolbar  function="search"  />

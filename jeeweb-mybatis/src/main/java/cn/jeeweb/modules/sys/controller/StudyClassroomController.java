@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping("${admin.url.prefix}/sys/school/classroom")
+@RequestMapping("${admin.url.prefix}/sys/study/classroom")
 @RequiresPathPermission("sys:user")
 public class StudyClassroomController extends BaseCRUDController<StudyClassroom, String> {
 	@Autowired
@@ -31,7 +31,7 @@ public class StudyClassroomController extends BaseCRUDController<StudyClassroom,
 
 	@Override
 	public void preList(Model model, HttpServletRequest request, HttpServletResponse response) {
-		String studyPlace = request.getParameter("studyPlace");
+		String studyPlace = request.getParameter("studySchoolId");
 		StudySchool studySchool = studySchoolService.selectById(studyPlace);
 		model.addAttribute("studySchool", studySchool);
 	}
@@ -39,7 +39,7 @@ public class StudyClassroomController extends BaseCRUDController<StudyClassroom,
 	@Override
 	public void preAjaxList(Queryable queryable, EntityWrapper<StudyClassroom> entityWrapper, HttpServletRequest request,
 							HttpServletResponse response) {
-		String studyPlace = request.getParameter("studyPlace");
+		String studyPlace = request.getParameter("studySchoolId");
 		if(StringUtils.isNotBlank(studyPlace)) {
 			queryable.addCondition("study_school_id", studyPlace);
 		}
@@ -47,7 +47,20 @@ public class StudyClassroomController extends BaseCRUDController<StudyClassroom,
 
 	@Override
 	public void preEdit(StudyClassroom entity, Model model, HttpServletRequest request, HttpServletResponse response) {
-		String studyPlace = request.getParameter("studyPlace");
+		String studyPlace = request.getParameter("studySchoolId");
 		model.addAttribute("study_school_id", studyPlace);
+	}
+
+	@Override
+	public String showCreate(StudyClassroom entity, Model model, HttpServletRequest request, HttpServletResponse response) {
+		String view =  super.showCreate(entity, model, request, response);
+
+		String studySchoolId = request.getParameter("studySchoolId");
+		if(StringUtils.isNotBlank(studySchoolId)) {
+			StudySchool studySchool = studySchoolService.selectById(studySchoolId);
+			model.addAttribute("studySchool", studySchool);
+		}
+
+		return display("create");
 	}
 }

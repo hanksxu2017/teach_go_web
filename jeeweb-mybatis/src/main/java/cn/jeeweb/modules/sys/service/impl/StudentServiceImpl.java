@@ -20,17 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Service
 public class StudentServiceImpl extends CommonServiceImpl<StudentMapper, Student> implements IStudentService {
-
-
-
-    @Override
-    public void changeStatus(String studentId, String newStatus) {
-
-    }
 
     @Override
     public Page<Student> list(Queryable queryable, Wrapper<Student> wrapper) {
@@ -86,6 +80,5 @@ public class StudentServiceImpl extends CommonServiceImpl<StudentMapper, Student
             }
         }
     }
-
 
 }

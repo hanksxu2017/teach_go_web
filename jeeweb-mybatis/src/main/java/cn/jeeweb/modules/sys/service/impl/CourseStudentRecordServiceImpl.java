@@ -9,6 +9,8 @@ import cn.jeeweb.modules.sys.mapper.CourseRecordMapper;
 import cn.jeeweb.modules.sys.mapper.CourseStudentRecordMapper;
 import cn.jeeweb.modules.sys.service.ICourseRecordService;
 import cn.jeeweb.modules.sys.service.ICourseStudentRecordService;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,8 +19,6 @@ import java.util.List;
 
 @Service
 public class CourseStudentRecordServiceImpl extends CommonServiceImpl<CourseStudentRecordMapper, CourseStudentRecord> implements ICourseStudentRecordService {
-
-
 
     @Override
     public void signIn(String courseRecId, String studentIds) {
@@ -62,4 +62,21 @@ public class CourseStudentRecordServiceImpl extends CommonServiceImpl<CourseStud
         return allStudentIdList;
     }
 
+    @Override
+    public void cancelRecord(String studyClassId, String courseId, String studentId) {
+        EntityWrapper<CourseStudentRecord> entityWrapper = new EntityWrapper<>();
+        entityWrapper.eq("study_class_id", studyClassId);
+        entityWrapper.eq("course_id", courseId);
+        entityWrapper.eq("student_id", studentId);
+        entityWrapper.eq("rec_status", "WAITING");
+
+        List<CourseStudentRecord> courseStudentRecordList = this.selectList(entityWrapper);
+
+        if (CollectionUtils.isNotEmpty(courseStudentRecordList)) {
+            for(CourseStudentRecord courseStudentRecord : courseStudentRecordList) {
+                courseStudentRecord.setRecStatus(CourseRecord.CourseRecordStatus.CANCELED);
+                this.updateById(courseStudentRecord);
+            }
+        }
+    }
 }

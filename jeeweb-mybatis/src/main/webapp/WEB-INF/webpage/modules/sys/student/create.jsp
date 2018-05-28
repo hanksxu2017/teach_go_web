@@ -96,7 +96,6 @@
 				<label><font color="red">*</font>校区:</label>
 			</td>
 			<td class="width-35" >
-
                 <select name="studyPlace" class="form-control">
                     <c:forEach items="${studySchools}" var="studySchool">
                         <option value="${studySchool.id}">${studySchool.name}</option>

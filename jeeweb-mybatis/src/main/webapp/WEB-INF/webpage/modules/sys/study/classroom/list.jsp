@@ -7,12 +7,12 @@
   <meta name="decorator" content="grid-select"/>
 </head>
 <body title="教室信息">
-<grid:grid id="groupGridId" url="${adminPath}/sys/dict/ajaxList?gid=${group.id}">
+<grid:grid id="groupGridId" url="${adminPath}/sys/study/classroom/ajaxList?studySchoolId=${studySchool.id}">
 	<grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
-    <grid:column label="校区"  name="label"  query="true"  />
-    <grid:column label="sys.dict.value"  name="value"  query="true"  />
+	<grid:column label="校区" name="studySchoolName"/>
+    <grid:column label="名称"  name="name" />
     
-	<grid:toolbar function="create" url="${adminPath}/sys/dict/create?gid=${group.id}"  />
+	<grid:toolbar function="create" url="${adminPath}/sys/study/classroom/create?studySchoolId=${studySchool.id}"  />
 	<grid:toolbar   function="update"    />
 	<grid:toolbar   function="delete"    />
 	<grid:toolbar  function="search"  />

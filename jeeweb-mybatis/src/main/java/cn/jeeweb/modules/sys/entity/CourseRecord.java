@@ -58,8 +58,6 @@ public class CourseRecord extends DataEntity<String> {
     @TableField(value = "have_adjust")
     private HaveAdjust haveAdjust;
 
-
-
     @TableField(exist = false)
     private String courseCode;
 
@@ -68,12 +66,6 @@ public class CourseRecord extends DataEntity<String> {
 
     @TableField(exist = false)
     private String haveAdjustStr;
-
-    @TableField(exist = false)
-    private String courseStartDateStr;
-
-    @TableField(exist = false)
-    private String courseEndDateStr;
 
     @TableField(exist = false)
     private String statusStr;

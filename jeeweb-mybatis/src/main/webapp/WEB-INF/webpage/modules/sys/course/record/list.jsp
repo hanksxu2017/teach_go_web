@@ -36,18 +36,14 @@
 		<grid:grid id="courseRecordGridId" url="${adminPath}/sys/course/record/ajaxList" >
             <grid:query name="queryStartDate"  queryMode="hidden" />
             <grid:query name="queryEndDate"  queryMode="hidden" />
-            <grid:column label="sys.common.key" hidden="true" name="id" width="100"/>
-			<grid:column label="课程编号" name="courseCode" />
-			<grid:column label="sys.course.weekInfo" name="weekName" />
-		    <grid:column label="授课教师"  name="teacherRealName" query="true" condition="like" />
-		    <grid:column label="开始时间"  name="courseStartDateStr" sortable="true"/>
-		    <grid:column label="结束时间"  name="courseEndDateStr"  />
-		    <grid:column label="时长(分钟)"  name="duration"  />
-		    <grid:column label="应到学生"  name="studentQuantityPlan"  width="80"/>
-		    <grid:column label="实到学生"  name="studentQuantityActual"  width="80"/>
-		    <grid:column label="是否存在调整"  name="haveAdjustStr"  />
+            <grid:column label="sys.common.key" hidden="true" name="id" />
+			<grid:column label="课程" name="courseCode" width="140"/>
+		    <grid:column label="授课教师"  name="teacherRealName" query="true" condition="like" width="50"/>
+		    <grid:column label="开始时间"  name="courseStartDate"/>
+		    <grid:column label="结束时间"  name="courseEndDate"  />
+		    <grid:column label="应到学生"  name="studentQuantityPlan"  width="60"/>
+		    <grid:column label="实到学生"  name="studentQuantityActual"  width="60"/>
 			<grid:column label="进度"  name="statusStr"  />
-			<grid:column label="创建时间"  name="createDate"  />
 
 			<grid:toolbar title="学生签到" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/course/record/{id}/signIn"  winwidth="1200px" winheight="800px"/>
 			<grid:toolbar title="授课调整" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/course/record/{id}/adjust"  winwidth="1200px" winheight="800px"/>

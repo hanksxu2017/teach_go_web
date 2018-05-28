@@ -75,6 +75,11 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
 
             course = this.courseService.selectById(courseRecord.getCourseId());
             if (null != course) {
+                CfgCourseTime courseTime = this.cfgCourseTimeService.selectById(course.getCourseTimeId());
+                if(null != courseTime) {
+                    course.setStartTime(courseTime.getStartTime());
+                    course.setEndTime(courseTime.getEndTime());
+                }
                 courseRecord.setCourseCode(course.getCode());
                 courseRecord.setWeekName(Constants.WEEK_DAYS[course.getWeekInfo()]);
             }
@@ -147,14 +152,8 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
         List<CourseStudentRecord> courseStudentRecordList = new ArrayList<>();
 
         CourseRecord courseRecord;
-        CfgCourseTime cfgCourseTime;
         for (Course course : courseList) {
 
-            cfgCourseTime = this.cfgCourseTimeService.selectById(course.getCourseTimeId());
-            if(null != cfgCourseTime) {
-                course.setStartTime(cfgCourseTime.getStartTime());
-                course.setEndTime(cfgCourseTime.getEndTime());
-            }
             // 非周日时段，只能生成本周的授课信息
             if (curDayOfWeek > 0 && curDayOfWeek >= course.getWeekInfo()) {
                 log.error("-------只允许生成本周的授课信息");
@@ -231,9 +230,15 @@ public class CourseRecordServiceImpl extends CommonServiceImpl<CourseRecordMappe
 
         int offset = course.getWeekInfo() - curDayOfWeek;
 
+        CfgCourseTime cfgCourseTime = this.cfgCourseTimeService.selectById(course.getCourseTimeId());
+        if(null != cfgCourseTime) {
+            course.setStartTime(cfgCourseTime.getStartTime());
+            course.setEndTime(cfgCourseTime.getEndTime());
+        }
+
         Date startDay = DateUtils.addDay(new Date(), offset);
-        String startDate = startDay + " " + course.getStartTime();
-        String endDate = startDay + " " + course.getEndTime();
+        String startDate = DateUtils.formatDate(startDay, "yyyy-MM-dd") + " " + course.getStartTime();
+        String endDate = DateUtils.formatDate(startDay, "yyyy-MM-dd") + " " + course.getEndTime();
 
         courseRecord.setCourseStartDate(startDate);
         courseRecord.setCourseEndDate(endDate);

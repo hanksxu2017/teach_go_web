@@ -157,7 +157,7 @@ public class CourseRecordController extends BaseCRUDController<CourseRecord, Str
         initQueryCondition(entityWrapper, weekDay, teacherRealName);
         List<CourseRecord> courseRecordList = this.courseRecordService.selectList(entityWrapper);
 
-        String[] rowName = {"课程编号", "星期", "授课教师", "开始时间", "结束时间", "时长(分钟)", "应到学生", "实到学生", "是否存在调整", "进度"};
+        String[] rowName = {"课程编号", "星期", "授课教师", "开始时间", "结束时间", "应到学生", "实到学生", "是否存在调整", "进度"};
         ExcelExportUtils.newInstance().export("授课记录", rowName, this.packageExportData(courseRecordList), response);
     }
 
@@ -175,13 +175,12 @@ public class CourseRecordController extends BaseCRUDController<CourseRecord, Str
             values[0] = courseRecord.getCourseCode();
             values[1] = courseRecord.getWeekName();
             values[2] = courseRecord.getTeacherRealName();
-            values[3] = DateUtils.formatDate(courseRecord.getCourseStartDate(), "yyyy-MM-dd HH:mm");
-            values[4] = DateUtils.formatDate(courseRecord.getCourseEndDate(), "yyyy-MM-dd HH:mm");
-            values[5] = courseRecord.getDuration();
-            values[6] = courseRecord.getStudentQuantityPlan();
-            values[7] = courseRecord.getStudentQuantityActual();
-            values[8] = courseRecord.getHaveAdjustStr();
-            values[9] = courseRecord.getStatusStr();
+            values[3] = courseRecord.getCourseStartDate();
+            values[4] = courseRecord.getCourseEndDate();
+            values[5] = courseRecord.getStudentQuantityPlan();
+            values[6] = courseRecord.getStudentQuantityActual();
+            values[7] = courseRecord.getHaveAdjustStr();
+            values[8] = courseRecord.getStatusStr();
             list.add(values);
         }
 
@@ -195,9 +194,9 @@ public class CourseRecordController extends BaseCRUDController<CourseRecord, Str
      * @param response
      * @return
      */
-    @RequestMapping(value = "generateRec", method = RequestMethod.POST)
+    @RequestMapping(value = "generateRec")
     @ResponseBody
-    public AjaxJson generateRec(@RequestParam(value = "courseId") String courseId,
+    public AjaxJson generateRec(@RequestParam("courseId") String courseId,
                     HttpServletRequest request, HttpServletResponse response) {
         AjaxJson ajaxJson = new AjaxJson();
         ajaxJson.success("授课信息生成完成");
@@ -210,5 +209,23 @@ public class CourseRecordController extends BaseCRUDController<CourseRecord, Str
         return ajaxJson;
     }
 
+
+    @RequestMapping(value = "generateStudentRec")
+    @ResponseBody
+    public AjaxJson generateStudentRec(@RequestParam("courseId") String courseId,
+                                       @RequestParam("studentId") String studentId,
+                                                  HttpServletRequest request,
+                                                  HttpServletResponse response) {
+        AjaxJson ajaxJson = new AjaxJson();
+        ajaxJson.success("授课信息生成完成");
+
+        ResultBean resultBean = this.courseRecordService.generateCourseRecordForCurWeek(courseId, studentId);
+        if (!resultBean.isSuccess()) {
+            ajaxJson.fail(resultBean.getMessage());
+        }
+
+        return ajaxJson;
+
+    }
 
 }

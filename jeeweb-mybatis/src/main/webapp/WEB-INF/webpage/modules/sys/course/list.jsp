@@ -29,11 +29,11 @@
 
 		    <grid:column label="班级名称"  name="studyClassName"  />
 		    <grid:column label="授课老师"  name="teacherRealName"  />
-
 		    <grid:column label="状态"  name="statusStr"  />
 
 			<grid:toolbar title="sys.create" function="create"/>
 			<grid:toolbar title="sys.update" function="update"/>
+            <grid:toolbar   title="生成授课记录"   icon="fa-refresh"  onclick="generateRec()"  />
 			<grid:toolbar title="sys.delete" function="delete"/>
 
 			<grid:toolbar  function="reset"/>
@@ -43,7 +43,7 @@
 
 <script>
 
-    function generateCourseRec() {
+    function generateRec() {
         var gridId = "courseGridIdGrid";
 
         var rowsData = $("#"+gridId).jqGrid('getGridParam','selarrrow');

@@ -12,20 +12,15 @@
     <div class="col-sm-10 col-md-10">
         <grid:grid id="studentGridId" url="${adminPath}/sys/student/ajaxList">
             <grid:column label="sys.common.key" hidden="true" name="id" width="100"/>
-            <%--<grid:column label="sys.common.opt"  name="opt" formatter="button" width="100"/>--%>
-            <%--<grid:button title="课时调整"  groupname="opt" function="rowDialogDetailRefresh" outclass="btn-primary"  innerclass="fa-plus" url="${adminPath}/sys/student/course?studentId=\"+row.id+\"" />--%>
             <grid:column label="sys.realName" name="realName" query="true" condition="like"/>
             <grid:column label="性别" name="sexStr" width="50"/>
             <grid:column label="出生年月" name="birthday" />
             <grid:column label="就读学校" name="schoolName" />
-<%--            <grid:column label="身份证" name="idCard" />--%>
             <grid:column label="等级" name="level" width="50"/>
             <grid:column label="联系方式" name="phone"/>
             <grid:column label="总课时" name="totalCourse" width="50"/>
             <grid:column label="剩余课时" name="remainCourse" width="80"/>
             <grid:column label="状态" name="statusStr" width="50"/>
-            <grid:column label="校区" name="studySchoolName" dict="StudySchool" query="true" queryMode="select" />
-            <grid:column label="班级" name="studyClassName" width="50"/>
             <grid:column label="创建时间" name="createDateStr"/>
 
             <grid:toolbar title="sys.create" function="create"/>
@@ -44,10 +39,6 @@
 <script>
     $(function () {
     });
-
-
-    
-    
 </script>
 </body>
 </html>

@@ -73,15 +73,6 @@ public class Student  extends DataEntity<String> {
     }
 
     @TableField(exist = false)
-    private String schoolName;
-
-    @TableField(exist = false)
-    private String studyClassName;
-
-    @TableField(exist = false)
-    private String studySchoolName;
-
-    @TableField(exist = false)
     private int addCourse;
 
     public String getCreateDateStr() {

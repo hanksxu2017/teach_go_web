@@ -63,10 +63,6 @@ public class StudentController extends BaseCRUDController<Student, String> {
         super.preSave(entity, request, response);
         if (ObjectUtils.isNullOrEmpty(entity.getId())) {
             entity.setRemainCourse(entity.getTotalCourse());
-        } else {
-            if(StringUtils.equals("-1", entity.getStudyClassId())) {
-                entity.setStudyClassName(null);
-            }
         }
     }
 

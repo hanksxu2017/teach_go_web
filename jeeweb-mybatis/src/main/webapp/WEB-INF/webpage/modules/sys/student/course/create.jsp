@@ -23,6 +23,8 @@
 			</td>
 			<td class="width-35" >
 				<span>${studySchool.name}</span>
+				<select name="studySchool" class="form-control">
+				</select>
 			</td>
 		</tr>
 

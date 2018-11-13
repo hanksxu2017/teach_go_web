@@ -61,21 +61,21 @@ public class StudentServiceImpl extends CommonServiceImpl<StudentMapper, Student
             if(StringUtils.isNotBlank(student.getStudySchoolId())) {
                 studySchool = this.studySchoolService.selectById(student.getStudySchoolId());
                 if(null != studySchool) {
-                    student.setStudySchoolName(studySchool.getName());
+//                    student.setStudySchoolName(studySchool.getName());
                 }
             }
 
             if(StringUtils.isNotBlank(student.getSchoolId())) {
                 school = schoolService.selectById(student.getSchoolId());
                 if(null != school) {
-                    student.setSchoolName(school.getName());
+//                    student.setSchoolName(school.getName());
                 }
             }
 
             if(StringUtils.isNotBlank(student.getStudyClassId())) {
                 studyClass = studyClassService.selectById(student.getStudyClassId());
                 if(null != studyClass) {
-                    student.setStudyClassName(studyClass.getName());
+//                    student.setStudyClassName(studyClass.getName());
                 }
             }
         }

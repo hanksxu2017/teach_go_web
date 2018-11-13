@@ -71,15 +71,16 @@ public class StudyClassController extends BaseCRUDController<StudyClass, String>
     @Override
     public void preEdit(StudyClass entity, Model model, HttpServletRequest request, HttpServletResponse response) {
 
-        String schoolId = request.getParameter("studySchoolId");
-        if (StringUtils.isNotBlank(schoolId)) {
-            StudySchool studySchool = this.studySchoolService.selectById(schoolId);
-            if(null != studySchool) {
-                model.addAttribute("studySchool", studySchool);
-            }
-        }
-
+        model.addAttribute("schools", this.findValidSchool());
         model.addAttribute("teachers", this.findValidTeacher());
+
+    }
+
+    private List<StudySchool> findValidSchool(){
+        EntityWrapper<StudySchool> StudySchoolEntityWrapper = new EntityWrapper<>();
+        StudySchoolEntityWrapper.eq("status", "NORMAL");
+        List<StudySchool> list = this.studySchoolService.selectList(StudySchoolEntityWrapper);
+        return list;
     }
 
     private List<Teacher> findValidTeacher() {

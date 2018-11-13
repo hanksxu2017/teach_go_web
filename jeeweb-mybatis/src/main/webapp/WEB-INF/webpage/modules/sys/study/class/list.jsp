@@ -15,16 +15,17 @@
             <%--<grid:column label="校区" name="studyPlaceName" width="80"/>--%>
             <grid:column label="科目" name="subjectName" width="60"/>
             <grid:column label="名称" name="name" />
-            <grid:column label="授课老师" name="teacherName" query="true" queryMode="input" condition="like"/>
+            <%--query="true" queryMode="input" condition="like"--%>
+            <grid:column label="授课老师" name="teacherName" />
             <%--<grid:column label="学生数量" name="studentCount" />--%>
             <grid:column label="状态" name="statusStr" width="50"/>
-            <grid:column label="创建时间" name="createDateStr"/>
+            <%--<grid:column label="创建时间" name="createDateStr"/>--%>
 
             <grid:toolbar title="sys.create" function="create" url="${adminPath}/sys/study/class/create?schoolId=${studySchool.id}"/>
             <grid:toolbar title="sys.update" function="update"/>
             <%--<grid:toolbar title="sys.delete" function="delete"/>--%>
 
-            <grid:toolbar function="search"/>
+            <%--<grid:toolbar function="search"/>--%>
             <grid:toolbar function="reset"/>
         </grid:grid>
     </div>

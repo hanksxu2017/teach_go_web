@@ -18,8 +18,12 @@
                 <label>校区:</label>
             </td>
             <td class="width-35">
-                <input name="studyPlace" type="hidden" value="${studySchool.id}"/>
-                <span>${studySchool.name}</span>
+                <select name="studySchoolId" class="form-control">
+                    <c:forEach items="${schools}" var="school">
+                        <option value="${school.id}">${school.name}</option>
+                    </c:forEach>
+                </select>
+                <label class="Validform_checktip"></label>
             </td>
         </tr>
 

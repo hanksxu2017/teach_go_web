@@ -3,9 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>学生课时信息</title>
-	<meta name="decorator" content="list"/>
-	<html:component name="bootstrap-treeview"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="decorator" content="form"/>
 </head>
 <body title="学生课时信息">
 <grid:grid id="groupGridId" url="${adminPath}/sys/student/course?studentId=${studySchool.id}">

@@ -1,11 +1,9 @@
 package cn.jeeweb.modules.sys.service;
 
 import cn.jeeweb.core.common.service.ICommonService;
-import cn.jeeweb.modules.sys.entity.School;
+import cn.jeeweb.modules.sys.entity.StudentClassRel;
 import cn.jeeweb.modules.sys.entity.StudyClass;
 
-import java.util.List;
-
-public interface IStudyClassService extends ICommonService<StudyClass> {
+public interface IStudentClassRelService extends ICommonService<StudentClassRel> {
 
 }

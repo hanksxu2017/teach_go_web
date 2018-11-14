@@ -66,6 +66,10 @@ public class StudyClassController extends BaseCRUDController<StudyClass, String>
             entityWrapper.eq("study_school_id", schoolId);
         }
 
+        String studentId = request.getParameter("studentId");
+        if(StringUtils.isNotBlank(studentId)) {
+            entityWrapper.eq("student_id", studentId);
+        }
     }
 
     @Override
@@ -117,6 +121,5 @@ public class StudyClassController extends BaseCRUDController<StudyClass, String>
         }
         return studyClassSimpleList;
     }
-
 
 }

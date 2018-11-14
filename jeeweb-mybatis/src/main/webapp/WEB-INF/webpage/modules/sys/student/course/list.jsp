@@ -13,9 +13,9 @@
         <grid:grid id="studentGridId" url="${adminPath}/sys/student/ajaxList">
             <grid:column label="sys.common.key" hidden="true" name="id" width="100"/>
             <grid:column label="sys.realName" name="realName" query="true" condition="like"/>
-            <grid:column label="性别" name="sexStr" width="50"/>
-            <grid:column label="出生年月" name="birthday" />
-            <grid:column label="就读学校" name="schoolName" />
+            <grid:column label="学生姓名" name="studentName" width="50"/>
+            <grid:column label="班级" name="className" />
+            <grid:column label="课时" name="schoolName" />
             <grid:column label="等级" name="level" width="50"/>
             <grid:column label="联系方式" name="phone"/>
             <grid:column label="剩余课时" name="remainCourse" width="80"/>
@@ -26,7 +26,6 @@
             <grid:toolbar title="sys.update" function="update"/>
             <grid:toolbar title="sys.delete" function="delete"/>
 
-            <grid:toolbar title="分班" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/student/{id}/chooseClass"/>
             <grid:toolbar title="课时增加" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/student/{id}/addCourse"  winwidth="1200px" winheight="800px"/>
 
             <grid:toolbar function="search"/>

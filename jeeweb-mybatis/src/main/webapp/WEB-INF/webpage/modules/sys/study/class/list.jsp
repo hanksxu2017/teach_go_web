@@ -18,8 +18,8 @@
             <%--query="true" queryMode="input" condition="like"--%>
             <grid:column label="授课老师" name="teacherName" />
             <%--<grid:column label="学生数量" name="studentCount" />--%>
-            <grid:column label="状态" name="statusStr" width="50"/>
-            <%--<grid:column label="创建时间" name="createDateStr"/>--%>
+<%--            <grid:column label="状态" name="statusStr" width="50"/>--%>
+            <%--<grid:column label="开班时间" name="createDateStr"/>--%>
 
             <grid:toolbar title="sys.create" function="create" url="${adminPath}/sys/study/class/create?schoolId=${studySchool.id}"/>
             <grid:toolbar title="sys.update" function="update"/>

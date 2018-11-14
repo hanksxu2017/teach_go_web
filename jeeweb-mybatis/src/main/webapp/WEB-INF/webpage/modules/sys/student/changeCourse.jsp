@@ -3,9 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>学生课时信息</title>
-	<meta name="decorator" content="list"/>
-	<html:component name="bootstrap-treeview"/>
+	<meta name="decorator" content="form"/>
 </head>
 <body title="学生课时信息">
 <grid:grid id="groupGridId" url="${adminPath}/sys/student/course/ajaxList?studentId=${student.id}">
@@ -18,7 +19,7 @@
 	<grid:toolbar function="create" url="${adminPath}/sys/student/course/create?studentId=${student.id}"  />
 	<grid:toolbar   function="update"    />
 	<grid:toolbar   function="delete"    />
-	<grid:toolbar title="生成授课记录" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/course/generateStudentRec?studentId=${student.id}&courseId=\"+row.id+\""  winwidth="1200px" winheight="800px"/>
+	<grid:toolbar title="生成授课记录" icon="fa fa-pencil-square-o"  function="updateDialog" url="${adminPath}/sys/course/generateStudentRec?studentId=${student.id}&courseId=\"+row.id+\""/>
 	<grid:toolbar  function="search"  />
 	<grid:toolbar  function="reset"  />
 </grid:grid>

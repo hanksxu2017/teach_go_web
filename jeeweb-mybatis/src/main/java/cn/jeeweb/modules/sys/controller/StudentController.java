@@ -118,9 +118,37 @@ public class StudentController extends BaseCRUDController<Student, String> {
                          HttpServletResponse response) {
 
         Student student = this.studentService.selectById(id);
-        model.addAttribute("student", student);
+        model.addAttribute("data", student);
 
         return display("changeCourse");
+    }
+
+    @Autowired
+    private IStudyClassService studyClassService;
+
+    @RequestMapping(value = "{id}/chooseClass", method = RequestMethod.GET)
+    public String chooseClass(@PathVariable("id") String id, Model model, HttpServletRequest request,
+                               HttpServletResponse response) {
+        Student student = this.studentService.selectById(id);
+        model.addAttribute("data", student);
+
+        EntityWrapper<StudyClass> entityWrapper = new EntityWrapper<>();
+        model.addAttribute("studyClassList", studyClassService.selectList(entityWrapper));
+
+        return display("chooseClass");
+    }
+
+    @RequestMapping(value = "{id}/chooseClass", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxJson chooseClass(Model model, @Valid @ModelAttribute("data") Student student, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+
+        AjaxJson ajaxJson = new AjaxJson();
+        ajaxJson.success("分班成功");
+
+
+
+        return ajaxJson;
     }
 
 }

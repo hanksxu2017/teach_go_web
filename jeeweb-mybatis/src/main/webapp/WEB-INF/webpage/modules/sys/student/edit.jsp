@@ -91,7 +91,9 @@
             </td>
         </tr>
 
-        <tr>
+<%--
+        学生n:n班级
+<tr>
             <td  class="width-15 active text-right">
                 <label>校区:</label>
             </td>
@@ -110,7 +112,7 @@
                 <select name="studyClassId" class="form-control" id="studyClassSelect" >
                 </select>
             </td>
-        </tr>
+        </tr>--%>
 
         </tbody>
     </table>
